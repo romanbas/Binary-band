@@ -1,0 +1,108 @@
+public class CentralProcessor {
+	public int GPR0[] = new int[16];//general purpose register
+	public int GPR1[] = new int[16];
+	public int GPR2[] = new int[16];
+	public int GPR3[] = new int[16];
+	public int PC[] = new int[12];//program counter
+	public int CC[] = new int[4];//condition code
+	public int IR[] = new int[16];//instruction register
+	public int MAR[] = new int[16];//memory address register
+	public int MBR[] = new int[16];//memory buffer register
+	public int MSR[] = new int[16];//machine status register
+	public int MFR[] = new int[4];//machine fault register
+	public int X1[] = new int[16];//index register
+	public int X2[] = new int[16];
+	public int X3[] = new int[16];
+	
+	public  void setPC(String value){
+		for(int i= 0; i < PC.length; i++){
+			PC[i] = 0;
+		}
+		int array[] = new int[12];
+		int[] Array=new int[value.length()];
+		for (int i = 0; i < value.length(); i++) {
+			Array[i] = Integer.parseInt(String.valueOf(value.charAt(i)));
+			array[i] = Array[i];
+		}
+		PC = array;
+	} 
+	
+	public int[] setValue(String value){
+		int array[] = new int[16];
+		int[] Array=new int[value.length()];
+		for (int i = 0; i < value.length(); i++) {
+			Array[i] = Integer.parseInt(String.valueOf(value.charAt(i)));
+			array[i] = Array[i];
+			}
+		return array;
+	}
+	
+	public  void setMAR(String value){
+		for(int i= 0; i < MAR.length; i++){
+			MAR[i] = 0;
+		}
+		//MAR FROM BOTTON
+		MAR = setValue(value);
+	} 
+	
+	public  void setMBR(String value){
+		for(int i= 0; i < MBR.length; i++){
+			MBR[i] = 0;
+		}
+		//
+		//MBR FROM BOTTON
+		MBR = setValue(value);
+	} 
+	public  void setR0(String value){
+		for(int i= 0; i < GPR0.length; i++){
+			GPR0[i] = 0;
+		}
+		//GPRO FROM BOTTON
+		GPR1 = setValue(value);
+	} 
+	
+	public  void setR1(String value){
+		for(int i= 0; i < GPR1.length; i++){
+			GPR1[i] = 0;
+		}
+		//GPR1 FROM BOTTON
+		GPR1 = setValue(value);
+	} 
+	
+	public  void setR2(String value){
+		for(int i= 0; i < GPR2.length; i++){
+			GPR2[i] = 0;
+		}
+		//GPR2 FROM BOTTON
+		GPR2 = setValue(value);
+	} 
+	public  void setR3(String value){
+		for(int i= 0; i < GPR3.length; i++){
+			GPR3[i] = 0;
+		}
+		//GPR3 FROM BOTTON
+		GPR3 = setValue(value);
+	} 
+	
+	public  void setIX1(String value){
+		for(int i= 0; i < X1.length; i++){
+			X1[i] = 0;
+		}
+		//X1 FROM BOTTON
+		X1 = setValue(value);
+	}
+	public  void setIX2(String value){
+		for(int i= 0; i < X2.length; i++){
+			X2[i] = 0;
+		}
+		//X2 FROM BOTTON
+		X2 = setValue(value);
+	}
+	public  void setIX3(String value){
+		for(int i= 0; i < X3.length; i++){
+			X3[i] = 0;
+		}
+		//X1 FROM BOTTON
+		X3 = setValue(value);
+	}	
+}
