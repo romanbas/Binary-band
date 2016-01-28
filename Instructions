@@ -1,0 +1,125 @@
+public class Instructions {
+	protected int Opcode[] = new int[6];
+	protected int R[] = new int[2];
+	protected int IX[] = new int[2];
+	protected int I = 0;
+	protected int Instruction[] = new int[16];
+	protected int Address[] = new int[5];
+	protected int effectiveAdd = 0;
+	
+	CPU cp = new CPU();
+	SimpleMemory SM = new SimpleMemory();
+	
+	public int getdecimalvalue(int[] data){
+		int decimaldata = 0;
+		for(int i = 0; i < data.length;i++){
+			decimaldata += data[i]*(Math.pow(2, i));//get memory address from pc
+		}
+		return decimaldata;
+	}
+
+	public int[] fetchInstruction(){
+		//SM.memory[6]=31;
+		int InsAdd = 0;
+		int valueinside[] = new int[16];//=instruction
+		InsAdd = getdecimalvalue(cp.PC.data);
+		valueinside = SM.memory[InsAdd];
+		return valueinside;
+}
+	
+	public int[] fetchInstruction(int data[]){
+		int InsAdd = 0;
+		int valueinside[] = new int[16];//=instruction
+		InsAdd = getdecimalvalue(data);
+		valueinside = SM.memory[InsAdd];	
+		return valueinside;
+	}
+	
+	public void decodeInstruction(){
+		int InstructionContent[] = new int[16];
+		InstructionContent = fetchInstruction(); 
+		for(int i =0; i < Opcode.length; i++){
+		Opcode[i] = InstructionContent[i];
+		}
+		R[1] = InstructionContent[6];
+		R[2] = InstructionContent[7];
+		IX[1] = InstructionContent[8];
+		IX[0] = InstructionContent[9];
+		I = InstructionContent[10];
+		for(int i =0; i < Address.length; i++){
+			Address[i] = InstructionContent[i+11];
+			}
+	}
+	
+	public int calculateDirect(int Address[],int registerindex[]){
+		int sumAddress = 0;
+		int sumIndex = 0;
+		int sum = 0;
+		sumAddress = getdecimalvalue(Address);
+		sumIndex = getdecimalvalue(registerindex);
+		sum = sumIndex + sumAddress;
+		return sum;
+	}
+
+	public int calculateInDirect(int Address[]){
+		int sumAddress = 0;
+		int indirectAddress[] = new int[16];
+		int sum = 0;
+		sumAddress = getdecimalvalue(Address);
+		indirectAddress = SM.memory[sumAddress];
+		sum = getdecimalvalue(indirectAddress);
+		return sum;
+	}
+
+	public int calculateInDirect(int Address[],int registerindex[]){
+		int sumAddress = 0;
+		int indirectAddress = 0;
+		int sumIndex = 0;
+		int sum = 0;
+		sumAddress = getdecimalvalue(Address);
+		indirectAddress = getdecimalvalue(SM.memory[sumAddress]);
+		sumIndex = getdecimalvalue(registerindex);
+		sum = sumIndex + indirectAddress;
+		return sum;
+	}
+
+	public void EffectiveAddress(){
+		if(I == 0){//direct addressing
+			if(IX[0]==0 && IX[1]==0){
+				System.out.println("direct addressing 0");
+					effectiveAdd = getdecimalvalue(Address);
+			}
+			
+			else if (IX[0]==1 && IX[1] == 0){//x1
+				System.out.println("direct addressing 1");
+				effectiveAdd = calculateDirect(Address,cp.X1.data);
+			}
+			else if(IX[0]==0 && IX[1] == 1){//x2
+				System.out.println("direct addressing 2");
+				effectiveAdd = calculateDirect(Address,cp.X2.data);
+			}
+			else if(IX[0]==1 && IX[1] == 1){//x3
+				System.out.println("direct addressing 3");
+				effectiveAdd = calculateDirect(Address,cp.X3.data);
+			}
+		}
+		else if(I == 1){
+			if(IX[0]==0 && IX[1]==0){
+				System.out.println("indirect addressing 0");
+				effectiveAdd = calculateInDirect(Address);
+			}
+			else if (IX[0]==1 && IX[1] == 0){//x1
+				System.out.println("indirect addressing 1");
+				effectiveAdd = calculateInDirect(Address,cp.X1.data);
+			}
+			else if(IX[0]==0 && IX[1] == 1){//x2
+				System.out.println("indirect addressing 2");
+				effectiveAdd = calculateInDirect(Address,cp.X2.data);
+			}
+			else if(IX[0]==1 && IX[1] == 1){//x3
+				System.out.println("indirect addressing 3");
+				effectiveAdd = calculateInDirect(Address,cp.X3.data);
+			}
+		}
+	}
+}
