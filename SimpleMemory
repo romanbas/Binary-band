@@ -1,10 +1,13 @@
+
 public class SimpleMemory {
-	public short memory[] = new short[2048];
+	public int memory[][] = new int[2048][16];
 	int address = 0;
-	short value = 0;	
+	int memoryValue[] = new int[16];	
+	
 	public  void setZero(){//IPL set to zero
-		for(int i= 0; i < memory.length; i++){
-			memory[i] = 0;
+		for(int j = 0; j< memory.length; j++)
+		for(int i= 0; i < memory[j].length; i++){
+			memory[j][i] = 0;
 		}
 	}
 	
@@ -14,22 +17,11 @@ public class SimpleMemory {
 		}
 	}
 		
-	public void acceptValue(int MBR[]){
-		for(int i = 0; i< MBR.length;i++){//accept value from MBR
-			value += MBR[i]*(Math.pow(2, i));
-		}
-		memory[address] = value;
+	public void acceptValue(int MBR[]){//accept value from MBR
+		memory[address] = MBR;
 	}
 	
 	public void placeValue(int MBR[]){//place value from memory to MBR
-		String value1 = Integer.toString(memory[address], 2);
-		int[] Array=new int[value1.length()];
-		for (int i = 0; i < value1.length(); i++) {
-			Array[i] = Integer.parseInt(String.valueOf(value1.charAt(i)));
-			MBR[i] = Array[i];
-			}
-		for(int i=value1.length(); i<MBR.length; i++){
-			MBR[i] = 0;
+		MBR = memory[address];
 		}
-	}
 }
