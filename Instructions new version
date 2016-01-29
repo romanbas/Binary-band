@@ -64,7 +64,7 @@ public class Instructions {
 		Opcode[i] = InstructionContent[i];
 		}
 		R[1] = InstructionContent[6];
-		R[2] = InstructionContent[7];
+		R[0] = InstructionContent[7];
 		IX[1] = InstructionContent[8];
 		IX[0] = InstructionContent[9];
 		I = InstructionContent[10];
