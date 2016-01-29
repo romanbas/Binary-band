@@ -6,7 +6,16 @@ public class Instructions {
 	protected int Instruction[] = new int[16];
 	protected int Address[] = new int[5];
 	protected int effectiveAdd = 0;
+	protected int immediate = 0;
 	
+	public int getImmediate() {
+		return immediate;
+	}
+
+	public void setImmediate(int immediate) {
+		this.immediate = immediate;
+	}
+
 	CPU cp = new CPU();
 	SimpleMemory SM = new SimpleMemory();
 	
@@ -309,6 +318,31 @@ public class Instructions {
 		else if(indexofR==2) cp.R2.data = getBinaryValue(sum2);
 		else if(indexofR==3) cp.R3.data = getBinaryValue(sum3);
 		}
+	}
+	
+	public void excuteInstruction(){
+		switch (getdecimalvalue(Opcode)) {
+        case 1:  LDR();
+                 break;
+        case 2:  STR();
+                 break;
+        case 3:  LDA();
+                 break;
+        case 4:  AMR();
+                 break;
+        case 5:  SMR();
+                 break;
+        case 6:  AIR(getImmediate());
+                 break;
+        case 7:  SIR(getImmediate());
+                 break;
+        case 41: LDX();
+                 break;
+        case 42: STX();
+                 break;
+        default: 
+                 break;
+    }
 		
 	}
 }
