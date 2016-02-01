@@ -1,0 +1,66 @@
+public class phase1_test {
+    
+    public static Instructions instruct = new Instructions();
+    public static int programCounter [] = new int[12];
+    public static int decimalValofPC ;
+    public static int x1value [] = new int[12];
+    public static int x2value [] = new int[12];
+    public static int x3value [] = new int[12];
+    public static int userInstruct[] = new int[16];
+    //public static int decimalofX3;
+    
+    public static void main(String[] args) {
+     //programCounter[] = new int[16];
+    programCounter = instruct.cp.PC.data;
+    x1value = instruct.cp.X1.data;
+    x2value = instruct.cp.X2.data;
+    x3value = instruct.cp.X3.data;
+    
+    
+    
+    // 0000 0011 1000 = 56
+    programCounter [3] =  1;
+    programCounter [4] =  1;
+    programCounter [5] =  1;
+    
+    x1value [0] =  1;
+    x2value [1] =  1;
+    x3value [0] =  1;
+    x3value [1] =  1;
+    
+    
+    userInstruct[5] =  1;
+    userInstruct[6] =  1;    
+    userInstruct[7] =  1;  
+    userInstruct[8] =  1;  
+    userInstruct[9] =  1;  
+    userInstruct[11] =  1;
+    userInstruct[12] =  1;
+    userInstruct[13] =  1;
+    userInstruct[14] =  1;
+    userInstruct[15] =  1;
+    
+    
+    
+    decimalValofPC = instruct.getdecimalvalue(programCounter);
+    
+    
+    
+    
+     /*for (int i=0; i<x3value.length; i++){       
+    //System.out.println(programCounter[i]);
+    System.out.println("x3: " + x3value[i]);
+     }
+     //System.out.println("decimal val of PC" + decimalValofPC);
+     */ 
+     
+    instruct.fetchInstruction();
+    instruct.SM.writeMemoryInstruction(decimalValofPC, userInstruct);
+    instruct.decodeInstruction();
+    instruct.EffectiveAddress();
+System.out.println("Effective address with: " + instruct.effectiveAdd);
+    
+    
+     
+  } // end main class    
+}
