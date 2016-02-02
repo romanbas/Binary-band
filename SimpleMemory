@@ -1,4 +1,3 @@
-
 public class SimpleMemory {
 	public int memory[][] = new int[2048][16];
 	int address = 0;
@@ -10,6 +9,19 @@ public class SimpleMemory {
 			memory[j][i] = 0;
 		}
 	}
+        
+        public void writeMemoryInstruction(int address, int [] array){
+            
+            //"adress" is the PC decimal value
+            //"array" is bianry instructions array from the interface
+            for(int i=0;i<memory[address].length;i++){
+			if(i<array.length)
+				memory[address][i] = array[i];
+			else
+				memory[address][i] = 0;
+		}
+            
+        }
 	
 	public void acceptAddress(int MAR[]){
 		for(int i= 0; i < MAR.length; i++){//accept address
