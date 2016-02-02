@@ -70,7 +70,7 @@ public class Instructions {
 		int InstructionContent[] = new int[16];
 		InstructionContent = fetchInstruction(); 
 		for(int i =0; i < Opcode.length; i++){
-		Opcode[i] = InstructionContent[i];
+		Opcode[Opcode.length-1-i] = InstructionContent[i];
 		}
 		R[1] = InstructionContent[6];
 		R[0] = InstructionContent[7];
@@ -78,7 +78,7 @@ public class Instructions {
 		IX[0] = InstructionContent[9];
 		I = InstructionContent[10];
 		for(int i =0; i < Address.length; i++){
-			Address[i] = InstructionContent[i+11];
+			Address[Address.length-1-i] = InstructionContent[i+11];
 			}
 	}
 	
@@ -330,6 +330,7 @@ public class Instructions {
 	}
 	
 	public void excuteInstruction(){
+            System.out.println(getdecimalvalue(Opcode));
 		switch (getdecimalvalue(Opcode)) {
         case 1:  LDR();
                  break;
