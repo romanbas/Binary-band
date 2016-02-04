@@ -7,7 +7,6 @@ public class Instructions {
 	protected int Address[] = new int[5];
 	protected int effectiveAdd = 0;
 	protected int immediate = 0;
-	
 	public int getImmediate() {
 		return immediate;
 	}
@@ -200,6 +199,8 @@ public class Instructions {
 			else if(indexofR==2) concontentofEA = cp.R2.data;
 			else if(indexofR==3) concontentofEA = cp.R3.data;
 		}
+                 System.out.println(getdecimalvalue(cp.R3.data));
+                System.out.println(getdecimalvalue(contentofEA));
 	}
 	
 	public void LDA(){//load register with address opcode == 03
@@ -241,7 +242,7 @@ public class Instructions {
 		
 		int indexofX = IX[0]+IX[1]*2;
 		if(I == 0){
-			
+                    //DO NOTHING
 		}
 		else if(I==1){
 		int contentofEA[] = new int[16];
@@ -249,7 +250,9 @@ public class Instructions {
 		if(indexofX==1)       contentofEA = cp.X1.data;
 		else if(indexofX==2)  contentofEA = cp.X2.data;
 		else if(indexofX==3)  contentofEA = cp.X3.data;
-		}	
+                System.out.println("get decimai"+getdecimalvalue(contentofEA));
+		}
+                
 	}
 	
 	public void AMR(){
