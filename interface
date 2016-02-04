@@ -1476,10 +1476,12 @@ public class GUI_Arch extends javax.swing.JFrame {
     }// </editor-fold>                        
 
     private void Run_single_stepActionPerformed(java.awt.event.ActionEvent evt) {                                                
-//if (instruct.R[0]*2 == 1)
+
+       instruct.decodeInstruction();
+       instruct.EffectiveAddress();
        instruct.excuteInstruction();
         int indexofR = instruct.R[0] + instruct.R[1] * 2;
-        System.out.println(" the index value is " + indexofR);
+        
        R0_0.setSelected(false);
        R0_1.setSelected(false);
         R0_2.setSelected(false);
@@ -1496,27 +1498,72 @@ public class GUI_Arch extends javax.swing.JFrame {
                    R0_13.setSelected(false);
                     R0_14.setSelected(false);
                      R0_15.setSelected(false);
+                     //*****************************************************
+                     
+                     R1_0.setSelected(false);
+       R1_1.setSelected(false);
+        R1_2.setSelected(false);
+         R1_3.setSelected(false);
+          R1_4.setSelected(false);
+           R1_5.setSelected(false);
+            R1_6.setSelected(false);
+             R1_7.setSelected(false);
+              R1_8.setSelected(false);
+               R1_9.setSelected(false);
+                R1_10.setSelected(false);
+                 R1_11.setSelected(false);
+                  R1_12.setSelected(false);
+                   R1_13.setSelected(false);
+                    R1_14.setSelected(false);
+                     R1_15.setSelected(false);
+                     //********************************************************
+                                    R2_0.setSelected(false);
+       R2_1.setSelected(false);
+        R2_2.setSelected(false);
+         R2_3.setSelected(false);
+          R2_4.setSelected(false);
+           R2_5.setSelected(false);
+            R2_6.setSelected(false);
+             R2_7.setSelected(false);
+              R2_8.setSelected(false);
+               R2_9.setSelected(false);
+                R2_10.setSelected(false);
+                 R2_11.setSelected(false);
+                  R2_12.setSelected(false);
+                   R2_13.setSelected(false);
+                    R2_14.setSelected(false);
+                     R2_15.setSelected(false);
+                     
+                     //***********************************************************
+                          R3_0.setSelected(false);
+       R3_1.setSelected(false);
+        R3_2.setSelected(false);
+         R3_3.setSelected(false);
+          R3_4.setSelected(false);
+           R3_5.setSelected(false);
+            R3_6.setSelected(false);
+             R3_7.setSelected(false);
+              R3_8.setSelected(false);
+               R3_9.setSelected(false);
+                R3_10.setSelected(false);
+                 R3_11.setSelected(false);
+                  R3_12.setSelected(false);
+                   R3_13.setSelected(false);
+                    R3_14.setSelected(false);
+                     R3_15.setSelected(false);
+                     
         if (indexofR == 0) {
             int[] R0_data = instruct.cp.R0.data;
-           // char[] Bit_R0 = new char[R0_data.length];
-           /* for (int i = 0; i < R0_data.length; ++i) 
-            {
-                System.out.print("integer "+R0_data[i]);
-                Bit_R0[i] = (char) R0_data[i];
-                System.out.println("*****"  +Bit_R0[i]);
-            }*/
-            
             for (int i = 0; i < R0_Valu_set.length; i++) {
             R0_Valu_set[i] = false;
         }
             //************************************
             
         for (int i = 0; i < R0_data.length; i++) {
-            System.out.print( R0_data[i]);
-            //System.out.println("Bit_pc"+i+Bit_pc[i]);
+            
             if (R0_data[i] == 1) {
                 R0_Valu_set[i] = true;
-                //System.out.print("reset on" + i+"new value of array"+ R0_Valu_set[i]);
+              
                 
 
             } else {
@@ -1528,7 +1575,7 @@ public class GUI_Arch extends javax.swing.JFrame {
         
         if (R0_Valu_set[0] == true) {
             R0_0.setSelected(true);
-            System.out.println("selected");
+            
         } else {
             R0_0.setSelected(false);
         }
@@ -1614,9 +1661,661 @@ public class GUI_Arch extends javax.swing.JFrame {
 
         }
         }
-       		//else if(indexofR==2)  
-			//else if(indexofR==3) 
+        
+          //************************************************************************************************
+        
+        else if(indexofR==1)
+        {
+             int[] R1_data = instruct.cp.R1.data;
+          
+            for (int i = 0; i < R1_Valu_set.length; i++) {
+            R1_Valu_set[i] = false;
+        }
+            //************************************
+            
+        for (int i = 0; i < R1_data.length; i++) {
+            
+            
+            if (R1_data[i] == 1) {
+                R1_Valu_set[i] = true;
+                
+                
 
+            } else {
+                R1_Valu_set[i] = false;
+            }
+        }
+
+        //************************************
+        
+        if (R1_Valu_set[0] == true) {
+            R1_1.setSelected(true);
+           
+        } else {
+            R1_1.setSelected(false);
+        }
+
+        if (R1_Valu_set[1] == true) {
+            R0_1.setSelected(true);
+        } else {
+            R0_1.setSelected(false);
+        }
+
+        if (R1_Valu_set[2] == true) {
+            R1_2.setSelected(true);
+        } else {
+            R1_2.setSelected(false);
+        }
+
+        if (R1_Valu_set[3] == true) {
+            R1_3.setSelected(true);
+        } else {
+            R1_3.setSelected(false);
+        }
+
+        if (R1_Valu_set[4] == true) {
+            R1_4.setSelected(true);
+        } else {
+            R1_4.setSelected(false);
+        }
+        if (R1_Valu_set[5] == true) {
+            R1_5.setSelected(true);
+        } else {
+            R1_5.setSelected(false);
+        }
+        if (R1_Valu_set[6] == true) {
+            R1_6.setSelected(true);
+        } else {
+            R1_6.setSelected(false);
+        }
+        if (R1_Valu_set[7] == true) {
+            R1_7.setSelected(true);
+        } else {
+            R1_7.setSelected(false);
+        }
+        if (R1_Valu_set[8] == true) {
+            R1_8.setSelected(true);
+        } else {
+            R1_8.setSelected(false);
+        }
+        if (R1_Valu_set[9] == true) {
+            R1_9.setSelected(true);
+        } else {
+            R1_9.setSelected(false);
+        }
+        if (R1_Valu_set[10] == true) {
+            R1_10.setSelected(true);
+        } else {
+            R1_10.setSelected(false);
+        }
+        if (R1_Valu_set[11] == true) {
+            R1_11.setSelected(true);
+        } else {
+            R1_11.setSelected(false);
+        }
+        if (R1_Valu_set[12] == true) {
+            R1_12.setSelected(true);
+        } else {
+            R1_12.setSelected(false);
+        }
+        if (R1_Valu_set[13] == true) {
+            R1_13.setSelected(true);
+        } else {
+            R1_13.setSelected(false);
+        }
+        if (R1_Valu_set[14] == true) {
+            R1_14.setSelected(true);
+        } else {
+            R1_14.setSelected(false);
+        }
+        if (R1_Valu_set[15] == true) {
+            R1_15.setSelected(true);
+        } else {
+            R1_15.setSelected(false);
+            
+
+        }
+            
+        } 
+       //******************************************************************************************
+        else if(indexofR==2) 
+        {
+             int[] R2_data = instruct.cp.R2.data;
+           
+            
+            for (int i = 0; i < R2_Valu_set.length; i++) {
+            R2_Valu_set[i] = false;
+        }
+            //************************************
+            
+        for (int i = 0; i < R2_data.length; i++) {
+           
+           
+            if (R2_data[i] == 1) {
+                R2_Valu_set[i] = true;
+               
+
+            } else {
+                R2_Valu_set[i] = false;
+            }
+        }
+
+        //************************************
+        
+        if (R2_Valu_set[0] == true) {
+            R2_0.setSelected(true);
+          
+        } else {
+            R2_0.setSelected(false);
+        }
+
+        if (R2_Valu_set[1] == true) {
+            R2_1.setSelected(true);
+        } else {
+            R2_1.setSelected(false);
+        }
+
+        if (R2_Valu_set[2] == true) {
+            R2_2.setSelected(true);
+        } else {
+            R2_2.setSelected(false);
+        }
+
+        if (R2_Valu_set[3] == true) {
+            R2_3.setSelected(true);
+        } else {
+            R2_3.setSelected(false);
+        }
+
+        if (R2_Valu_set[4] == true) {
+            R2_4.setSelected(true);
+        } else {
+            R2_4.setSelected(false);
+        }
+        if (R2_Valu_set[5] == true) {
+            R2_5.setSelected(true);
+        } else {
+            R2_5.setSelected(false);
+        }
+        if (R2_Valu_set[6] == true) {
+            R2_6.setSelected(true);
+        } else {
+            R2_6.setSelected(false);
+        }
+        if (R2_Valu_set[7] == true) {
+            R2_7.setSelected(true);
+        } else {
+            R2_7.setSelected(false);
+        }
+        if (R2_Valu_set[8] == true) {
+            R2_8.setSelected(true);
+        } else {
+            R2_8.setSelected(false);
+        }
+        if (R2_Valu_set[9] == true) {
+            R2_9.setSelected(true);
+        } else {
+            R2_9.setSelected(false);
+        }
+        if (R2_Valu_set[10] == true) {
+            R2_10.setSelected(true);
+        } else {
+            R2_10.setSelected(false);
+        }
+        if (R2_Valu_set[11] == true) {
+            R2_11.setSelected(true);
+        } else {
+            R2_11.setSelected(false);
+        }
+        if (R2_Valu_set[12] == true) {
+            R2_12.setSelected(true);
+        } else {
+            R2_12.setSelected(false);
+        }
+        if (R2_Valu_set[13] == true) {
+            R2_13.setSelected(true);
+        } else {
+            R2_13.setSelected(false);
+        }
+        if (R2_Valu_set[14] == true) {
+            R2_14.setSelected(true);
+        } else {
+            R2_14.setSelected(false);
+        }
+        if (R2_Valu_set[15] == true) {
+            R2_15.setSelected(true);
+        } else {
+            R2_15.setSelected(false);
+          
+        }
+        }
+        //****************************************************************************************
+        
+        else if(indexofR==3)
+        {
+             int[] R3_data = instruct.cp.R3.data;
+          
+            for (int i = 0; i < R3_Valu_set.length; i++) {
+            R3_Valu_set[i] = false;
+        }
+            //************************************
+            
+        for (int i = 0; i < R3_data.length; i++) {
+            
+            
+            if (R3_data[i] == 1) {
+                R3_Valu_set[i] = true;
+                
+                
+
+            } else {
+                R3_Valu_set[i] = false;
+            }
+        }
+
+        //************************************
+        
+        if (R3_Valu_set[0] == true) {
+            R3_0.setSelected(true);
+           
+        } else {
+            R3_0.setSelected(false);
+        }
+
+        if (R3_Valu_set[1] == true) {
+            R3_1.setSelected(true);
+        } else {
+            R3_1.setSelected(false);
+        }
+
+        if (R3_Valu_set[2] == true) {
+            R3_2.setSelected(true);
+        } else {
+            R3_2.setSelected(false);
+        }
+
+        if (R3_Valu_set[3] == true) {
+            R3_3.setSelected(true);
+        } else {
+            R3_3.setSelected(false);
+        }
+
+        if (R3_Valu_set[4] == true) {
+            R3_4.setSelected(true);
+        } else {
+            R3_4.setSelected(false);
+        }
+        if (R3_Valu_set[5] == true) {
+            R3_5.setSelected(true);
+        } else {
+            R3_5.setSelected(false);
+        }
+        if (R3_Valu_set[6] == true) {
+            R3_6.setSelected(true);
+        } else {
+            R3_6.setSelected(false);
+        }
+        if (R3_Valu_set[7] == true) {
+            R3_7.setSelected(true);
+        } else {
+            R3_7.setSelected(false);
+        }
+        if (R3_Valu_set[8] == true) {
+            R3_8.setSelected(true);
+        } else {
+            R3_8.setSelected(false);
+        }
+        if (R3_Valu_set[9] == true) {
+            R3_9.setSelected(true);
+        } else {
+            R3_9.setSelected(false);
+        }
+        if (R3_Valu_set[10] == true) {
+            R3_10.setSelected(true);
+        } else {
+            R3_10.setSelected(false);
+        }
+        if (R3_Valu_set[11] == true) {
+            R3_11.setSelected(true);
+        } else {
+            R3_11.setSelected(false);
+        }
+        if (R3_Valu_set[12] == true) {
+            R3_12.setSelected(true);
+        } else {
+            R3_12.setSelected(false);
+        }
+        if (R3_Valu_set[13] == true) {
+            R3_13.setSelected(true);
+        } else {
+            R3_13.setSelected(false);
+        }
+        if (R3_Valu_set[14] == true) {
+            R3_14.setSelected(true);
+        } else {
+            R3_14.setSelected(false);
+        }
+        if (R3_Valu_set[15] == true) {
+            R3_15.setSelected(true);
+        } else {
+            R3_15.setSelected(false);
+            
+
+        }
+            
+        } 
+        
+        //***************************** change index value ******************************************
+        
+       
+        int indexofIX = instruct.IX[0] + instruct.IX[1] * 2;
+        
+        
+       if(indexofIX==1){
+           int IX1_data[];
+        IX1_data = new int[16];
+           IX1_data = instruct.cp.X1.data;
+      
+       
+        for (int i = 0; i < I1_Valu_set.length; i++) {
+           
+            if (IX1_data[i] == 1) {
+                I1_Valu_set[i] = true;
+            } else {
+                I1_Valu_set[i] = false;
+            }
+        }
+
+        if (I1_Valu_set[0] == true) {
+            I1_0.setSelected(true);
+        } else {
+            I1_0.setSelected(false);
+        }
+
+        if (I1_Valu_set[1] == true) {
+            I1_1.setSelected(true);
+        } else {
+            I1_1.setSelected(false);
+        }
+
+        if (I1_Valu_set[2] == true) {
+            I1_2.setSelected(true);
+        } else {
+            I1_2.setSelected(false);
+        }
+
+        if (I1_Valu_set[3] == true) {
+            I1_3.setSelected(true);
+        } else {
+            I1_3.setSelected(false);
+        }
+
+        if (I1_Valu_set[4] == true) {
+            I1_4.setSelected(true);
+        } else {
+            I1_4.setSelected(false);
+        }
+        if (I1_Valu_set[5] == true) {
+            I1_5.setSelected(true);
+        } else {
+            I1_5.setSelected(false);
+        }
+        if (I1_Valu_set[6] == true) {
+            I1_6.setSelected(true);
+        } else {
+            I1_6.setSelected(false);
+        }
+        if (I1_Valu_set[7] == true) {
+            I1_7.setSelected(true);
+        } else {
+            I1_7.setSelected(false);
+        }
+        if (I1_Valu_set[8] == true) {
+            I1_8.setSelected(true);
+        } else {
+            I1_8.setSelected(false);
+        }
+        if (I1_Valu_set[9] == true) {
+            I1_9.setSelected(true);
+        } else {
+            I1_9.setSelected(false);
+        }
+        if (I1_Valu_set[10] == true) {
+            I1_10.setSelected(true);
+        } else {
+            I1_10.setSelected(false);
+        }
+        if (I1_Valu_set[11] == true) {
+            I1_11.setSelected(true);
+        } else {
+            I1_11.setSelected(false);
+        }
+        if (I1_Valu_set[12] == true) {
+            I1_12.setSelected(true);
+        } else {
+            I1_12.setSelected(false);
+        }
+        if (I1_Valu_set[13] == true) {
+            I1_13.setSelected(true);
+        } else {
+            I1_13.setSelected(false);
+        }
+        if (I1_Valu_set[14] == true) {
+            I1_14.setSelected(true);
+        } else {
+            I1_14.setSelected(false);
+        }
+        if (I1_Valu_set[15] == true) {
+            I1_15.setSelected(true);
+        } else {
+            I1_15.setSelected(false);
+        }
+       }
+       
+       //***********************************************************************
+       
+       else if(indexofIX==2){
+           int IX2_data[];
+        IX2_data = new int[16];
+           IX2_data = instruct.cp.X2.data;
+      
+       
+        for (int i = 0; i < I2_Valu_set.length; i++) {
+           
+            if (IX2_data[i] == 1) {
+                I2_Valu_set[i] = true;
+            } else {
+                I2_Valu_set[i] = false;
+            }
+        }
+
+        if (I2_Valu_set[0] == true) {
+            I2_0.setSelected(true);
+        } else {
+            I2_0.setSelected(false);
+        }
+
+        if (I2_Valu_set[1] == true) {
+            I2_1.setSelected(true);
+        } else {
+            I2_1.setSelected(false);
+        }
+
+        if (I2_Valu_set[2] == true) {
+            I2_2.setSelected(true);
+        } else {
+            I2_2.setSelected(false);
+        }
+
+        if (I2_Valu_set[3] == true) {
+            I2_3.setSelected(true);
+        } else {
+            I2_3.setSelected(false);
+        }
+
+        if (I2_Valu_set[4] == true) {
+            I2_4.setSelected(true);
+        } else {
+            I2_4.setSelected(false);
+        }
+        if (I2_Valu_set[5] == true) {
+            I2_5.setSelected(true);
+        } else {
+            I2_5.setSelected(false);
+        }
+        if (I2_Valu_set[6] == true) {
+            I2_6.setSelected(true);
+        } else {
+            I2_6.setSelected(false);
+        }
+        if (I2_Valu_set[7] == true) {
+            I2_7.setSelected(true);
+        } else {
+            I2_7.setSelected(false);
+        }
+        if (I2_Valu_set[8] == true) {
+            I2_8.setSelected(true);
+        } else {
+            I2_8.setSelected(false);
+        }
+        if (I2_Valu_set[9] == true) {
+            I2_9.setSelected(true);
+        } else {
+            I2_9.setSelected(false);
+        }
+        if (I2_Valu_set[10] == true) {
+            I2_10.setSelected(true);
+        } else {
+            I2_10.setSelected(false);
+        }
+        if (I2_Valu_set[11] == true) {
+            I2_11.setSelected(true);
+        } else {
+            I2_11.setSelected(false);
+        }
+        if (I2_Valu_set[12] == true) {
+            I2_12.setSelected(true);
+        } else {
+            I2_12.setSelected(false);
+        }
+        if (I2_Valu_set[13] == true) {
+            I2_13.setSelected(true);
+        } else {
+            I2_13.setSelected(false);
+        }
+        if (I2_Valu_set[14] == true) {
+            I2_14.setSelected(true);
+        } else {
+            I2_14.setSelected(false);
+        }
+        if (I2_Valu_set[15] == true) {
+            I2_15.setSelected(true);
+        } else {
+            I2_15.setSelected(false);
+        }
+       }
+          //***********************************************************************
+       
+       else if(indexofIX==3){
+           int IX3_data[];
+        IX3_data = new int[16];
+        IX3_data = instruct.cp.X3.data;
+      
+       System.out.println(I3_Valu_set.length);
+        for (int i = 0; i < I3_Valu_set.length; i++) {
+           
+            if (IX3_data[i] == 1) {
+                I3_Valu_set[i] = true;
+            } else {
+                I3_Valu_set[i] = false;
+            }
+        }
+
+        if (I3_Valu_set[0] == true) {
+            I3_0.setSelected(true);
+        } else {
+            I3_0.setSelected(false);
+        }
+
+        if (I3_Valu_set[1] == true) {
+            I3_1.setSelected(true);
+        } else {
+            I3_1.setSelected(false);
+        }
+
+        if (I3_Valu_set[2] == true) {
+            I3_2.setSelected(true);
+        } else {
+            I3_2.setSelected(false);
+        }
+
+        if (I3_Valu_set[3] == true) {
+            I3_3.setSelected(true);
+        } else {
+            I3_3.setSelected(false);
+        }
+
+        if (I3_Valu_set[4] == true) {
+            I3_4.setSelected(true);
+        } else {
+            I3_4.setSelected(false);
+        }
+        if (I3_Valu_set[5] == true) {
+            I3_5.setSelected(true);
+        } else {
+            I3_5.setSelected(false);
+        }
+        if (I3_Valu_set[6] == true) {
+            I3_6.setSelected(true);
+        } else {
+            I3_6.setSelected(false);
+        }
+        if (I3_Valu_set[7] == true) {
+            I3_7.setSelected(true);
+        } else {
+            I3_7.setSelected(false);
+        }
+        if (I3_Valu_set[8] == true) {
+            I3_8.setSelected(true);
+        } else {
+            I3_8.setSelected(false);
+        }
+        if (I3_Valu_set[9] == true) {
+            I3_9.setSelected(true);
+        } else {
+            I3_9.setSelected(false);
+        }
+        if (I3_Valu_set[10] == true) {
+            I3_10.setSelected(true);
+        } else {
+            I3_10.setSelected(false);
+        }
+        if (I3_Valu_set[11] == true) {
+            I3_11.setSelected(true);
+        } else {
+            I3_11.setSelected(false);
+        }
+        if (I3_Valu_set[12] == true) {
+            I3_12.setSelected(true);
+        } else {
+            I3_12.setSelected(false);
+        }
+        if (I3_Valu_set[13] == true) {
+            I3_13.setSelected(true);
+        } else {
+            I3_13.setSelected(false);
+        }
+        if (I3_Valu_set[14] == true) {
+            I3_14.setSelected(true);
+        } else {
+            I3_14.setSelected(false);
+        }
+        if (I3_Valu_set[15] == true) {
+            I3_15.setSelected(true);
+        } else {
+            I3_15.setSelected(false);
+        }
+       }
        
     }                                               
 
@@ -1787,6 +2486,8 @@ public class GUI_Arch extends javax.swing.JFrame {
 // this function calculate the value of index register 1 by converting the decimal value to binary then display the value in the radio button
 
         String Add_Immed = immed_textfield.getText();
+        int add_immed_value= Integer.parseInt(Add_Immed);
+        instruct.setImmediate(add_immed_value);
     }                                         
 
     private void R0_5ActionPerformed(java.awt.event.ActionEvent evt) {                                     
@@ -1928,7 +2629,7 @@ public class GUI_Arch extends javax.swing.JFrame {
         for (int i = 0; i < Bit_R1.length; i++) {
             Bit_R1_INT[i] = Bit_R1[i] - '0';
         }
-        instruct.cp.setR0(Bit_R1_INT);
+        instruct.cp.setR1(Bit_R1_INT);
         for (int i = 0; i < R1_Valu_set.length; i++) {
             R1_Valu_set[i] = false;
         }
@@ -2044,7 +2745,7 @@ public class GUI_Arch extends javax.swing.JFrame {
         for (int i = 0; i < Bit_R2.length; i++) {
             Bit_R2_INT[i] = Bit_R2[i] - '0';
         }
-        instruct.cp.setR0(Bit_R2_INT);
+        instruct.cp.setR2(Bit_R2_INT);
         for (int i = 0; i < R2_Valu_set.length; i++) {
             R2_Valu_set[i] = false;
         }
@@ -2160,7 +2861,7 @@ public class GUI_Arch extends javax.swing.JFrame {
         for (int i = 0; i < Bit_R3.length; i++) {
             Bit_R3_INT[i] = Bit_R3[i] - '0';
         }
-        instruct.cp.setR0(Bit_R3_INT);
+        instruct.cp.setR3(Bit_R3_INT);
         for (int i = 0; i < R3_Valu_set.length; i++) {
             R3_Valu_set[i] = false;
         }
@@ -2635,11 +3336,12 @@ public class GUI_Arch extends javax.swing.JFrame {
             Bit_value_INT[i] = Bit_value[i] - '0';
 
         }
+        
         instruct.SM.writeMemoryInstruction(Int_address, Bit_value_INT);
         instruct.decodeInstruction();
         instruct.EffectiveAddress();
-      
-         Address_textfield.setText( Integer.toString(instruct.effectiveAdd));
+        if(instruct.getdecimalvalue(instruct.Opcode)>0 && instruct.getdecimalvalue(instruct.Opcode)<65){
+         Address_textfield.setText( Integer.toString(instruct.effectiveAdd));}
     }                                               
 
     private void IPLActionPerformed(java.awt.event.ActionEvent evt) {                                    
