@@ -1477,6 +1477,7 @@ public class GUI_Arch extends javax.swing.JFrame {
 
     private void Run_single_stepActionPerformed(java.awt.event.ActionEvent evt) {                                                
 //if (instruct.R[0]*2 == 1)
+       instruct.excuteInstruction();
         int indexofR = instruct.R[0] + instruct.R[1] * 2;
         System.out.println(" the index value is " + indexofR);
        R0_0.setSelected(false);
@@ -1511,10 +1512,11 @@ public class GUI_Arch extends javax.swing.JFrame {
             //************************************
             
         for (int i = 0; i < R0_data.length; i++) {
+            System.out.print( R0_data[i]);
             //System.out.println("Bit_pc"+i+Bit_pc[i]);
             if (R0_data[i] == 1) {
                 R0_Valu_set[i] = true;
-                System.out.println("reset on" + i+"new value of array"+ R0_Valu_set[i]);
+                //System.out.print("reset on" + i+"new value of array"+ R0_Valu_set[i]);
                 
 
             } else {
@@ -1612,16 +1614,10 @@ public class GUI_Arch extends javax.swing.JFrame {
 
         }
         }
-        else if(indexofR==1)
-        {
-            System.out.print(" r is 1");
-        }
-			//else if(indexofR==2)  
+       		//else if(indexofR==2)  
 			//else if(indexofR==3) 
 
-        instruct.decodeInstruction();
-        instruct.EffectiveAddress();
-        instruct.excuteInstruction();
+       
     }                                               
 
     private void value_txtboxActionPerformed(java.awt.event.ActionEvent evt) {                                             
@@ -2280,7 +2276,7 @@ public class GUI_Arch extends javax.swing.JFrame {
         for (int i = 0; i < Bit_I1.length; i++) {
             Bit_I0_INT[i] = Bit_I1[i] - '0';
         }
-        instruct.cp.setR0(Bit_I0_INT);
+        instruct.cp.setX1(Bit_I0_INT);
 
         for (int i = 0; i < I1_Valu_set.length; i++) {
             I1_Valu_set[i] = false;
@@ -2398,7 +2394,7 @@ public class GUI_Arch extends javax.swing.JFrame {
         for (int i = 0; i < Bit_I2.length; i++) {
             Bit_I2_INT[i] = Bit_I2[i] - '0';
         }
-        instruct.cp.setR0(Bit_I2_INT);
+        instruct.cp.setX2(Bit_I2_INT);
 
         for (int i = 0; i < I2_Valu_set.length; i++) {
             I2_Valu_set[i] = false;
@@ -2516,7 +2512,7 @@ public class GUI_Arch extends javax.swing.JFrame {
         for (int i = 0; i < Bit_I3.length; i++) {
             Bit_I3_INT[i] = Bit_I3[i] - '0';
         }
-        instruct.cp.setR0(Bit_I3_INT);
+        instruct.cp.setX3(Bit_I3_INT);
 
         for (int i = 0; i < I3_Valu_set.length; i++) {
             I3_Valu_set[i] = false;
@@ -2618,6 +2614,7 @@ public class GUI_Arch extends javax.swing.JFrame {
     }                                        
 
     private void DepositOnMemoryActionPerformed(java.awt.event.ActionEvent evt) {                                                
+       
         String Address = Address_textfield.getText();
         int Int_address = Integer.parseInt(Address);
         String value = value_txtbox.getText();
@@ -2639,7 +2636,10 @@ public class GUI_Arch extends javax.swing.JFrame {
 
         }
         instruct.SM.writeMemoryInstruction(Int_address, Bit_value_INT);
-
+        instruct.decodeInstruction();
+        instruct.EffectiveAddress();
+      
+         Address_textfield.setText( Integer.toString(instruct.effectiveAdd));
     }                                               
 
     private void IPLActionPerformed(java.awt.event.ActionEvent evt) {                                    
