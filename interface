@@ -4,10 +4,7 @@
  * and open the template in the editor.
  */
 
-/**
- *
- * @author Roman
- */
+
 public class GUI_Arch extends javax.swing.JFrame {
 
     /**
@@ -16,13 +13,18 @@ public class GUI_Arch extends javax.swing.JFrame {
     public GUI_Arch() {
         initComponents();
     }
-    Instructions instruct = new Instructions();
+
+    Instructions instruct = new Instructions(); // create an object from Instructions class 
+    // check the  binary value and add it in the array to display in in radio button 
     boolean[] pc_Valu_set = {false, false, false, false, false, false, false, false, false, false, false, false};
+
+    // check the  binary value in registers and add it in the array to display in in radio button 
     boolean[] R0_Valu_set = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
     boolean[] R1_Valu_set = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
     boolean[] R2_Valu_set = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
     boolean[] R3_Valu_set = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
 
+    // check the  binary value in index and add it in the array to display in in radio button 
     boolean[] I1_Valu_set = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
     boolean[] I2_Valu_set = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
     boolean[] I3_Valu_set = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
@@ -1478,851 +1480,867 @@ public class GUI_Arch extends javax.swing.JFrame {
     }// </editor-fold>                        
 
     private void Run_single_stepActionPerformed(java.awt.event.ActionEvent evt) {                                                
-
-       instruct.decodeInstruction();
-       instruct.EffectiveAddress();
-       instruct.excuteInstruction();
+// execute the instruction 
+        instruct.decodeInstruction();
+        instruct.EffectiveAddress();
+        instruct.excuteInstruction();
         int indexofR = instruct.R[0] + instruct.R[1] * 2;
-        
-       
-                     //*****************************************************
-                 
-                     //********************************************************
-                                    
-                     
-                     //***********************************************************
-                         
-                     
+// reset the R0 value and display the new value 
         if (indexofR == 0) {
             R0_0.setSelected(false);
-       R0_1.setSelected(false);
-        R0_2.setSelected(false);
-         R0_3.setSelected(false);
-          R0_4.setSelected(false);
-           R0_5.setSelected(false);
+            R0_1.setSelected(false);
+            R0_2.setSelected(false);
+            R0_3.setSelected(false);
+            R0_4.setSelected(false);
+            R0_5.setSelected(false);
             R0_6.setSelected(false);
-             R0_7.setSelected(false);
-              R0_8.setSelected(false);
-               R0_9.setSelected(false);
-                R0_10.setSelected(false);
-                 R0_11.setSelected(false);
-                  R0_12.setSelected(false);
-                   R0_13.setSelected(false);
-                    R0_14.setSelected(false);
-                     R0_15.setSelected(false);
+            R0_7.setSelected(false);
+            R0_8.setSelected(false);
+            R0_9.setSelected(false);
+            R0_10.setSelected(false);
+            R0_11.setSelected(false);
+            R0_12.setSelected(false);
+            R0_13.setSelected(false);
+            R0_14.setSelected(false);
+            R0_15.setSelected(false);
             int[] R0_data = instruct.cp.R0.data;
+            // reset the array value 
             for (int i = 0; i < R0_Valu_set.length; i++) {
-            R0_Valu_set[i] = false;
-        }
-            //************************************
-            
-        for (int i = 0; i < R0_data.length; i++) {
-            
-            if (R0_data[i] == 1) {
-                R0_Valu_set[i] = true;
-              
-                
-
-            } else {
                 R0_Valu_set[i] = false;
             }
-        }
 
-        //************************************
-        
-        if (R0_Valu_set[0] == true) {
-            R0_0.setSelected(true);
-            
-        } else {
-            R0_0.setSelected(false);
-        }
+// change the array to T if the binary value is 1 and to F if the value is 0
+            for (int i = 0; i < R0_data.length; i++) {
 
-        if (R0_Valu_set[1] == true) {
-            R0_1.setSelected(true);
-        } else {
-            R0_1.setSelected(false);
-        }
+                if (R0_data[i] == 1) {
+                    R0_Valu_set[i] = true;
 
-        if (R0_Valu_set[2] == true) {
-            R0_2.setSelected(true);
-        } else {
-            R0_2.setSelected(false);
-        }
+                } else {
+                    R0_Valu_set[i] = false;
+                }
+            }
 
-        if (R0_Valu_set[3] == true) {
-            R0_3.setSelected(true);
-        } else {
-            R0_3.setSelected(false);
-        }
-
-        if (R0_Valu_set[4] == true) {
-            R0_4.setSelected(true);
-        } else {
-            R0_4.setSelected(false);
-        }
-        if (R0_Valu_set[5] == true) {
-            R0_5.setSelected(true);
-        } else {
-            R0_5.setSelected(false);
-        }
-        if (R0_Valu_set[6] == true) {
-            R0_6.setSelected(true);
-        } else {
-            R0_6.setSelected(false);
-        }
-        if (R0_Valu_set[7] == true) {
-            R0_7.setSelected(true);
-        } else {
-            R0_7.setSelected(false);
-        }
-        if (R0_Valu_set[8] == true) {
-            R0_8.setSelected(true);
-        } else {
-            R0_8.setSelected(false);
-        }
-        if (R0_Valu_set[9] == true) {
-            R0_9.setSelected(true);
-        } else {
-            R0_9.setSelected(false);
-        }
-        if (R0_Valu_set[10] == true) {
-            R0_10.setSelected(true);
-        } else {
-            R0_10.setSelected(false);
-        }
-        if (R0_Valu_set[11] == true) {
-            R0_11.setSelected(true);
-        } else {
-            R0_11.setSelected(false);
-        }
-        if (R0_Valu_set[12] == true) {
-            R0_12.setSelected(true);
-        } else {
-            R0_12.setSelected(false);
-        }
-        if (R0_Valu_set[13] == true) {
-            R0_13.setSelected(true);
-        } else {
-            R0_13.setSelected(false);
-        }
-        if (R0_Valu_set[14] == true) {
-            R0_14.setSelected(true);
-        } else {
-            R0_14.setSelected(false);
-        }
-        if (R0_Valu_set[15] == true) {
-            R0_15.setSelected(true);
-        } else {
-            R0_15.setSelected(false);
-            
-
-        }
-        }
-        
-          //************************************************************************************************
-        
-        else if(indexofR==1)
-        {
-                
-                     R1_0.setSelected(false);
-       R1_1.setSelected(false);
-        R1_2.setSelected(false);
-         R1_3.setSelected(false);
-          R1_4.setSelected(false);
-           R1_5.setSelected(false);
-            R1_6.setSelected(false);
-             R1_7.setSelected(false);
-              R1_8.setSelected(false);
-               R1_9.setSelected(false);
-                R1_10.setSelected(false);
-                 R1_11.setSelected(false);
-                  R1_12.setSelected(false);
-                   R1_13.setSelected(false);
-                    R1_14.setSelected(false);
-                     R1_15.setSelected(false);
-             int[] R1_data = instruct.cp.R1.data;
-          
-            for (int i = 0; i < R1_Valu_set.length; i++) {
-            R1_Valu_set[i] = false;
-        }
-            //************************************
-            
-        for (int i = 0; i < R1_data.length; i++) {
-            
-            
-            if (R1_data[i] == 1) {
-                R1_Valu_set[i] = true;
-                
-                
+            //************************************display the radio Button *****************************
+            if (R0_Valu_set[0] == true) {
+                R0_0.setSelected(true);
 
             } else {
+                R0_0.setSelected(false);
+            }
+
+            if (R0_Valu_set[1] == true) {
+                R0_1.setSelected(true);
+            } else {
+                R0_1.setSelected(false);
+            }
+
+            if (R0_Valu_set[2] == true) {
+                R0_2.setSelected(true);
+            } else {
+                R0_2.setSelected(false);
+            }
+
+            if (R0_Valu_set[3] == true) {
+                R0_3.setSelected(true);
+            } else {
+                R0_3.setSelected(false);
+            }
+
+            if (R0_Valu_set[4] == true) {
+                R0_4.setSelected(true);
+            } else {
+                R0_4.setSelected(false);
+            }
+            if (R0_Valu_set[5] == true) {
+                R0_5.setSelected(true);
+            } else {
+                R0_5.setSelected(false);
+            }
+            if (R0_Valu_set[6] == true) {
+                R0_6.setSelected(true);
+            } else {
+                R0_6.setSelected(false);
+            }
+            if (R0_Valu_set[7] == true) {
+                R0_7.setSelected(true);
+            } else {
+                R0_7.setSelected(false);
+            }
+            if (R0_Valu_set[8] == true) {
+                R0_8.setSelected(true);
+            } else {
+                R0_8.setSelected(false);
+            }
+            if (R0_Valu_set[9] == true) {
+                R0_9.setSelected(true);
+            } else {
+                R0_9.setSelected(false);
+            }
+            if (R0_Valu_set[10] == true) {
+                R0_10.setSelected(true);
+            } else {
+                R0_10.setSelected(false);
+            }
+            if (R0_Valu_set[11] == true) {
+                R0_11.setSelected(true);
+            } else {
+                R0_11.setSelected(false);
+            }
+            if (R0_Valu_set[12] == true) {
+                R0_12.setSelected(true);
+            } else {
+                R0_12.setSelected(false);
+            }
+            if (R0_Valu_set[13] == true) {
+                R0_13.setSelected(true);
+            } else {
+                R0_13.setSelected(false);
+            }
+            if (R0_Valu_set[14] == true) {
+                R0_14.setSelected(true);
+            } else {
+                R0_14.setSelected(false);
+            }
+            if (R0_Valu_set[15] == true) {
+                R0_15.setSelected(true);
+            } else {
+                R0_15.setSelected(false);
+
+            }
+        } //************************************************************************************************
+        else if (indexofR == 1) {
+//reset the index radio button 
+            R1_0.setSelected(false);
+            R1_1.setSelected(false);
+            R1_2.setSelected(false);
+            R1_3.setSelected(false);
+            R1_4.setSelected(false);
+            R1_5.setSelected(false);
+            R1_6.setSelected(false);
+            R1_7.setSelected(false);
+            R1_8.setSelected(false);
+            R1_9.setSelected(false);
+            R1_10.setSelected(false);
+            R1_11.setSelected(false);
+            R1_12.setSelected(false);
+            R1_13.setSelected(false);
+            R1_14.setSelected(false);
+            R1_15.setSelected(false);
+            int[] R1_data = instruct.cp.R1.data;
+
+            // reset the array value to 0 
+            for (int i = 0; i < R1_Valu_set.length; i++) {
                 R1_Valu_set[i] = false;
             }
-        }
+            // change the array to T if the binary value is 1 and to F if the value is 0
 
-        //************************************
-        
-        if (R1_Valu_set[0] == true) {
-            R1_0.setSelected(true);
-           
-        } else {
-            R1_0.setSelected(false);
-        }
+            for (int i = 0; i < R1_data.length; i++) {
 
-        if (R1_Valu_set[1] == true) {
-            R1_1.setSelected(true);
-        } else {
-            R1_1.setSelected(false);
-        }
+                if (R1_data[i] == 1) {
+                    R1_Valu_set[i] = true;
 
-        if (R1_Valu_set[2] == true) {
-            R1_2.setSelected(true);
-        } else {
-            R1_2.setSelected(false);
-        }
+                } else {
+                    R1_Valu_set[i] = false;
+                }
+            }
 
-        if (R1_Valu_set[3] == true) {
-            R1_3.setSelected(true);
-        } else {
-            R1_3.setSelected(false);
-        }
-
-        if (R1_Valu_set[4] == true) {
-            R1_4.setSelected(true);
-        } else {
-            R1_4.setSelected(false);
-        }
-        if (R1_Valu_set[5] == true) {
-            R1_5.setSelected(true);
-        } else {
-            R1_5.setSelected(false);
-        }
-        if (R1_Valu_set[6] == true) {
-            R1_6.setSelected(true);
-        } else {
-            R1_6.setSelected(false);
-        }
-        if (R1_Valu_set[7] == true) {
-            R1_7.setSelected(true);
-        } else {
-            R1_7.setSelected(false);
-        }
-        if (R1_Valu_set[8] == true) {
-            R1_8.setSelected(true);
-        } else {
-            R1_8.setSelected(false);
-        }
-        if (R1_Valu_set[9] == true) {
-            R1_9.setSelected(true);
-        } else {
-            R1_9.setSelected(false);
-        }
-        if (R1_Valu_set[10] == true) {
-            R1_10.setSelected(true);
-        } else {
-            R1_10.setSelected(false);
-        }
-        if (R1_Valu_set[11] == true) {
-            R1_11.setSelected(true);
-        } else {
-            R1_11.setSelected(false);
-        }
-        if (R1_Valu_set[12] == true) {
-            R1_12.setSelected(true);
-        } else {
-            R1_12.setSelected(false);
-        }
-        if (R1_Valu_set[13] == true) {
-            R1_13.setSelected(true);
-        } else {
-            R1_13.setSelected(false);
-        }
-        if (R1_Valu_set[14] == true) {
-            R1_14.setSelected(true);
-        } else {
-            R1_14.setSelected(false);
-        }
-        if (R1_Valu_set[15] == true) {
-            R1_15.setSelected(true);
-        } else {
-            R1_15.setSelected(false);
-            
-
-        }
-            
-        } 
-       //******************************************************************************************
-        else if(indexofR==2) 
-        {
-            R2_0.setSelected(false);
-       R2_1.setSelected(false);
-        R2_2.setSelected(false);
-         R2_3.setSelected(false);
-          R2_4.setSelected(false);
-           R2_5.setSelected(false);
-            R2_6.setSelected(false);
-             R2_7.setSelected(false);
-              R2_8.setSelected(false);
-               R2_9.setSelected(false);
-                R2_10.setSelected(false);
-                 R2_11.setSelected(false);
-                  R2_12.setSelected(false);
-                   R2_13.setSelected(false);
-                    R2_14.setSelected(false);
-                     R2_15.setSelected(false);
-             int[] R2_data = instruct.cp.R2.data;
-           
-            
-            for (int i = 0; i < R2_Valu_set.length; i++) {
-            R2_Valu_set[i] = false;
-        }
-            //************************************
-            
-        for (int i = 0; i < R2_data.length; i++) {
-           
-           
-            if (R2_data[i] == 1) {
-                R2_Valu_set[i] = true;
-               
+            //**************** display the binary valu in the redio button ********************
+            if (R1_Valu_set[0] == true) {
+                R1_0.setSelected(true);
 
             } else {
+                R1_0.setSelected(false);
+            }
+
+            if (R1_Valu_set[1] == true) {
+                R1_1.setSelected(true);
+            } else {
+                R1_1.setSelected(false);
+            }
+
+            if (R1_Valu_set[2] == true) {
+                R1_2.setSelected(true);
+            } else {
+                R1_2.setSelected(false);
+            }
+
+            if (R1_Valu_set[3] == true) {
+                R1_3.setSelected(true);
+            } else {
+                R1_3.setSelected(false);
+            }
+
+            if (R1_Valu_set[4] == true) {
+                R1_4.setSelected(true);
+            } else {
+                R1_4.setSelected(false);
+            }
+            if (R1_Valu_set[5] == true) {
+                R1_5.setSelected(true);
+            } else {
+                R1_5.setSelected(false);
+            }
+            if (R1_Valu_set[6] == true) {
+                R1_6.setSelected(true);
+            } else {
+                R1_6.setSelected(false);
+            }
+            if (R1_Valu_set[7] == true) {
+                R1_7.setSelected(true);
+            } else {
+                R1_7.setSelected(false);
+            }
+            if (R1_Valu_set[8] == true) {
+                R1_8.setSelected(true);
+            } else {
+                R1_8.setSelected(false);
+            }
+            if (R1_Valu_set[9] == true) {
+                R1_9.setSelected(true);
+            } else {
+                R1_9.setSelected(false);
+            }
+            if (R1_Valu_set[10] == true) {
+                R1_10.setSelected(true);
+            } else {
+                R1_10.setSelected(false);
+            }
+            if (R1_Valu_set[11] == true) {
+                R1_11.setSelected(true);
+            } else {
+                R1_11.setSelected(false);
+            }
+            if (R1_Valu_set[12] == true) {
+                R1_12.setSelected(true);
+            } else {
+                R1_12.setSelected(false);
+            }
+            if (R1_Valu_set[13] == true) {
+                R1_13.setSelected(true);
+            } else {
+                R1_13.setSelected(false);
+            }
+            if (R1_Valu_set[14] == true) {
+                R1_14.setSelected(true);
+            } else {
+                R1_14.setSelected(false);
+            }
+            if (R1_Valu_set[15] == true) {
+                R1_15.setSelected(true);
+            } else {
+                R1_15.setSelected(false);
+
+            }
+
+        } //******************************************************************************************
+        else if (indexofR == 2) {
+
+            //reset the index radio button 
+            R2_0.setSelected(false);
+            R2_1.setSelected(false);
+            R2_2.setSelected(false);
+            R2_3.setSelected(false);
+            R2_4.setSelected(false);
+            R2_5.setSelected(false);
+            R2_6.setSelected(false);
+            R2_7.setSelected(false);
+            R2_8.setSelected(false);
+            R2_9.setSelected(false);
+            R2_10.setSelected(false);
+            R2_11.setSelected(false);
+            R2_12.setSelected(false);
+            R2_13.setSelected(false);
+            R2_14.setSelected(false);
+            R2_15.setSelected(false);
+            int[] R2_data = instruct.cp.R2.data;
+// reset the array value 
+            for (int i = 0; i < R2_Valu_set.length; i++) {
                 R2_Valu_set[i] = false;
             }
-        }
+            // change the array to T if the binary value is 1 and to F if the value is 0
 
-        //************************************
-        
-        if (R2_Valu_set[0] == true) {
-            R2_0.setSelected(true);
-          
-        } else {
-            R2_0.setSelected(false);
-        }
+            for (int i = 0; i < R2_data.length; i++) {
 
-        if (R2_Valu_set[1] == true) {
-            R2_1.setSelected(true);
-        } else {
-            R2_1.setSelected(false);
-        }
+                if (R2_data[i] == 1) {
+                    R2_Valu_set[i] = true;
 
-        if (R2_Valu_set[2] == true) {
-            R2_2.setSelected(true);
-        } else {
-            R2_2.setSelected(false);
-        }
+                } else {
+                    R2_Valu_set[i] = false;
+                }
+            }
 
-        if (R2_Valu_set[3] == true) {
-            R2_3.setSelected(true);
-        } else {
-            R2_3.setSelected(false);
-        }
-
-        if (R2_Valu_set[4] == true) {
-            R2_4.setSelected(true);
-        } else {
-            R2_4.setSelected(false);
-        }
-        if (R2_Valu_set[5] == true) {
-            R2_5.setSelected(true);
-        } else {
-            R2_5.setSelected(false);
-        }
-        if (R2_Valu_set[6] == true) {
-            R2_6.setSelected(true);
-        } else {
-            R2_6.setSelected(false);
-        }
-        if (R2_Valu_set[7] == true) {
-            R2_7.setSelected(true);
-        } else {
-            R2_7.setSelected(false);
-        }
-        if (R2_Valu_set[8] == true) {
-            R2_8.setSelected(true);
-        } else {
-            R2_8.setSelected(false);
-        }
-        if (R2_Valu_set[9] == true) {
-            R2_9.setSelected(true);
-        } else {
-            R2_9.setSelected(false);
-        }
-        if (R2_Valu_set[10] == true) {
-            R2_10.setSelected(true);
-        } else {
-            R2_10.setSelected(false);
-        }
-        if (R2_Valu_set[11] == true) {
-            R2_11.setSelected(true);
-        } else {
-            R2_11.setSelected(false);
-        }
-        if (R2_Valu_set[12] == true) {
-            R2_12.setSelected(true);
-        } else {
-            R2_12.setSelected(false);
-        }
-        if (R2_Valu_set[13] == true) {
-            R2_13.setSelected(true);
-        } else {
-            R2_13.setSelected(false);
-        }
-        if (R2_Valu_set[14] == true) {
-            R2_14.setSelected(true);
-        } else {
-            R2_14.setSelected(false);
-        }
-        if (R2_Valu_set[15] == true) {
-            R2_15.setSelected(true);
-        } else {
-            R2_15.setSelected(false);
-          
-        }
-        }
-        //****************************************************************************************
-        
-        else if(indexofR==3)
-        {
-             R3_0.setSelected(false);
-       R3_1.setSelected(false);
-        R3_2.setSelected(false);
-         R3_3.setSelected(false);
-          R3_4.setSelected(false);
-           R3_5.setSelected(false);
-            R3_6.setSelected(false);
-             R3_7.setSelected(false);
-              R3_8.setSelected(false);
-               R3_9.setSelected(false);
-                R3_10.setSelected(false);
-                 R3_11.setSelected(false);
-                  R3_12.setSelected(false);
-                   R3_13.setSelected(false);
-                    R3_14.setSelected(false);
-                     R3_15.setSelected(false);
-             int[] R3_data = instruct.cp.R3.data;
-          
-            for (int i = 0; i < R3_Valu_set.length; i++) {
-            R3_Valu_set[i] = false;
-        }
-            //************************************
-            
-        for (int i = 0; i < R3_data.length; i++) {
-            
-            
-            if (R3_data[i] == 1) {
-                R3_Valu_set[i] = true;
-                
-                
+            //************************************ display the binary value in the radio button ******************
+            if (R2_Valu_set[0] == true) {
+                R2_0.setSelected(true);
 
             } else {
+                R2_0.setSelected(false);
+            }
+
+            if (R2_Valu_set[1] == true) {
+                R2_1.setSelected(true);
+            } else {
+                R2_1.setSelected(false);
+            }
+
+            if (R2_Valu_set[2] == true) {
+                R2_2.setSelected(true);
+            } else {
+                R2_2.setSelected(false);
+            }
+
+            if (R2_Valu_set[3] == true) {
+                R2_3.setSelected(true);
+            } else {
+                R2_3.setSelected(false);
+            }
+
+            if (R2_Valu_set[4] == true) {
+                R2_4.setSelected(true);
+            } else {
+                R2_4.setSelected(false);
+            }
+            if (R2_Valu_set[5] == true) {
+                R2_5.setSelected(true);
+            } else {
+                R2_5.setSelected(false);
+            }
+            if (R2_Valu_set[6] == true) {
+                R2_6.setSelected(true);
+            } else {
+                R2_6.setSelected(false);
+            }
+            if (R2_Valu_set[7] == true) {
+                R2_7.setSelected(true);
+            } else {
+                R2_7.setSelected(false);
+            }
+            if (R2_Valu_set[8] == true) {
+                R2_8.setSelected(true);
+            } else {
+                R2_8.setSelected(false);
+            }
+            if (R2_Valu_set[9] == true) {
+                R2_9.setSelected(true);
+            } else {
+                R2_9.setSelected(false);
+            }
+            if (R2_Valu_set[10] == true) {
+                R2_10.setSelected(true);
+            } else {
+                R2_10.setSelected(false);
+            }
+            if (R2_Valu_set[11] == true) {
+                R2_11.setSelected(true);
+            } else {
+                R2_11.setSelected(false);
+            }
+            if (R2_Valu_set[12] == true) {
+                R2_12.setSelected(true);
+            } else {
+                R2_12.setSelected(false);
+            }
+            if (R2_Valu_set[13] == true) {
+                R2_13.setSelected(true);
+            } else {
+                R2_13.setSelected(false);
+            }
+            if (R2_Valu_set[14] == true) {
+                R2_14.setSelected(true);
+            } else {
+                R2_14.setSelected(false);
+            }
+            if (R2_Valu_set[15] == true) {
+                R2_15.setSelected(true);
+            } else {
+                R2_15.setSelected(false);
+
+            }
+        } //****************************************************************************************
+        else if (indexofR == 3) {
+            // reset the radio button value 
+
+            R3_0.setSelected(false);
+            R3_1.setSelected(false);
+            R3_2.setSelected(false);
+            R3_3.setSelected(false);
+            R3_4.setSelected(false);
+            R3_5.setSelected(false);
+            R3_6.setSelected(false);
+            R3_7.setSelected(false);
+            R3_8.setSelected(false);
+            R3_9.setSelected(false);
+            R3_10.setSelected(false);
+            R3_11.setSelected(false);
+            R3_12.setSelected(false);
+            R3_13.setSelected(false);
+            R3_14.setSelected(false);
+            R3_15.setSelected(false);
+            int[] R3_data = instruct.cp.R3.data;
+// resert the value of the array 
+            for (int i = 0; i < R3_Valu_set.length; i++) {
                 R3_Valu_set[i] = false;
             }
+            // change the array to T if the binary value is 1 and to F if the value is 0
+
+            for (int i = 0; i < R3_data.length; i++) {
+
+                if (R3_data[i] == 1) {
+                    R3_Valu_set[i] = true;
+
+                } else {
+                    R3_Valu_set[i] = false;
+                }
+            }
+
+            //************************************ Display the value of the binary number in the radio button ********************
+            if (R3_Valu_set[0] == true) {
+                R3_0.setSelected(true);
+
+            } else {
+                R3_0.setSelected(false);
+            }
+
+            if (R3_Valu_set[1] == true) {
+                R3_1.setSelected(true);
+            } else {
+                R3_1.setSelected(false);
+            }
+
+            if (R3_Valu_set[2] == true) {
+                R3_2.setSelected(true);
+            } else {
+                R3_2.setSelected(false);
+            }
+
+            if (R3_Valu_set[3] == true) {
+                R3_3.setSelected(true);
+            } else {
+                R3_3.setSelected(false);
+            }
+
+            if (R3_Valu_set[4] == true) {
+                R3_4.setSelected(true);
+            } else {
+                R3_4.setSelected(false);
+            }
+            if (R3_Valu_set[5] == true) {
+                R3_5.setSelected(true);
+            } else {
+                R3_5.setSelected(false);
+            }
+            if (R3_Valu_set[6] == true) {
+                R3_6.setSelected(true);
+            } else {
+                R3_6.setSelected(false);
+            }
+            if (R3_Valu_set[7] == true) {
+                R3_7.setSelected(true);
+            } else {
+                R3_7.setSelected(false);
+            }
+            if (R3_Valu_set[8] == true) {
+                R3_8.setSelected(true);
+            } else {
+                R3_8.setSelected(false);
+            }
+            if (R3_Valu_set[9] == true) {
+                R3_9.setSelected(true);
+            } else {
+                R3_9.setSelected(false);
+            }
+            if (R3_Valu_set[10] == true) {
+                R3_10.setSelected(true);
+            } else {
+                R3_10.setSelected(false);
+            }
+            if (R3_Valu_set[11] == true) {
+                R3_11.setSelected(true);
+            } else {
+                R3_11.setSelected(false);
+            }
+            if (R3_Valu_set[12] == true) {
+                R3_12.setSelected(true);
+            } else {
+                R3_12.setSelected(false);
+            }
+            if (R3_Valu_set[13] == true) {
+                R3_13.setSelected(true);
+            } else {
+                R3_13.setSelected(false);
+            }
+            if (R3_Valu_set[14] == true) {
+                R3_14.setSelected(true);
+            } else {
+                R3_14.setSelected(false);
+            }
+            if (R3_Valu_set[15] == true) {
+                R3_15.setSelected(true);
+            } else {
+                R3_15.setSelected(false);
+
+            }
+
         }
 
-        //************************************
-        
-        if (R3_Valu_set[0] == true) {
-            R3_0.setSelected(true);
-           
-        } else {
-            R3_0.setSelected(false);
-        }
-
-        if (R3_Valu_set[1] == true) {
-            R3_1.setSelected(true);
-        } else {
-            R3_1.setSelected(false);
-        }
-
-        if (R3_Valu_set[2] == true) {
-            R3_2.setSelected(true);
-        } else {
-            R3_2.setSelected(false);
-        }
-
-        if (R3_Valu_set[3] == true) {
-            R3_3.setSelected(true);
-        } else {
-            R3_3.setSelected(false);
-        }
-
-        if (R3_Valu_set[4] == true) {
-            R3_4.setSelected(true);
-        } else {
-            R3_4.setSelected(false);
-        }
-        if (R3_Valu_set[5] == true) {
-            R3_5.setSelected(true);
-        } else {
-            R3_5.setSelected(false);
-        }
-        if (R3_Valu_set[6] == true) {
-            R3_6.setSelected(true);
-        } else {
-            R3_6.setSelected(false);
-        }
-        if (R3_Valu_set[7] == true) {
-            R3_7.setSelected(true);
-        } else {
-            R3_7.setSelected(false);
-        }
-        if (R3_Valu_set[8] == true) {
-            R3_8.setSelected(true);
-        } else {
-            R3_8.setSelected(false);
-        }
-        if (R3_Valu_set[9] == true) {
-            R3_9.setSelected(true);
-        } else {
-            R3_9.setSelected(false);
-        }
-        if (R3_Valu_set[10] == true) {
-            R3_10.setSelected(true);
-        } else {
-            R3_10.setSelected(false);
-        }
-        if (R3_Valu_set[11] == true) {
-            R3_11.setSelected(true);
-        } else {
-            R3_11.setSelected(false);
-        }
-        if (R3_Valu_set[12] == true) {
-            R3_12.setSelected(true);
-        } else {
-            R3_12.setSelected(false);
-        }
-        if (R3_Valu_set[13] == true) {
-            R3_13.setSelected(true);
-        } else {
-            R3_13.setSelected(false);
-        }
-        if (R3_Valu_set[14] == true) {
-            R3_14.setSelected(true);
-        } else {
-            R3_14.setSelected(false);
-        }
-        if (R3_Valu_set[15] == true) {
-            R3_15.setSelected(true);
-        } else {
-            R3_15.setSelected(false);
-            
-
-        }
-            
-        } 
-        
         //***************************** change index value ******************************************
-        
-       
         int indexofIX = instruct.IX[0] + instruct.IX[1] * 2;
-        
-        
-       if(indexofIX==1){
-           int IX1_data[];
-        IX1_data = new int[16];
-           IX1_data = instruct.cp.X1.data;
-      
-       
-        for (int i = 0; i < I1_Valu_set.length; i++) {
-           
-            if (IX1_data[i] == 1) {
-                I1_Valu_set[i] = true;
-            } else {
-                I1_Valu_set[i] = false;
-            }
-        }
 
-        if (I1_Valu_set[0] == true) {
-            I1_0.setSelected(true);
-        } else {
+        if (indexofIX == 1) {
+            // reset the radio button value 
             I1_0.setSelected(false);
-        }
-
-        if (I1_Valu_set[1] == true) {
-            I1_1.setSelected(true);
-        } else {
             I1_1.setSelected(false);
-        }
-
-        if (I1_Valu_set[2] == true) {
-            I1_2.setSelected(true);
-        } else {
             I1_2.setSelected(false);
-        }
-
-        if (I1_Valu_set[3] == true) {
-            I1_3.setSelected(true);
-        } else {
             I1_3.setSelected(false);
-        }
-
-        if (I1_Valu_set[4] == true) {
-            I1_4.setSelected(true);
-        } else {
             I1_4.setSelected(false);
-        }
-        if (I1_Valu_set[5] == true) {
-            I1_5.setSelected(true);
-        } else {
             I1_5.setSelected(false);
-        }
-        if (I1_Valu_set[6] == true) {
-            I1_6.setSelected(true);
-        } else {
             I1_6.setSelected(false);
-        }
-        if (I1_Valu_set[7] == true) {
-            I1_7.setSelected(true);
-        } else {
             I1_7.setSelected(false);
-        }
-        if (I1_Valu_set[8] == true) {
-            I1_8.setSelected(true);
-        } else {
             I1_8.setSelected(false);
-        }
-        if (I1_Valu_set[9] == true) {
-            I1_9.setSelected(true);
-        } else {
             I1_9.setSelected(false);
-        }
-        if (I1_Valu_set[10] == true) {
-            I1_10.setSelected(true);
-        } else {
             I1_10.setSelected(false);
-        }
-        if (I1_Valu_set[11] == true) {
-            I1_11.setSelected(true);
-        } else {
             I1_11.setSelected(false);
-        }
-        if (I1_Valu_set[12] == true) {
-            I1_12.setSelected(true);
-        } else {
             I1_12.setSelected(false);
-        }
-        if (I1_Valu_set[13] == true) {
-            I1_13.setSelected(true);
-        } else {
             I1_13.setSelected(false);
-        }
-        if (I1_Valu_set[14] == true) {
-            I1_14.setSelected(true);
-        } else {
             I1_14.setSelected(false);
-        }
-        if (I1_Valu_set[15] == true) {
-            I1_15.setSelected(true);
-        } else {
             I1_15.setSelected(false);
-        }
-       }
-       
-       //***********************************************************************
-       
-       else if(indexofIX==2){
-           int IX2_data[];
-        IX2_data = new int[16];
-           IX2_data = instruct.cp.X2.data;
-      
-       
-        for (int i = 0; i < I2_Valu_set.length; i++) {
-           
-            if (IX2_data[i] == 1) {
-                I2_Valu_set[i] = true;
-            } else {
-                I2_Valu_set[i] = false;
-            }
-        }
 
-        if (I2_Valu_set[0] == true) {
-            I2_0.setSelected(true);
-        } else {
+            int IX1_data[];
+            IX1_data = new int[16];
+            IX1_data = instruct.cp.X1.data;
+// change the array to T if the binary value is 1 and to F if the value is 0
+            for (int i = 0; i < I1_Valu_set.length; i++) {
+
+                if (IX1_data[i] == 1) {
+                    I1_Valu_set[i] = true;
+                } else {
+                    I1_Valu_set[i] = false;
+                }
+            }
+// display the binary value in the radio button 
+            if (I1_Valu_set[0] == true) {
+                I1_0.setSelected(true);
+            } else {
+                I1_0.setSelected(false);
+            }
+
+            if (I1_Valu_set[1] == true) {
+                I1_1.setSelected(true);
+            } else {
+                I1_1.setSelected(false);
+            }
+
+            if (I1_Valu_set[2] == true) {
+                I1_2.setSelected(true);
+            } else {
+                I1_2.setSelected(false);
+            }
+
+            if (I1_Valu_set[3] == true) {
+                I1_3.setSelected(true);
+            } else {
+                I1_3.setSelected(false);
+            }
+
+            if (I1_Valu_set[4] == true) {
+                I1_4.setSelected(true);
+            } else {
+                I1_4.setSelected(false);
+            }
+            if (I1_Valu_set[5] == true) {
+                I1_5.setSelected(true);
+            } else {
+                I1_5.setSelected(false);
+            }
+            if (I1_Valu_set[6] == true) {
+                I1_6.setSelected(true);
+            } else {
+                I1_6.setSelected(false);
+            }
+            if (I1_Valu_set[7] == true) {
+                I1_7.setSelected(true);
+            } else {
+                I1_7.setSelected(false);
+            }
+            if (I1_Valu_set[8] == true) {
+                I1_8.setSelected(true);
+            } else {
+                I1_8.setSelected(false);
+            }
+            if (I1_Valu_set[9] == true) {
+                I1_9.setSelected(true);
+            } else {
+                I1_9.setSelected(false);
+            }
+            if (I1_Valu_set[10] == true) {
+                I1_10.setSelected(true);
+            } else {
+                I1_10.setSelected(false);
+            }
+            if (I1_Valu_set[11] == true) {
+                I1_11.setSelected(true);
+            } else {
+                I1_11.setSelected(false);
+            }
+            if (I1_Valu_set[12] == true) {
+                I1_12.setSelected(true);
+            } else {
+                I1_12.setSelected(false);
+            }
+            if (I1_Valu_set[13] == true) {
+                I1_13.setSelected(true);
+            } else {
+                I1_13.setSelected(false);
+            }
+            if (I1_Valu_set[14] == true) {
+                I1_14.setSelected(true);
+            } else {
+                I1_14.setSelected(false);
+            }
+            if (I1_Valu_set[15] == true) {
+                I1_15.setSelected(true);
+            } else {
+                I1_15.setSelected(false);
+            }
+        } //***********************************************************************
+        else if (indexofIX == 2) {
+            //reset the index radio button value 
             I2_0.setSelected(false);
-        }
-
-        if (I2_Valu_set[1] == true) {
-            I2_1.setSelected(true);
-        } else {
             I2_1.setSelected(false);
-        }
-
-        if (I2_Valu_set[2] == true) {
-            I2_2.setSelected(true);
-        } else {
             I2_2.setSelected(false);
-        }
-
-        if (I2_Valu_set[3] == true) {
-            I2_3.setSelected(true);
-        } else {
             I2_3.setSelected(false);
-        }
-
-        if (I2_Valu_set[4] == true) {
-            I2_4.setSelected(true);
-        } else {
             I2_4.setSelected(false);
-        }
-        if (I2_Valu_set[5] == true) {
-            I2_5.setSelected(true);
-        } else {
             I2_5.setSelected(false);
-        }
-        if (I2_Valu_set[6] == true) {
-            I2_6.setSelected(true);
-        } else {
             I2_6.setSelected(false);
-        }
-        if (I2_Valu_set[7] == true) {
-            I2_7.setSelected(true);
-        } else {
             I2_7.setSelected(false);
-        }
-        if (I2_Valu_set[8] == true) {
-            I2_8.setSelected(true);
-        } else {
             I2_8.setSelected(false);
-        }
-        if (I2_Valu_set[9] == true) {
-            I2_9.setSelected(true);
-        } else {
             I2_9.setSelected(false);
-        }
-        if (I2_Valu_set[10] == true) {
-            I2_10.setSelected(true);
-        } else {
             I2_10.setSelected(false);
-        }
-        if (I2_Valu_set[11] == true) {
-            I2_11.setSelected(true);
-        } else {
             I2_11.setSelected(false);
-        }
-        if (I2_Valu_set[12] == true) {
-            I2_12.setSelected(true);
-        } else {
             I2_12.setSelected(false);
-        }
-        if (I2_Valu_set[13] == true) {
-            I2_13.setSelected(true);
-        } else {
             I2_13.setSelected(false);
-        }
-        if (I2_Valu_set[14] == true) {
-            I2_14.setSelected(true);
-        } else {
             I2_14.setSelected(false);
-        }
-        if (I2_Valu_set[15] == true) {
-            I2_15.setSelected(true);
-        } else {
             I2_15.setSelected(false);
-        }
-       }
-          //***********************************************************************
-       
-       else if(indexofIX==3){
-           int IX3_data[];
-        IX3_data = new int[16];
-        IX3_data = instruct.cp.X3.data;
-      
-       System.out.println(I3_Valu_set.length);
-        for (int i = 0; i < I3_Valu_set.length; i++) {
-           
-            if (IX3_data[i] == 1) {
-                I3_Valu_set[i] = true;
+
+            int IX2_data[];
+            IX2_data = new int[16];
+            IX2_data = instruct.cp.X2.data;
+// change the array to T if the binary value is 1 and to F if the value is 0
+            for (int i = 0; i < I2_Valu_set.length; i++) {
+
+                if (IX2_data[i] == 1) {
+                    I2_Valu_set[i] = true;
+                } else {
+                    I2_Valu_set[i] = false;
+                }
+            }
+// display the binary value in the radio button 
+            if (I2_Valu_set[0] == true) {
+                I2_0.setSelected(true);
             } else {
-                I3_Valu_set[i] = false;
+                I2_0.setSelected(false);
+            }
+
+            if (I2_Valu_set[1] == true) {
+                I2_1.setSelected(true);
+            } else {
+                I2_1.setSelected(false);
+            }
+
+            if (I2_Valu_set[2] == true) {
+                I2_2.setSelected(true);
+            } else {
+                I2_2.setSelected(false);
+            }
+
+            if (I2_Valu_set[3] == true) {
+                I2_3.setSelected(true);
+            } else {
+                I2_3.setSelected(false);
+            }
+
+            if (I2_Valu_set[4] == true) {
+                I2_4.setSelected(true);
+            } else {
+                I2_4.setSelected(false);
+            }
+            if (I2_Valu_set[5] == true) {
+                I2_5.setSelected(true);
+            } else {
+                I2_5.setSelected(false);
+            }
+            if (I2_Valu_set[6] == true) {
+                I2_6.setSelected(true);
+            } else {
+                I2_6.setSelected(false);
+            }
+            if (I2_Valu_set[7] == true) {
+                I2_7.setSelected(true);
+            } else {
+                I2_7.setSelected(false);
+            }
+            if (I2_Valu_set[8] == true) {
+                I2_8.setSelected(true);
+            } else {
+                I2_8.setSelected(false);
+            }
+            if (I2_Valu_set[9] == true) {
+                I2_9.setSelected(true);
+            } else {
+                I2_9.setSelected(false);
+            }
+            if (I2_Valu_set[10] == true) {
+                I2_10.setSelected(true);
+            } else {
+                I2_10.setSelected(false);
+            }
+            if (I2_Valu_set[11] == true) {
+                I2_11.setSelected(true);
+            } else {
+                I2_11.setSelected(false);
+            }
+            if (I2_Valu_set[12] == true) {
+                I2_12.setSelected(true);
+            } else {
+                I2_12.setSelected(false);
+            }
+            if (I2_Valu_set[13] == true) {
+                I2_13.setSelected(true);
+            } else {
+                I2_13.setSelected(false);
+            }
+            if (I2_Valu_set[14] == true) {
+                I2_14.setSelected(true);
+            } else {
+                I2_14.setSelected(false);
+            }
+            if (I2_Valu_set[15] == true) {
+                I2_15.setSelected(true);
+            } else {
+                I2_15.setSelected(false);
+            }
+        } //***********************************************************************
+        else if (indexofIX == 3) {
+            //reset the radio button 
+
+            I3_0.setSelected(false);
+            I3_1.setSelected(false);
+            I3_2.setSelected(false);
+            I3_3.setSelected(false);
+            I3_4.setSelected(false);
+            I3_5.setSelected(false);
+            I3_6.setSelected(false);
+            I3_7.setSelected(false);
+            I3_8.setSelected(false);
+            I3_9.setSelected(false);
+            I3_10.setSelected(false);
+            I3_11.setSelected(false);
+            I3_12.setSelected(false);
+            I3_13.setSelected(false);
+            I3_14.setSelected(false);
+            I3_15.setSelected(false);
+
+            int IX3_data[];
+            IX3_data = new int[16];
+            IX3_data = instruct.cp.X3.data;
+
+            // change the array to T if the binary value is 1 and to F if the value is 0
+            for (int i = 0; i < I3_Valu_set.length; i++) {
+
+                if (IX3_data[i] == 1) {
+                    I3_Valu_set[i] = true;
+                } else {
+                    I3_Valu_set[i] = false;
+                }
+            }
+            // display the binary value in the radio button 
+
+            if (I3_Valu_set[0] == true) {
+                I3_0.setSelected(true);
+            } else {
+                I3_0.setSelected(false);
+            }
+
+            if (I3_Valu_set[1] == true) {
+                I3_1.setSelected(true);
+            } else {
+                I3_1.setSelected(false);
+            }
+
+            if (I3_Valu_set[2] == true) {
+                I3_2.setSelected(true);
+            } else {
+                I3_2.setSelected(false);
+            }
+
+            if (I3_Valu_set[3] == true) {
+                I3_3.setSelected(true);
+            } else {
+                I3_3.setSelected(false);
+            }
+
+            if (I3_Valu_set[4] == true) {
+                I3_4.setSelected(true);
+            } else {
+                I3_4.setSelected(false);
+            }
+            if (I3_Valu_set[5] == true) {
+                I3_5.setSelected(true);
+            } else {
+                I3_5.setSelected(false);
+            }
+            if (I3_Valu_set[6] == true) {
+                I3_6.setSelected(true);
+            } else {
+                I3_6.setSelected(false);
+            }
+            if (I3_Valu_set[7] == true) {
+                I3_7.setSelected(true);
+            } else {
+                I3_7.setSelected(false);
+            }
+            if (I3_Valu_set[8] == true) {
+                I3_8.setSelected(true);
+            } else {
+                I3_8.setSelected(false);
+            }
+            if (I3_Valu_set[9] == true) {
+                I3_9.setSelected(true);
+            } else {
+                I3_9.setSelected(false);
+            }
+            if (I3_Valu_set[10] == true) {
+                I3_10.setSelected(true);
+            } else {
+                I3_10.setSelected(false);
+            }
+            if (I3_Valu_set[11] == true) {
+                I3_11.setSelected(true);
+            } else {
+                I3_11.setSelected(false);
+            }
+            if (I3_Valu_set[12] == true) {
+                I3_12.setSelected(true);
+            } else {
+                I3_12.setSelected(false);
+            }
+            if (I3_Valu_set[13] == true) {
+                I3_13.setSelected(true);
+            } else {
+                I3_13.setSelected(false);
+            }
+            if (I3_Valu_set[14] == true) {
+                I3_14.setSelected(true);
+            } else {
+                I3_14.setSelected(false);
+            }
+            if (I3_Valu_set[15] == true) {
+                I3_15.setSelected(true);
+            } else {
+                I3_15.setSelected(false);
             }
         }
 
-        if (I3_Valu_set[0] == true) {
-            I3_0.setSelected(true);
-        } else {
-            I3_0.setSelected(false);
-        }
-
-        if (I3_Valu_set[1] == true) {
-            I3_1.setSelected(true);
-        } else {
-            I3_1.setSelected(false);
-        }
-
-        if (I3_Valu_set[2] == true) {
-            I3_2.setSelected(true);
-        } else {
-            I3_2.setSelected(false);
-        }
-
-        if (I3_Valu_set[3] == true) {
-            I3_3.setSelected(true);
-        } else {
-            I3_3.setSelected(false);
-        }
-
-        if (I3_Valu_set[4] == true) {
-            I3_4.setSelected(true);
-        } else {
-            I3_4.setSelected(false);
-        }
-        if (I3_Valu_set[5] == true) {
-            I3_5.setSelected(true);
-        } else {
-            I3_5.setSelected(false);
-        }
-        if (I3_Valu_set[6] == true) {
-            I3_6.setSelected(true);
-        } else {
-            I3_6.setSelected(false);
-        }
-        if (I3_Valu_set[7] == true) {
-            I3_7.setSelected(true);
-        } else {
-            I3_7.setSelected(false);
-        }
-        if (I3_Valu_set[8] == true) {
-            I3_8.setSelected(true);
-        } else {
-            I3_8.setSelected(false);
-        }
-        if (I3_Valu_set[9] == true) {
-            I3_9.setSelected(true);
-        } else {
-            I3_9.setSelected(false);
-        }
-        if (I3_Valu_set[10] == true) {
-            I3_10.setSelected(true);
-        } else {
-            I3_10.setSelected(false);
-        }
-        if (I3_Valu_set[11] == true) {
-            I3_11.setSelected(true);
-        } else {
-            I3_11.setSelected(false);
-        }
-        if (I3_Valu_set[12] == true) {
-            I3_12.setSelected(true);
-        } else {
-            I3_12.setSelected(false);
-        }
-        if (I3_Valu_set[13] == true) {
-            I3_13.setSelected(true);
-        } else {
-            I3_13.setSelected(false);
-        }
-        if (I3_Valu_set[14] == true) {
-            I3_14.setSelected(true);
-        } else {
-            I3_14.setSelected(false);
-        }
-        if (I3_Valu_set[15] == true) {
-            I3_15.setSelected(true);
-        } else {
-            I3_15.setSelected(false);
-        }
-       }
-       
     }                                               
 
     private void value_txtboxActionPerformed(java.awt.event.ActionEvent evt) {                                             
@@ -2372,24 +2390,34 @@ public class GUI_Arch extends javax.swing.JFrame {
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {                                          
 // this function calculate the value of program counter by converting the decimal value to binary then display the value in the radio button
 
-        String PC_ValueTextfield = pc_vlaue_textfield.getText();
+        String PC_ValueTextfield = pc_vlaue_textfield.getText();// get the text field value 
         pc_value_lable.setText(PC_ValueTextfield);
-        String PC_value = Integer.toBinaryString(Integer.parseInt(PC_ValueTextfield));
+        String PC_value = Integer.toBinaryString(Integer.parseInt(PC_ValueTextfield));// convert the value to binary string 
 
         char[] Bit_pcConvert = new char[PC_value.length()];
         char[] Bit_pc = new char[PC_value.length()];
         Bit_pcConvert = PC_value.toCharArray();
+        //reset the value of the pc array 
+        for (int i = 0; i < pc_Valu_set.length; i++) {
+            pc_Valu_set[i] = false;
+        }
+
+        // put it in reverse order 
         for (int i = 0, j = Bit_pc.length - 1; i < Bit_pc.length; i++, j--) {
             Bit_pc[i] = Bit_pcConvert[j];
         }
+
         int Bit_pc_INT[] = new int[Bit_pc.length];
+        //convert the bit array to int array 
+
         for (int i = 0; i < Bit_pc.length; i++) {
             Bit_pc_INT[i] = Bit_pc[i] - '0';
         }
         instruct.cp.setPC(Bit_pc_INT);
 
+        // change the array to T if the binary value is 1 and to F if the value is 0
         for (int i = 0; i < Bit_pc.length; i++) {
-            //System.out.println("Bit_pc"+i+Bit_pc[i]);
+
             if (Bit_pc[i] == '1') {
                 pc_Valu_set[i] = true;
 
@@ -2397,6 +2425,7 @@ public class GUI_Arch extends javax.swing.JFrame {
                 pc_Valu_set[i] = false;
             }
         }
+        // display the value of the pc in the radio button 
 
         if (pc_Valu_set[0] == true) {
             pc_11.setSelected(true);
@@ -2461,6 +2490,7 @@ public class GUI_Arch extends javax.swing.JFrame {
         } else {
             pc_0.setSelected(false);
         }
+        // sent the pc value to the address value 
         int address = instruct.getInsAdd();
         String Address_text = Integer.toString(address);
         Address_textfield.setText(Address_text);
@@ -2489,10 +2519,9 @@ public class GUI_Arch extends javax.swing.JFrame {
     }                                               
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {                                          
-// this function calculate the value of index register 1 by converting the decimal value to binary then display the value in the radio button
 
-        String Add_Immed = immed_textfield.getText();
-        int add_immed_value= Integer.parseInt(Add_Immed);
+        String Add_Immed = immed_textfield.getText(); // get the value from the text field 
+        int add_immed_value = Integer.parseInt(Add_Immed);
         instruct.setImmediate(add_immed_value);
     }                                         
 
@@ -2502,28 +2531,31 @@ public class GUI_Arch extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
 // this function calculate the value of register 0 by converting the decimal value to binary then display the value in the radio button 
-        String R0_ValueTextfield = R0_Textfield.getText();
+        String R0_ValueTextfield = R0_Textfield.getText();// get the value from the text field 
         R0_value_lable1.setText(R0_ValueTextfield);
-        String R0_value = Integer.toBinaryString(Integer.parseInt(R0_ValueTextfield));
+        String R0_value = Integer.toBinaryString(Integer.parseInt(R0_ValueTextfield));// convert to binary string 
 
         char[] Bit_R0_Convert = new char[R0_value.length()];
         char[] Bit_R0 = new char[R0_value.length()];
         Bit_R0_Convert = R0_value.toCharArray();
-
+        // put it in reverse order 
         for (int i = 0, j = Bit_R0.length - 1; i < Bit_R0.length; i++, j--) {
             Bit_R0[i] = Bit_R0_Convert[j];
         }
+        // convert to int array 
         int Bit_R0_INT[] = new int[Bit_R0.length];
         for (int i = 0; i < Bit_R0.length; i++) {
             Bit_R0_INT[i] = Bit_R0[i] - '0';
         }
         instruct.cp.setR0(Bit_R0_INT);
-
+// reset the array value 
         for (int i = 0; i < R0_Valu_set.length; i++) {
             R0_Valu_set[i] = false;
         }
+
+        // change the array to T if the binary value is 1 and to F if the value is 0
         for (int i = 0; i < Bit_R0.length; i++) {
-            //System.out.println("Bit_pc"+i+Bit_pc[i]);
+
             if (Bit_R0[i] == '1') {
                 R0_Valu_set[i] = true;
 
@@ -2531,7 +2563,7 @@ public class GUI_Arch extends javax.swing.JFrame {
                 R0_Valu_set[i] = false;
             }
         }
-
+// display the binary value in the radio button 
         if (R0_Valu_set[0] == true) {
             R0_0.setSelected(true);
         } else {
@@ -2620,27 +2652,31 @@ public class GUI_Arch extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // this function calculate the value of register 1 by converting the decimal value to binary then display the value in the radio button
-        String R1_ValueTextfield = R1_Textfield.getText();
+
+        String R1_ValueTextfield = R1_Textfield.getText();// get the value from the text field 
         R1_value_lable1.setText(R1_ValueTextfield);
-        String R1_value = Integer.toBinaryString(Integer.parseInt(R1_ValueTextfield));
+        String R1_value = Integer.toBinaryString(Integer.parseInt(R1_ValueTextfield));// convert to binary string 
 
         char[] Bit_R1_Convert = new char[R1_value.length()];
         char[] Bit_R1 = new char[R1_value.length()];
         Bit_R1_Convert = R1_value.toCharArray();
-
+// put it in reverse order 
         for (int i = 0, j = Bit_R1.length - 1; i < Bit_R1.length; i++, j--) {
             Bit_R1[i] = Bit_R1_Convert[j];
         }
+        // convert into int array 
         int Bit_R1_INT[] = new int[Bit_R1.length];
         for (int i = 0; i < Bit_R1.length; i++) {
             Bit_R1_INT[i] = Bit_R1[i] - '0';
         }
         instruct.cp.setR1(Bit_R1_INT);
+        // reset the array value to F 
         for (int i = 0; i < R1_Valu_set.length; i++) {
             R1_Valu_set[i] = false;
         }
+        // change the array to T if the binary value is 1 and to F if the value is 0
         for (int i = 0; i < Bit_R1.length; i++) {
-            //System.out.println("Bit_pc"+i+Bit_pc[i]);
+
             if (Bit_R1[i] == '1') {
                 R1_Valu_set[i] = true;
 
@@ -2648,7 +2684,7 @@ public class GUI_Arch extends javax.swing.JFrame {
                 R1_Valu_set[i] = false;
             }
         }
-
+// display the binary value in the radio button 
         if (R1_Valu_set[0] == true) {
             R1_0.setSelected(true);
         } else {
@@ -2737,34 +2773,38 @@ public class GUI_Arch extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
 // this function calculate the value of register 2 by converting the decimal value to binary then display the value in the radio button
-        String R2_ValueTextfield = R2_Textfield.getText();
+        String R2_ValueTextfield = R2_Textfield.getText();// get the value from the text field 
         R2_value_lable.setText(R2_ValueTextfield);
-        String R2_value = Integer.toBinaryString(Integer.parseInt(R2_ValueTextfield));
+        String R2_value = Integer.toBinaryString(Integer.parseInt(R2_ValueTextfield));// convert to binary string 
 
         char[] Bit_R2_Convert = new char[R2_value.length()];
         char[] Bit_R2 = new char[R2_value.length()];
         Bit_R2_Convert = R2_value.toCharArray();
+        // put the data in reverse order 
         for (int i = 0, j = Bit_R2.length - 1; i < Bit_R2.length; i++, j--) {
             Bit_R2[i] = Bit_R2_Convert[j];
         }
         int Bit_R2_INT[] = new int[Bit_R2.length];
+        // convert to int array 
         for (int i = 0; i < Bit_R2.length; i++) {
             Bit_R2_INT[i] = Bit_R2[i] - '0';
         }
         instruct.cp.setR2(Bit_R2_INT);
+
+        // reset the array value 
         for (int i = 0; i < R2_Valu_set.length; i++) {
             R2_Valu_set[i] = false;
         }
-
+        // change the array to T if the binary value is 1 and to F if the value is 0
         for (int i = 0; i < Bit_R2.length; i++) {
-            //System.out.println("Bit_pc"+i+Bit_pc[i]);
+
             if (Bit_R2[i] == '1') {
                 R2_Valu_set[i] = true;
             } else {
                 R2_Valu_set[i] = false;
             }
         }
-
+// display the value in the radio button 
         if (R2_Valu_set[0] == true) {
             R2_0.setSelected(true);
         } else {
@@ -2853,34 +2893,37 @@ public class GUI_Arch extends javax.swing.JFrame {
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // this function calculate the value of register 3 by converting the decimal value to binary then display the value in the radio button
-        String R3_ValueTextfield = R3_Textfield.getText();
+        String R3_ValueTextfield = R3_Textfield.getText();// get the value from the text field
         R3_value_lable.setText(R3_ValueTextfield);
-        String R3_value = Integer.toBinaryString(Integer.parseInt(R3_ValueTextfield));
+        String R3_value = Integer.toBinaryString(Integer.parseInt(R3_ValueTextfield));// convert to binary string 
 
         char[] Bit_R3_Convert = new char[R3_value.length()];
         char[] Bit_R3 = new char[R3_value.length()];
         Bit_R3_Convert = R3_value.toCharArray();
+        //put the binary in reverse order 
         for (int i = 0, j = Bit_R3.length - 1; i < Bit_R3.length; i++, j--) {
             Bit_R3[i] = Bit_R3_Convert[j];
         }
         int Bit_R3_INT[] = new int[Bit_R3.length];
+        // convert to int array 
         for (int i = 0; i < Bit_R3.length; i++) {
             Bit_R3_INT[i] = Bit_R3[i] - '0';
         }
         instruct.cp.setR3(Bit_R3_INT);
+        // change the array to T if the binary value is 1 and to F if the value is 0
         for (int i = 0; i < R3_Valu_set.length; i++) {
             R3_Valu_set[i] = false;
         }
 
         for (int i = 0; i < Bit_R3.length; i++) {
-            //System.out.println("Bit_pc"+i+Bit_pc[i]);
+
             if (Bit_R3[i] == '1') {
                 R3_Valu_set[i] = true;
             } else {
                 R3_Valu_set[i] = false;
             }
         }
-
+// display the value in the radio button 
         if (R3_Valu_set[0] == true) {
             R3_0.setSelected(true);
         } else {
@@ -2969,35 +3012,37 @@ public class GUI_Arch extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // this function calculate the value of index register 1 by converting the decimal value to binary then display the value in the radio button
-        String I1_ValueTextfield = I1_Textfield.getText();
+        String I1_ValueTextfield = I1_Textfield.getText();// get the value from the text field 
         I1_value_lable.setText(I1_ValueTextfield);
-        String I1_value = Integer.toBinaryString(Integer.parseInt(I1_ValueTextfield));
+        String I1_value = Integer.toBinaryString(Integer.parseInt(I1_ValueTextfield));// convert to binary string 
 
         char[] Bit_I1_Convert = new char[I1_value.length()];
         char[] Bit_I1 = new char[I1_value.length()];
         Bit_I1_Convert = I1_value.toCharArray();
+        // convert the binary in to reverse order 
         for (int i = 0, j = Bit_I1.length - 1; i < Bit_I1.length; i++, j--) {
             Bit_I1[i] = Bit_I1_Convert[j];
         }
         int Bit_I0_INT[] = new int[Bit_I1.length];
+        // char array  to int array 
         for (int i = 0; i < Bit_I1.length; i++) {
             Bit_I0_INT[i] = Bit_I1[i] - '0';
         }
         instruct.cp.setX1(Bit_I0_INT);
-
+// reset the array value to F 
         for (int i = 0; i < I1_Valu_set.length; i++) {
             I1_Valu_set[i] = false;
         }
-
+        // change the array to T if the binary value is 1 and to F if the value is 0
         for (int i = 0; i < Bit_I1.length; i++) {
-            //System.out.println("Bit_pc"+i+Bit_pc[i]);
+
             if (Bit_I1[i] == '1') {
                 I1_Valu_set[i] = true;
             } else {
                 I1_Valu_set[i] = false;
             }
         }
-
+// display the valu in the radio button 
         if (I1_Valu_set[0] == true) {
             I1_0.setSelected(true);
         } else {
@@ -3085,37 +3130,40 @@ public class GUI_Arch extends javax.swing.JFrame {
     }                                        
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-      // this function calculate the value of index register 2 by converting the decimal value to binary then display the value in the radio button
+        // this function calculate the value of index register 2 by converting the decimal value to binary then display the value in the radio button
 
-        String I2_ValueTextfield = I2_Textfield.getText();
+        String I2_ValueTextfield = I2_Textfield.getText();// get the value from the text field 
         I2_value_lable.setText(I2_ValueTextfield);
-        String I2_value = Integer.toBinaryString(Integer.parseInt(I2_ValueTextfield));
+        String I2_value = Integer.toBinaryString(Integer.parseInt(I2_ValueTextfield));// convert to binary string 
 
         char[] Bit_I2_Convert = new char[I2_value.length()];
         char[] Bit_I2 = new char[I2_value.length()];
         Bit_I2_Convert = I2_value.toCharArray();
+        // convert to reverse order 
         for (int i = 0, j = Bit_I2.length - 1; i < Bit_I2.length; i++, j--) {
             Bit_I2[i] = Bit_I2_Convert[j];
         }
+
         int Bit_I2_INT[] = new int[Bit_I2.length];
+        // convert the char to int 
         for (int i = 0; i < Bit_I2.length; i++) {
             Bit_I2_INT[i] = Bit_I2[i] - '0';
         }
         instruct.cp.setX2(Bit_I2_INT);
-
+// reset the array value to F 
         for (int i = 0; i < I2_Valu_set.length; i++) {
             I2_Valu_set[i] = false;
         }
-
+        // change the array to T if the binary value is 1 and to F if the value is 0
         for (int i = 0; i < Bit_I2.length; i++) {
-            //System.out.println("Bit_pc"+i+Bit_pc[i]);
+
             if (Bit_I2[i] == '1') {
                 I2_Valu_set[i] = true;
             } else {
                 I2_Valu_set[i] = false;
             }
         }
-
+// display the value in the radio button 
         if (I2_Valu_set[0] == true) {
             I2_0.setSelected(true);
         } else {
@@ -3205,35 +3253,38 @@ public class GUI_Arch extends javax.swing.JFrame {
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         // this function calculate the value of index register 3 by converting the decimal value to binary then display the value in the radio button
 
-        String I3_ValueTextfield = I3_Textfield.getText();
+        String I3_ValueTextfield = I3_Textfield.getText();// get the value from the text field 
         I3_value_lable.setText(I3_ValueTextfield);
-        String I3_value = Integer.toBinaryString(Integer.parseInt(I3_ValueTextfield));
+        String I3_value = Integer.toBinaryString(Integer.parseInt(I3_ValueTextfield));// convert to binary string 
 
         char[] Bit_I3_Convert = new char[I3_value.length()];
         char[] Bit_I3 = new char[I3_value.length()];
         Bit_I3_Convert = I3_value.toCharArray();
+        // convert to reverse order 
         for (int i = 0, j = Bit_I3.length - 1; i < Bit_I3.length; i++, j--) {
             Bit_I3[i] = Bit_I3_Convert[j];
         }
         int Bit_I3_INT[] = new int[Bit_I3.length];
+        // convert the char array to int array 
+
         for (int i = 0; i < Bit_I3.length; i++) {
             Bit_I3_INT[i] = Bit_I3[i] - '0';
         }
         instruct.cp.setX3(Bit_I3_INT);
-
+// reset the array valut to F 
         for (int i = 0; i < I3_Valu_set.length; i++) {
             I3_Valu_set[i] = false;
         }
-
+        // change the array to T if the binary value is 1 and to F if the value is 0
         for (int i = 0; i < Bit_I3.length; i++) {
-            //System.out.println("Bit_pc"+i+Bit_pc[i]);
+
             if (Bit_I3[i] == '1') {
                 I3_Valu_set[i] = true;
             } else {
                 I3_Valu_set[i] = false;
             }
         }
-
+// display the value in radio button 
         if (I3_Valu_set[0] == true) {
             I3_0.setSelected(true);
         } else {
@@ -3321,11 +3372,10 @@ public class GUI_Arch extends javax.swing.JFrame {
     }                                        
 
     private void DepositOnMemoryActionPerformed(java.awt.event.ActionEvent evt) {                                                
-       
-        String Address = Address_textfield.getText();
+
+        String Address = Address_textfield.getText();// get the value from the text field 
         int Int_address = Integer.parseInt(Address);
-        String value = value_txtbox.getText();
-       // String Str_value = Integer.toBinaryString(Integer.parseInt(value)); 
+        String value = value_txtbox.getText();// get the value from the text field 
 
         char[] Vlaue_textfield_before_Convert = new char[value.length()];
         char[] Bit_value = new char[value.length()];
@@ -3337,21 +3387,177 @@ public class GUI_Arch extends javax.swing.JFrame {
         }
 
         int Bit_value_INT[] = new int[Bit_value.length];
-
+// convert the char to binary 
         for (int i = 0; i < Bit_value.length; i++) {
             Bit_value_INT[i] = Bit_value[i] - '0';
 
         }
-        
+
         instruct.SM.writeMemoryInstruction(Int_address, Bit_value_INT);
         instruct.decodeInstruction();
         instruct.EffectiveAddress();
-        if(instruct.getdecimalvalue(instruct.Opcode)>0 && instruct.getdecimalvalue(instruct.Opcode)<65){
-         Address_textfield.setText( Integer.toString(instruct.effectiveAdd));}
+        if (instruct.getdecimalvalue(instruct.Opcode) > 0 && instruct.getdecimalvalue(instruct.Opcode) < 65) {
+            Address_textfield.setText(Integer.toString(instruct.effectiveAdd));
+        }
     }                                               
 
     private void IPLActionPerformed(java.awt.event.ActionEvent evt) {                                    
         instruct.SM.setZero();
+        // ******************** reset R0 value in the interface *******************
+        R0_0.setSelected(false);
+        R0_1.setSelected(false);
+        R0_2.setSelected(false);
+        R0_3.setSelected(false);
+        R0_4.setSelected(false);
+        R0_5.setSelected(false);
+        R0_6.setSelected(false);
+        R0_7.setSelected(false);
+        R0_8.setSelected(false);
+        R0_9.setSelected(false);
+        R0_10.setSelected(false);
+        R0_11.setSelected(false);
+        R0_12.setSelected(false);
+        R0_13.setSelected(false);
+        R0_14.setSelected(false);
+        R0_15.setSelected(false);
+        R0_Textfield.setText("");
+
+        // ******************** reset R1 value in the interface *******************
+        R1_0.setSelected(false);
+        R1_1.setSelected(false);
+        R1_2.setSelected(false);
+        R1_3.setSelected(false);
+        R1_4.setSelected(false);
+        R1_5.setSelected(false);
+        R1_6.setSelected(false);
+        R1_7.setSelected(false);
+        R1_8.setSelected(false);
+        R1_9.setSelected(false);
+        R1_10.setSelected(false);
+        R1_11.setSelected(false);
+        R1_12.setSelected(false);
+        R1_13.setSelected(false);
+        R1_14.setSelected(false);
+        R1_15.setSelected(false);
+        R1_Textfield.setText("");
+
+        // ******************** reset R2 value in the interface *******************
+        R2_0.setSelected(false);
+        R2_1.setSelected(false);
+        R2_2.setSelected(false);
+        R2_3.setSelected(false);
+        R2_4.setSelected(false);
+        R2_5.setSelected(false);
+        R2_6.setSelected(false);
+        R2_7.setSelected(false);
+        R2_8.setSelected(false);
+        R2_9.setSelected(false);
+        R2_10.setSelected(false);
+        R2_11.setSelected(false);
+        R2_12.setSelected(false);
+        R2_13.setSelected(false);
+        R2_14.setSelected(false);
+        R2_15.setSelected(false);
+        R2_Textfield.setText("");
+
+        // ******************** reset R3 value in the interface *******************
+        R3_0.setSelected(false);
+        R3_1.setSelected(false);
+        R3_2.setSelected(false);
+        R3_3.setSelected(false);
+        R3_4.setSelected(false);
+        R3_5.setSelected(false);
+        R3_6.setSelected(false);
+        R3_7.setSelected(false);
+        R3_8.setSelected(false);
+        R3_9.setSelected(false);
+        R3_10.setSelected(false);
+        R3_11.setSelected(false);
+        R3_12.setSelected(false);
+        R3_13.setSelected(false);
+        R3_14.setSelected(false);
+        R3_15.setSelected(false);
+        R3_Textfield.setText("");
+
+        // ******************** reset index 1 value  in the interface *******************
+        I1_0.setSelected(false);
+        I1_1.setSelected(false);
+        I1_2.setSelected(false);
+        I1_3.setSelected(false);
+        I1_4.setSelected(false);
+        I1_5.setSelected(false);
+        I1_6.setSelected(false);
+        I1_7.setSelected(false);
+        I1_8.setSelected(false);
+        I1_9.setSelected(false);
+        I1_10.setSelected(false);
+        I1_11.setSelected(false);
+        I1_12.setSelected(false);
+        I1_13.setSelected(false);
+        I1_14.setSelected(false);
+        I1_15.setSelected(false);
+        I1_Textfield.setText("");
+
+        // ******************** reset index 2 value  in the interface *******************
+        I2_0.setSelected(false);
+        I2_1.setSelected(false);
+        I2_2.setSelected(false);
+        I2_3.setSelected(false);
+        I2_4.setSelected(false);
+        I2_5.setSelected(false);
+        I2_6.setSelected(false);
+        I2_7.setSelected(false);
+        I2_8.setSelected(false);
+        I2_9.setSelected(false);
+        I2_10.setSelected(false);
+        I2_11.setSelected(false);
+        I2_12.setSelected(false);
+        I2_13.setSelected(false);
+        I2_14.setSelected(false);
+        I2_15.setSelected(false);
+        I2_Textfield.setText("");
+        // ******************** reset index 3 value  in the interface *******************
+
+        I3_0.setSelected(false);
+        I3_1.setSelected(false);
+        I3_2.setSelected(false);
+        I3_3.setSelected(false);
+        I3_4.setSelected(false);
+        I3_5.setSelected(false);
+        I3_6.setSelected(false);
+        I3_7.setSelected(false);
+        I3_8.setSelected(false);
+        I3_9.setSelected(false);
+        I3_10.setSelected(false);
+        I3_11.setSelected(false);
+        I3_12.setSelected(false);
+        I3_13.setSelected(false);
+        I3_14.setSelected(false);
+        I3_15.setSelected(false);
+        I3_Textfield.setText("");
+        // ******************** reset pc value  in the interface *******************
+
+        pc_11.setSelected(false);
+        pc_10.setSelected(false);
+        pc_9.setSelected(false);
+        pc_8.setSelected(false);
+        pc_7.setSelected(false);
+        pc_6.setSelected(false);
+        pc_5.setSelected(false);
+        pc_4.setSelected(false);
+        pc_3.setSelected(false);
+        pc_2.setSelected(false);
+        pc_1.setSelected(false);
+        pc_0.setSelected(false);
+        pc_vlaue_textfield.setText("");
+
+        // ******************** reset address value  in the interface *******************
+        Address_textfield.setText("");
+
+        // ******************** reset the value in the  value field  in the interface *******************
+        value_txtbox.setText("");
+        // ******************** reset the immed in the interface *******************\
+        immed_textfield.setText("");
     }                                   
 
     private void Address_textfieldActionPerformed(java.awt.event.ActionEvent evt) {                                                  
