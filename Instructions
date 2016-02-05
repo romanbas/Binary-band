@@ -27,18 +27,43 @@ public class Instructions {
 	}
 	
 	public int[] getBinaryValue(int data){
-		int binary[] = new int[16];
-	     int index = 0;
-	     while(data > 0){
-	       binary[index++] = data%2;
-	       data = data/2;
-	     }
-	     for(int i = index-1;i >= 0;i--){
-	       System.out.print(binary[i]);
-	     }
-		return binary;
+			int binary[] = new int[16];
+		     int index = 0;
+		     while(data > 0){
+		       binary[index++] = data%2;
+		       data = data/2;
+		     }
+			return binary;
 	}
 
+	public static int getnegativedecimalvalue(int[] data){
+		int decimaldata = 0;
+		if(data[data.length-1] == 1){
+			System.out.println("negative");
+			for(int i = 0; i < data.length-1;i++){
+				decimaldata += data[i]*(Math.pow(2, i));//get memory address from pc
+			}
+			decimaldata = (int) (-(data[data.length-1]*(Math.pow(2, (data.length-1))))+ decimaldata);
+		}
+		else{
+			System.out.println("positive");
+			for(int i = 0; i < data.length-1;i++){
+			decimaldata += data[i]*(Math.pow(2, i));//get memory address from pc
+			}
+		}
+		return decimaldata;
+	}
+	
+	public static int[] getnegativeBinaryValue(int data){
+		int binary[] = new int[16];
+		String argument_binary = Integer.toBinaryString(data);
+		char []charBinary = argument_binary.toCharArray();
+		for(int i = 0; i < charBinary.length && i<binary.length; i++){
+			binary[i] = charBinary[charBinary.length-1-i] -'0';
+		}
+		return binary;
+	}
+	
 	public int[] fetchInstruction(){
 		//SM.memory[6]=31;
 		int InsAdd = 0;
@@ -256,6 +281,7 @@ public class Instructions {
 	}
 	
 	public void AMR(){
+		System.out.println("AMR");
 		int indexofR = R[0]+R[1]*2;
 		int r0 = getdecimalvalue(cp.R0.data);
 		int r1 = getdecimalvalue(cp.R1.data);
@@ -272,9 +298,15 @@ public class Instructions {
 		else if(indexofR==1) cp.R1.data = getBinaryValue(sum1);
 		else if(indexofR==2) cp.R2.data = getBinaryValue(sum2);
 		else if(indexofR==3) cp.R3.data = getBinaryValue(sum3);
+		
+		System.out.println("cp.R0.data"+getdecimalvalue(cp.R0.data));
+		System.out.println("cp.R1.data"+getdecimalvalue(cp.R1.data));
+		System.out.println("cp.R2.data"+getdecimalvalue(cp.R2.data));
+		System.out.println("cp.R3.data"+getdecimalvalue(cp.R3.data));
 	}
 	
 	public void SMR(){
+		System.out.println("SMR");
 		int indexofR = R[0]+R[1]*2;
 		int r0 = getdecimalvalue(cp.R0.data);
 		int r1 = getdecimalvalue(cp.R1.data);
@@ -292,9 +324,14 @@ public class Instructions {
 		else if(indexofR==2) cp.R2.data = getBinaryValue(sum2);
 		else if(indexofR==3) cp.R3.data = getBinaryValue(sum3);
 		
+		System.out.println("cp.R0.data "+getdecimalvalue(cp.R0.data));
+		System.out.println("cp.R1.data "+getdecimalvalue(cp.R1.data));
+		System.out.println("cp.R2.data "+getdecimalvalue(cp.R2.data));
+		System.out.println("cp.R3.data "+getdecimalvalue(cp.R3.data));
 	}
 	
 	public void AIR(int immed){
+		System.out.println("AIR");
 		if(immed == 0){}
 		else{
 		int indexofR = R[0]+R[1]*2;
@@ -311,25 +348,34 @@ public class Instructions {
 		else if(indexofR==2) cp.R2.data = getBinaryValue(sum2);
 		else if(indexofR==3) cp.R3.data = getBinaryValue(sum3);
 		}
+		System.out.println("cp.R0.data "+getdecimalvalue(cp.R0.data));
+		System.out.println("cp.R1.data "+getdecimalvalue(cp.R1.data));
+		System.out.println("cp.R2.data "+getdecimalvalue(cp.R2.data));
+		System.out.println("cp.R3.data "+getdecimalvalue(cp.R3.data));
 	}
 	
 	public void SIR(int immed){
+		System.out.println("SIR");
 		if(immed == 0){}
 		else{
 		int indexofR = R[0]+R[1]*2;
-		int r0 = getdecimalvalue(cp.R0.data);
-		int r1 = getdecimalvalue(cp.R1.data);
-		int r2 = getdecimalvalue(cp.R2.data);
-		int r3 = getdecimalvalue(cp.R3.data);
+		int r0 = getnegativedecimalvalue(cp.R0.data);
+		int r1 = getnegativedecimalvalue(cp.R1.data);
+		int r2 = getnegativedecimalvalue(cp.R2.data);
+		int r3 = getnegativedecimalvalue(cp.R3.data);
 		int sum0 = r0 - immed;
 		int sum1 = r1 - immed;
 		int sum2 = r2 - immed;
 		int sum3 = r3 - immed;
-		if(indexofR == 0)    cp.R0.data = getBinaryValue(sum0);
-		else if(indexofR==1) cp.R1.data = getBinaryValue(sum1);
-		else if(indexofR==2) cp.R2.data = getBinaryValue(sum2);
-		else if(indexofR==3) cp.R3.data = getBinaryValue(sum3);
+		if(indexofR == 0)    cp.R0.data = getnegativeBinaryValue(sum0);
+		else if(indexofR==1) cp.R1.data = getnegativeBinaryValue(sum1);
+		else if(indexofR==2) cp.R2.data = getnegativeBinaryValue(sum2);
+		else if(indexofR==3) cp.R3.data = getnegativeBinaryValue(sum3);
 		}
+		System.out.println("cp.R0.data "+getnegativedecimalvalue(cp.R0.data));
+		System.out.println("cp.R1.data "+getnegativedecimalvalue(cp.R1.data));
+		System.out.println("cp.R2.data "+getnegativedecimalvalue(cp.R2.data));
+		System.out.println("cp.R3.data "+getnegativedecimalvalue(cp.R3.data));
 	}
 	
 	public void excuteInstruction(){
