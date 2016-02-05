@@ -1689,16 +1689,16 @@ public class GUI_Arch extends javax.swing.JFrame {
         //************************************
         
         if (R1_Valu_set[0] == true) {
-            R1_1.setSelected(true);
+            R1_0.setSelected(true);
            
         } else {
-            R1_1.setSelected(false);
+            R1_0.setSelected(false);
         }
 
         if (R1_Valu_set[1] == true) {
-            R0_1.setSelected(true);
+            R1_1.setSelected(true);
         } else {
-            R0_1.setSelected(false);
+            R1_1.setSelected(false);
         }
 
         if (R1_Valu_set[2] == true) {
