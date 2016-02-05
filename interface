@@ -501,7 +501,7 @@ public class GUI_Arch extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(99, 99, 99)
                 .addComponent(DepositOnMemory)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(0, 132, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -590,7 +590,7 @@ public class GUI_Arch extends javax.swing.JFrame {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -625,54 +625,48 @@ public class GUI_Arch extends javax.swing.JFrame {
                         .addComponent(R0_1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(R0_0)
-                        .addGap(142, 142, 142)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(R0_value_lable1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(R0_Textfield, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton1))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(R1_15)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(R1_14)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(R1_13)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(R1_12)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(R1_11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(R1_10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(R1_9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(R1_8)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(R1_7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(R1_6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(R1_5)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(R1_4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(R1_3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(R1_2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(R1_1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(R1_0)
-                        .addGap(142, 142, 142)
-                        .addComponent(R1_value_lable1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(R1_Textfield, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(R1_15)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(R1_14)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(R1_13)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(R1_12)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(R1_11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(R1_10)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(R1_9)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(R1_8)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(R1_7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(R1_6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(R1_5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(R1_4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(R1_3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(R1_2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(R1_1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(R1_0))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel6)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -742,7 +736,13 @@ public class GUI_Arch extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(R3_0)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(R1_value_lable1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(R1_Textfield, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton2))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                                 .addComponent(R3_value_lable)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -755,17 +755,13 @@ public class GUI_Arch extends javax.swing.JFrame {
                                 .addComponent(R2_Textfield, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton3)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(17, 17, 17))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap(18, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(R0_Textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton1)
-                        .addComponent(R0_value_lable1))
                     .addComponent(R0_0)
                     .addComponent(R0_1)
                     .addComponent(R0_2)
@@ -784,7 +780,11 @@ public class GUI_Arch extends javax.swing.JFrame {
                         .addComponent(R0_15))
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(R0_5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(R0_6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(R0_6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(R0_Textfield, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jButton1)
+                        .addComponent(R0_value_lable1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -1009,7 +1009,7 @@ public class GUI_Arch extends javax.swing.JFrame {
                         .addComponent(I3_1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(I3_0)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 161, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1031,7 +1031,7 @@ public class GUI_Arch extends javax.swing.JFrame {
                         .addComponent(I3_Textfield, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton7)))
-                .addGap(28, 28, 28))
+                .addGap(35, 35, 35))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1196,11 +1196,11 @@ public class GUI_Arch extends javax.swing.JFrame {
                         .addComponent(R0_178)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(R0_179)))
-                .addGap(198, 198, 198)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton8)
                     .addComponent(jButton9))
@@ -1210,51 +1210,53 @@ public class GUI_Arch extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(9, 9, 9)
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(R0_163)
-                        .addComponent(R0_162)
-                        .addComponent(R0_161)
-                        .addComponent(R0_160)
-                        .addComponent(R0_159)
-                        .addComponent(R0_158)
-                        .addComponent(R0_157)
-                        .addComponent(R0_156)
-                        .addComponent(R0_155)
-                        .addComponent(R0_154)
-                        .addComponent(R0_153)
-                        .addComponent(R0_152)
-                        .addComponent(R0_151)
-                        .addComponent(R0_150)
-                        .addComponent(R0_149)
-                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel12)
-                            .addComponent(R0_148)))
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton8)))
-                .addGap(12, 12, 12)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jButton9))
-                    .addComponent(R0_179)
-                    .addComponent(R0_178)
-                    .addComponent(R0_177)
-                    .addComponent(R0_176)
-                    .addComponent(R0_175)
-                    .addComponent(R0_174)
-                    .addComponent(R0_173)
-                    .addComponent(R0_172)
-                    .addComponent(R0_171)
-                    .addComponent(R0_170)
-                    .addComponent(R0_169)
-                    .addComponent(R0_168)
-                    .addComponent(R0_167)
-                    .addComponent(R0_166)
-                    .addComponent(R0_165)
-                    .addComponent(R0_164)
-                    .addComponent(jLabel11))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jTextField9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(jTextField10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(R0_163)
+                                .addComponent(R0_162)
+                                .addComponent(R0_161)
+                                .addComponent(R0_160)
+                                .addComponent(R0_159)
+                                .addComponent(R0_158)
+                                .addComponent(R0_157)
+                                .addComponent(R0_156)
+                                .addComponent(R0_155)
+                                .addComponent(R0_154)
+                                .addComponent(R0_153)
+                                .addComponent(R0_152)
+                                .addComponent(R0_151)
+                                .addComponent(R0_150)
+                                .addComponent(R0_149)
+                                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel12)
+                                    .addComponent(R0_148)))
+                            .addComponent(jButton8))
+                        .addGap(12, 12, 12)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton9)
+                            .addComponent(R0_179)
+                            .addComponent(R0_178)
+                            .addComponent(R0_177)
+                            .addComponent(R0_176)
+                            .addComponent(R0_175)
+                            .addComponent(R0_174)
+                            .addComponent(R0_173)
+                            .addComponent(R0_172)
+                            .addComponent(R0_171)
+                            .addComponent(R0_170)
+                            .addComponent(R0_169)
+                            .addComponent(R0_168)
+                            .addComponent(R0_167)
+                            .addComponent(R0_166)
+                            .addComponent(R0_165)
+                            .addComponent(R0_164)
+                            .addComponent(jLabel11))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1332,13 +1334,13 @@ public class GUI_Arch extends javax.swing.JFrame {
                 .addComponent(pc_10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pc_11)
-                .addGap(261, 261, 261)
+                .addGap(327, 327, 327)
                 .addComponent(pc_value_lable)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pc_vlaue_textfield, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jButton10)
-                .addGap(109, 109, 109))
+                .addGap(43, 43, 43))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1423,11 +1425,11 @@ public class GUI_Arch extends javax.swing.JFrame {
                         .addGap(15, 15, 15))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 970, Short.MAX_VALUE)
+                            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 981, Short.MAX_VALUE)
                             .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addContainerGap(12, Short.MAX_VALUE))))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -1482,7 +1484,17 @@ public class GUI_Arch extends javax.swing.JFrame {
        instruct.excuteInstruction();
         int indexofR = instruct.R[0] + instruct.R[1] * 2;
         
-       R0_0.setSelected(false);
+       
+                     //*****************************************************
+                 
+                     //********************************************************
+                                    
+                     
+                     //***********************************************************
+                         
+                     
+        if (indexofR == 0) {
+            R0_0.setSelected(false);
        R0_1.setSelected(false);
         R0_2.setSelected(false);
          R0_3.setSelected(false);
@@ -1498,61 +1510,6 @@ public class GUI_Arch extends javax.swing.JFrame {
                    R0_13.setSelected(false);
                     R0_14.setSelected(false);
                      R0_15.setSelected(false);
-                     //*****************************************************
-                     
-                     R1_0.setSelected(false);
-       R1_1.setSelected(false);
-        R1_2.setSelected(false);
-         R1_3.setSelected(false);
-          R1_4.setSelected(false);
-           R1_5.setSelected(false);
-            R1_6.setSelected(false);
-             R1_7.setSelected(false);
-              R1_8.setSelected(false);
-               R1_9.setSelected(false);
-                R1_10.setSelected(false);
-                 R1_11.setSelected(false);
-                  R1_12.setSelected(false);
-                   R1_13.setSelected(false);
-                    R1_14.setSelected(false);
-                     R1_15.setSelected(false);
-                     //********************************************************
-                                    R2_0.setSelected(false);
-       R2_1.setSelected(false);
-        R2_2.setSelected(false);
-         R2_3.setSelected(false);
-          R2_4.setSelected(false);
-           R2_5.setSelected(false);
-            R2_6.setSelected(false);
-             R2_7.setSelected(false);
-              R2_8.setSelected(false);
-               R2_9.setSelected(false);
-                R2_10.setSelected(false);
-                 R2_11.setSelected(false);
-                  R2_12.setSelected(false);
-                   R2_13.setSelected(false);
-                    R2_14.setSelected(false);
-                     R2_15.setSelected(false);
-                     
-                     //***********************************************************
-                          R3_0.setSelected(false);
-       R3_1.setSelected(false);
-        R3_2.setSelected(false);
-         R3_3.setSelected(false);
-          R3_4.setSelected(false);
-           R3_5.setSelected(false);
-            R3_6.setSelected(false);
-             R3_7.setSelected(false);
-              R3_8.setSelected(false);
-               R3_9.setSelected(false);
-                R3_10.setSelected(false);
-                 R3_11.setSelected(false);
-                  R3_12.setSelected(false);
-                   R3_13.setSelected(false);
-                    R3_14.setSelected(false);
-                     R3_15.setSelected(false);
-                     
-        if (indexofR == 0) {
             int[] R0_data = instruct.cp.R0.data;
             for (int i = 0; i < R0_Valu_set.length; i++) {
             R0_Valu_set[i] = false;
@@ -1666,6 +1623,23 @@ public class GUI_Arch extends javax.swing.JFrame {
         
         else if(indexofR==1)
         {
+                
+                     R1_0.setSelected(false);
+       R1_1.setSelected(false);
+        R1_2.setSelected(false);
+         R1_3.setSelected(false);
+          R1_4.setSelected(false);
+           R1_5.setSelected(false);
+            R1_6.setSelected(false);
+             R1_7.setSelected(false);
+              R1_8.setSelected(false);
+               R1_9.setSelected(false);
+                R1_10.setSelected(false);
+                 R1_11.setSelected(false);
+                  R1_12.setSelected(false);
+                   R1_13.setSelected(false);
+                    R1_14.setSelected(false);
+                     R1_15.setSelected(false);
              int[] R1_data = instruct.cp.R1.data;
           
             for (int i = 0; i < R1_Valu_set.length; i++) {
@@ -1780,6 +1754,22 @@ public class GUI_Arch extends javax.swing.JFrame {
        //******************************************************************************************
         else if(indexofR==2) 
         {
+            R2_0.setSelected(false);
+       R2_1.setSelected(false);
+        R2_2.setSelected(false);
+         R2_3.setSelected(false);
+          R2_4.setSelected(false);
+           R2_5.setSelected(false);
+            R2_6.setSelected(false);
+             R2_7.setSelected(false);
+              R2_8.setSelected(false);
+               R2_9.setSelected(false);
+                R2_10.setSelected(false);
+                 R2_11.setSelected(false);
+                  R2_12.setSelected(false);
+                   R2_13.setSelected(false);
+                    R2_14.setSelected(false);
+                     R2_15.setSelected(false);
              int[] R2_data = instruct.cp.R2.data;
            
             
@@ -1893,6 +1883,22 @@ public class GUI_Arch extends javax.swing.JFrame {
         
         else if(indexofR==3)
         {
+             R3_0.setSelected(false);
+       R3_1.setSelected(false);
+        R3_2.setSelected(false);
+         R3_3.setSelected(false);
+          R3_4.setSelected(false);
+           R3_5.setSelected(false);
+            R3_6.setSelected(false);
+             R3_7.setSelected(false);
+              R3_8.setSelected(false);
+               R3_9.setSelected(false);
+                R3_10.setSelected(false);
+                 R3_11.setSelected(false);
+                  R3_12.setSelected(false);
+                   R3_13.setSelected(false);
+                    R3_14.setSelected(false);
+                     R3_15.setSelected(false);
              int[] R3_data = instruct.cp.R3.data;
           
             for (int i = 0; i < R3_Valu_set.length; i++) {
