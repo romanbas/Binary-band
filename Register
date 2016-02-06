@@ -13,10 +13,6 @@ public class Register {
 		this.data = new int[size];
 	}
 	
-	public int[] read(){
-		return data;
-	}
-	
 	public void write(int in[]){
 		for(int i=0;i<size;i++){
 			if(i<in.length)
