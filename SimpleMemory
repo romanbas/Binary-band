@@ -22,18 +22,4 @@ public class SimpleMemory {
 		}
             
         }
-	
-	public void acceptAddress(int MAR[]){
-		for(int i= 0; i < MAR.length; i++){//accept address
-			address += MAR[i]*(Math.pow(2, i));
-		}
-	}
-		
-	public void acceptValue(int MBR[]){//accept value from MBR
-		memory[address] = MBR;
-	}
-	
-	public void placeValue(int MBR[]){//place value from memory to MBR
-		MBR = memory[address];
-		}
 }
