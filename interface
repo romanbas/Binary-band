@@ -4,7 +4,10 @@
  * and open the template in the editor.
  */
 
-
+/**
+ *
+ * @author Roman
+ */
 public class GUI_Arch extends javax.swing.JFrame {
 
     /**
@@ -476,7 +479,7 @@ public class GUI_Arch extends javax.swing.JFrame {
             }
         });
 
-        DepositOnMemory.setText("Deposit on Memory");
+        DepositOnMemory.setText("Deposit in Memory");
         DepositOnMemory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 DepositOnMemoryActionPerformed(evt);
@@ -503,7 +506,7 @@ public class GUI_Arch extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(99, 99, 99)
                 .addComponent(DepositOnMemory)
-                .addGap(0, 132, Short.MAX_VALUE))
+                .addGap(0, 136, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1475,6 +1478,8 @@ public class GUI_Arch extends javax.swing.JFrame {
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24))
         );
+
+        getAccessibleContext().setAccessibleName("Computer system simulation ( Binary Band) ");
 
         pack();
     }// </editor-fold>                        
