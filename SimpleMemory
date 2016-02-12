@@ -1,25 +1,51 @@
 public class SimpleMemory {
-	public int memory[][] = new int[2048][16];
-	int address = 0;
-	int memoryValue[] = new int[16];	
+	//The simple memory is structured with one 2-D array,  with a size of 2048 by 16 bit; 
+	//where the 2048 space is allocated for the address, and the 16 bit is allocated for the value. 
+	Register MAR = new Register("MAR",16);//Memory Address Register
+	Register MBR = new Register("MBR",16);//Memory Buffer Register
 	
-	public  void setZero(){//IPL set to zero
+	public int memory[][] = new int[2048][16];	
+	
+	
+	
+	public int[] ReadFromMemory(int address) {
+		MAR.data = getBinaryValue(address);
+		MBR.data = memory[address];
+		return memory[address];
+	}
+	
+	public void WriteToMemory(int address, int [] array){
+        //"adress" is the PC decimal value
+        //"array" is bianry instructions array 
+		//from the interface
+        for(int i=0;i<memory[address].length;i++){
+		if(i<array.length)
+			memory[address][i] = array[i];
+		else
+			memory[address][i] = 0;
+	}
+        MAR.data = getBinaryValue(address);
+		MBR.data = memory[address];
+        
+	}
+
+	//IPL set to zero 
+	//	initialization of the memory array to all zeros
+	public  void setZero(){
 		for(int j = 0; j< memory.length; j++)
 		for(int i= 0; i < memory[j].length; i++){
 			memory[j][i] = 0;
 		}
 	}
-        
-        public void writeMemoryInstruction(int address, int [] array){
-            
-            //"adress" is the PC decimal value
-            //"array" is bianry instructions array from the interface
-            for(int i=0;i<memory[address].length;i++){
-			if(i<array.length)
-				memory[address][i] = array[i];
-			else
-				memory[address][i] = 0;
-		}
-            
-        }
+	
+	public int[] getBinaryValue(int data){//convert decimal value to binary
+			int binary[] = new int[16];
+		     int index = 0;
+		     while(data > 0){
+		       binary[index++] = data%2;
+		       data = data/2;
+		     }
+			return binary;
+	}
 }
+
