@@ -1,0 +1,9 @@
+public class CacheObject {
+	int valid = 0;
+	int tag[] = new int[10];
+	int offset[] = new int[2];
+	int Value0[] = new int[16];
+	int Value1[] = new int[16];
+	int Value2[] = new int[16];
+	int Value3[] = new int[16];
+}
