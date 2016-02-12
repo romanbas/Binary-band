@@ -1,0 +1,130 @@
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Vector;
+
+public class Cahce {
+	SimpleMemory MP = new SimpleMemory();
+	Vector<CacheObject> cache = new Vector<CacheObject>(16);
+	Queue<CacheObject> Cacheline = new LinkedList<CacheObject>();
+	
+	
+	public int[] writeToCache(int address){
+		//check if it is full and first in first out
+		if(cache.size()==16){
+			Cacheline.remove();
+			cache.removeElementAt(0);
+		}
+		int [] newValue = new int[16];
+		int [] Address = new int[12];
+		int [] tempAddress = new int[12];
+		Address = getBinaryValue(address);
+		int offset = Address[0]+Address[1]*2;
+		tempAddress = Address;
+		tempAddress[0] = 0;
+		tempAddress[1] = 0;
+		CacheObject cacheobject = new CacheObject();
+		for(int i = 0; i < cacheobject.tag[i]; i++){
+		cacheobject.tag[i] = Address[i+2];
+		}
+		cacheobject.offset[0] = Address[0];
+		cacheobject.offset[1] = Address[1];
+		cacheobject.valid = 1;
+		cacheobject.Value0 = MP.memory[getdecimalvalue(tempAddress)];
+		cacheobject.Value1 = MP.memory[getdecimalvalue(tempAddress)+1];
+		cacheobject.Value2 = MP.memory[getdecimalvalue(tempAddress)+2];
+		cacheobject.Value3 = MP.memory[getdecimalvalue(tempAddress)+3];
+		cache.add(cacheobject);
+		Cacheline.add(cacheobject);
+		if(offset == 0){
+			newValue = cacheobject.Value0;
+		}
+		else if(offset == 1){
+			newValue = cacheobject.Value1;
+		}
+		else if(offset == 2){
+			newValue = cacheobject.Value2;
+		}
+		else if(offset == 3){
+			newValue = cacheobject.Value3;
+		}
+		return newValue;
+	}
+	
+	public void readFromCacheToMP(int address){
+		CacheObject cacheobject = new CacheObject();
+		int[] tempTag = new int[10];
+		int[] Address = new int[12];
+		Address = getBinaryValue(address);
+		int offset = Address[0]+Address[1]*2;
+		for(int i = 0; i < tempTag[i]; i++){
+			tempTag[i] = Address[i+2];
+			}
+		for(int i=0; i < 16; i++){
+			cacheobject = cache.get(i);
+			if(cacheobject.tag == tempTag){//hit
+				if(offset == 0){
+					MP.memory[address] = cacheobject.Value0;
+				}
+				else if(offset == 1){
+					MP.memory[address] = cacheobject.Value1;
+				}
+				else if(offset == 2){
+					MP.memory[address] = cacheobject.Value2;
+				}
+				else if(offset == 3){
+					MP.memory[address] = cacheobject.Value3;
+				}
+				break;
+			}
+		}
+	}
+	
+	public int[] readFromCacheToCPU(int address){//have miss and hit thing
+		//for the hit 
+		CacheObject cacheobject = new CacheObject();
+		int[] tempTag = new int[10];
+		int[] Address = new int[12];
+		Address = getBinaryValue(address);
+		int offset = Address[0]+Address[1]*2;
+		for(int i = 0; i < tempTag[i]; i++){
+			tempTag[i] = Address[i+2];
+			}
+		for(int i=0; i < 16; i++){//hit
+			cacheobject = cache.get(i);
+			if(cacheobject.tag == tempTag){//hit
+				if(offset == 0){
+					return cacheobject.Value0;
+				}
+				else if(offset == 1){
+					return cacheobject.Value1;
+				}
+				else if(offset == 2){
+					return cacheobject.Value2;
+				}
+				else if(offset == 3){
+					return cacheobject.Value3;
+				}
+			}
+		}
+		//miss
+		return writeToCache(address);
+	}
+	
+	public int[] getBinaryValue(int data){//convert decimal value to binary
+		int binary[] = new int[16];
+	     int index = 0;
+	     while(data > 0){
+	       binary[index++] = data%2;
+	       data = data/2;
+	     }
+		return binary;
+		}
+	
+	public int getdecimalvalue(int[] data){//convert binary value to decimal
+		int decimaldata = 0;
+		for(int i = 0; i < data.length;i++){
+			decimaldata += data[i]*(Math.pow(2, i));
+		}
+		return decimaldata;
+	}
+}
