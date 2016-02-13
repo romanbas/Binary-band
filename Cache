@@ -8,7 +8,7 @@ public class Cahce {
 	Queue<CacheObject> Cacheline = new LinkedList<CacheObject>();
 	
 	
-	public int[] writeToCache(int address){
+	public int[] writeToCacheFromMemory(int address){
 		//check if it is full and first in first out
 		if(cache.size()==16){
 			Cacheline.remove();
@@ -79,6 +79,41 @@ public class Cahce {
 		}
 	}
 	
+	public int[] writeToCacheFromCPU(int address, int []data){
+		CacheObject cacheobject = new CacheObject();
+		int [] Address = new int[12];
+		int[] tempTag = new int[10];
+		Address = getBinaryValue(address);
+		int offset = Address[0]+Address[1]*2;
+		for(int i = 0; i < tempTag[i]; i++){
+			tempTag[i] = Address[i+2];
+			}
+		for(int i=0; i < cache.size(); i++){//hit
+			cacheobject = cache.get(i);
+			if(cacheobject.tag == tempTag){//hit
+				if(offset == 0){
+					cacheobject.Value0 = data;
+					return cacheobject.Value0;
+				}
+				else if(offset == 1){
+					cacheobject.Value1 = data;
+					return cacheobject.Value1;
+				}
+				else if(offset == 2){
+					cacheobject.Value2 = data;
+					return cacheobject.Value2;
+				}
+				else if(offset == 3){
+					cacheobject.Value3 = data;
+					return cacheobject.Value3;
+				}
+			}
+		}
+		writeToCacheFromMemory(address);
+		writeToCacheFromCPU(address,data);
+		return data;
+	}
+	
 	public int[] readFromCacheToCPU(int address){//have miss and hit thing
 		//for the hit 
 		CacheObject cacheobject = new CacheObject();
@@ -89,7 +124,7 @@ public class Cahce {
 		for(int i = 0; i < tempTag[i]; i++){
 			tempTag[i] = Address[i+2];
 			}
-		for(int i=0; i < 16; i++){//hit
+		for(int i=0; i < cache.size(); i++){//hit
 			cacheobject = cache.get(i);
 			if(cacheobject.tag == tempTag){//hit
 				if(offset == 0){
@@ -107,7 +142,7 @@ public class Cahce {
 			}
 		}
 		//miss
-		return writeToCache(address);
+		return writeToCacheFromMemory(address);
 	}
 	
 	public int[] getBinaryValue(int data){//convert decimal value to binary
