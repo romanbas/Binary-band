@@ -1,13 +1,138 @@
+import java.io.File;
+import java.util.Scanner;
+
 public class SimpleMemory {
 	//The simple memory is structured with one 2-D array,  with a size of 2048 by 16 bit; 
 	//where the 2048 space is allocated for the address, and the 16 bit is allocated for the value. 
 	Register MAR = new Register("MAR",16);//Memory Address Register
 	Register MBR = new Register("MBR",16);//Memory Buffer Register
 	
-	public int memory[][] = new int[2048][16];	
+	public int memory[][] = new int[2048][16];	//from address 512 to store instruction
+	protected int Opcode[] = new int[6];
+	protected int R[] = new int[2];
+	protected int IX[] = new int[2];
+	protected int I = 0;
+	protected int Instruction[] = new int[16];
+	protected int Address[] = new int[5];
+	protected int effectiveAdd = 0;
+	protected int immediate = 0;
+	protected  String[] instructionArray;
+	protected int addressCount = 512;
+	Cache cache = new Cache();
+	
+	public int getImmediate() {//Get immediate value to AIR method and SIR method
+		return immediate;
+	}
+
+	public void setImmediate(int immediate) {//set immediate value from interface
+		this.immediate = immediate;
+	}
+	
+	public void spilit(){
+	String ourFile = "input.txt";
+    Scanner inputFile = null;
+    try {
+        inputFile = new Scanner (new File (ourFile));
+        
+       while (inputFile.hasNextLine()) {
+           String lineScanner = inputFile.nextLine();
+           String[] instructionArray = lineScanner.split(",|\\ ");
+           
+           for (int i=0; i< instructionArray.length;i++){
+               System.out.println(i + " -- " + instructionArray[i]);
+           }
+           
+           decode();
+           WriteToMemory(addressCount,Instruction);
+           
+           addressCount++;
+       } 
+    }
+    catch (Exception e) {
+        System.out.println("error reading file");
+    }
+	}
+	
+	public void decode(){
+		switch (instructionArray[0]) {
+        case "LDR":  Opcode[0] = 1;//load register from memory
+                 break;
+        case "STR":  Opcode[1] = 1;//store register to memory
+                 break;
+        case "LDA": Opcode[0] = 1;//load register with address
+                    Opcode[1] = 1;
+                 break;
+        case "AMR": Opcode[2] = 1;//add memory to register
+                 break;
+        case "SMR":  Opcode[0] = 1;
+        		     Opcode[2] = 1;//subtract memory from register
+                 break;
+        case "AIR": Opcode[1] = 1;//add immediate to register
+                    Opcode[2] = 1;
+                 break;
+        case "SIR": Opcode[0] = 1;
+        	        Opcode[1] =  1;//subtract immediate from register
+        	        Opcode[2] = 1;
+                 break;
+        default: //fault
+                 break;
+    }	
+		switch(instructionArray[1]){
+		case "0": R[0] = 0;
+		          R[1] = 0;
+		          break;
+		case "1": R[0] = 1;
+		          R[1] = 0;
+                  break;   
+		case "2": R[0] = 0;
+                  R[1] = 1;
+                  break;
+		case "3": R[0] = 1;
+                  R[1] = 1;
+                  break;
+        default:
+        	break;
+		}
+		
+		switch(instructionArray[2]){
+		case "1": IX[0] = 1;
+		          IX[1] = 0;
+                  break;   
+		case "2": IX[0] = 0;
+                  IX[1] = 1;
+                  break;
+		case "3": IX[0] = 1;
+                  IX[1] = 1;
+                  break;
+        default:
+        	break;
+		}
+		
+		for (int j =0,i = instructionArray[3].length(); i >= 0; i--,j++) {
+			Address[j] = instructionArray[3].charAt(i)-'0';
+		}
+		I = instructionArray[4].charAt(0)-'0';
+		
+		Instruction[0] = Opcode[5]; 
+		Instruction[1] = Opcode[4]; 
+		Instruction[2] = Opcode[3]; 
+		Instruction[3] = Opcode[2]; 
+		Instruction[4] = Opcode[1]; 
+		Instruction[5] = Opcode[0]; 
+		Instruction[6] = R[1]; 
+		Instruction[7] = R[0]; 
+		Instruction[8] = IX[1];
+		Instruction[9] = IX[0];
+		Instruction[10] = I;
+		Instruction[11] = Address[4];
+		Instruction[12] = Address[3];
+		Instruction[13] = Address[2];
+		Instruction[14] = Address[1];
+		Instruction[15] = Address[0];
+	}
 	
 	
-	
+
 	public int[] ReadFromMemory(int address) {
 		MAR.data = getBinaryValue(address);
 		MBR.data = memory[address];
@@ -38,6 +163,14 @@ public class SimpleMemory {
 		}
 	}
 	
+	public int getdecimalvalue(int[] data){//convert binary value to decimal
+		int decimaldata = 0;
+		for(int i = 0; i < data.length;i++){
+			decimaldata += data[i]*(Math.pow(2, i));
+		}
+		return decimaldata;
+	}
+	
 	public int[] getBinaryValue(int data){//convert decimal value to binary
 			int binary[] = new int[16];
 		     int index = 0;
@@ -48,4 +181,5 @@ public class SimpleMemory {
 			return binary;
 	}
 }
+
 
