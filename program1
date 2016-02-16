@@ -1,0 +1,96 @@
+import java.io.*;
+import java.util.*;
+        
+public class program1  {
+    
+    public static void main(String[] args) throws IOException {
+        /*String ourFile = "input.txt";
+        Scanner inputFile = null;
+        
+        try {
+            //inputFile = new Scanner (new File (ourFile));
+            
+           while (inputFile.hasNextLine()) {
+               String lineScanner = inputFile.nextLine();
+               String[] randomNumbers = lineScanner.split(" ");
+               
+               int[] numbersIntary = new int[randomNumbers.length];
+               
+               for (int j=0; j<randomNumbers.length; j++){
+                   numbersIntary[j] = Integer.parseInt(randomNumbers[j]);
+               } */
+        
+                int[] numbersIntary = new int [20];
+                System.out.println("Enter any 20 random numbers between 0 and 65535");
+                Scanner userInputforRandom = new Scanner(System.in);
+                int n = 0;
+                for (int i=0; i<numbersIntary.length; i++){
+                      n = userInputforRandom.nextInt();
+                      if (n<0 || n> 65535){
+                          System.out.println("number is out of bound, start over with random 20 numbers!");
+                          break;
+                      }
+                      else {
+                          numbersIntary[i] = n;
+                      }
+                }
+               //sort the 20 random number in order
+               Arrays.sort(numbersIntary);
+               for (int i=0; i< numbersIntary.length;i++){
+                   //System.out.println(i + " -- " + numbersIntary[i]);
+               }
+               
+               SimpleMemory SM = new SimpleMemory();
+
+               //convert the 20 numbers to a binary value and write to memory at
+               // addresses 20 through 39
+               int cnt = 20;
+               for (int i=0; i<numbersIntary.length;i++){
+                   //System.out.println("i--" + i); 
+                   SM.WriteToMemory(cnt,SM.getBinaryValue(numbersIntary[i]));
+                   cnt++;
+               }
+            
+               //read from memory to verify 20 numbers were written to it
+               int[] returnsfrMem = new int [numbersIntary.length];
+               int[] decimalfrMem = new int [returnsfrMem.length];
+               int cnt2 = 0;
+               
+               for (int i = 20; i< 40;i++){
+                   returnsfrMem = SM.ReadFromMemory(i);
+                   for (int j=0; j< returnsfrMem.length;j++){
+                   //System.out.print(returnsfrMem[j]);
+                   }
+                   //System.out.print('\n');
+                   decimalfrMem[cnt2]=SM.getdecimalvalue(returnsfrMem);
+                   //System.out.print(decimalfrMem[cnt2]);
+                   cnt2++;
+               } 
+               
+            System.out.print('\n');   
+            System.out.println("Enter any number between 0 and 65535");
+            Scanner userInput = new Scanner(System.in);
+            int userNumber = userInput.nextInt();
+
+
+            
+            int distance = Math.abs(decimalfrMem[0] - userNumber);
+            int idx = 0;
+            for(int c = 1; c < decimalfrMem.length; c++){
+                int cdistance = Math.abs(decimalfrMem[c] - userNumber);
+                if(cdistance < distance){
+                    idx = c;
+                    distance = cdistance;
+                }
+            }
+            int theNumber = decimalfrMem[idx];
+            System.out.println("User entered " + userNumber);
+            System.out.println("Closest number in the array is " + theNumber);  
+            
+           /*} // end while loop   
+        }
+        catch (Exception e) {
+            System.out.println("error reading file");
+        }   */
+    } // end main
+} // end split class
