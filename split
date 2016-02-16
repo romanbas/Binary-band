@@ -1,0 +1,32 @@
+import java.io.*;
+import java.util.*;
+        
+public class split  {
+    
+    public static void main(String[] args) throws IOException {
+        String ourFile = "input.txt";
+        Scanner inputFile = null;
+        
+        try {
+            inputFile = new Scanner (new File (ourFile));
+            
+           while (inputFile.hasNextLine()) {
+               String lineScanner = inputFile.nextLine();
+               String[] instructionArray = lineScanner.split(",|\\ ");
+               
+               for (int i=0; i< instructionArray.length;i++){
+                   System.out.println(i + " -- " + instructionArray[i]);
+               }
+           }
+           
+           
+        }
+        catch (Exception e) {
+            System.out.println("error reading file");
+        }
+        
+        
+    } // end main
+    
+    
+} // end split class
