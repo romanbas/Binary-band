@@ -27,7 +27,7 @@ public class SimpleMemory {
 	           /*for (int i=0; i< instructionArray.length;i++){
 	               System.out.println(i + " -- " + instructionArray[i]);
 	           }*/
-	           decodeLoadAndStore();
+	           decode();
 	           WriteToMemory(addressCount,Instruction);
 	           addressCount++;
 	       } 
@@ -37,8 +37,34 @@ public class SimpleMemory {
 	    }
 		}
 	
+	public void decode(){
+		if (instructionArray[0] == "HLT")
+			decodeHalt();
+		
+		else if(instructionArray[0] == "TRAP")
+			decodeTRAP();
+		else if (instructionArray[0] == "LDR" || instructionArray[0] == "STR" || instructionArray[0] == "LDA" || instructionArray[0] == "JZ" || instructionArray[0] =="JNE" || instructionArray[0] == "SOB" || instructionArray[0] == "JGE" || instructionArray[0] == "AMR" || instructionArray[0] =="SMR")
+			decodeInstruction1();
+		else if(instructionArray[0] == "LDX" || instructionArray[0] =="STX")
+			decodeInstruction2();
+		
+		
+		
+	}
 	
-	public void decodeLoadAndStore(){
+	private void decodeTRAP() {
+	
+		
+	}
+
+	public void decodeHalt(){
+		
+	}
+	
+	
+	
+	
+	public void decodeInstruction1(){
 		switch (instructionArray[0]) {
         case "LDR":  Opcode[0] = 1;//load register from memory
         System.out.println("LDR");
@@ -121,6 +147,12 @@ public class SimpleMemory {
 		Instruction[14] = Address[1];
 		Instruction[15] = Address[0];
 	}
+	
+	private void decodeInstruction2() {
+		// TODO Auto-generated method stub
+		
+	}
+	
 
 	public int[] ReadFromMemory(int address) {
 		MAR.data = getBinaryValue(address);
