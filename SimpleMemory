@@ -40,18 +40,59 @@ public class SimpleMemory {
 	public void decode(){
 		if (instructionArray[0] == "HLT")
 			decodeHalt();
-		
 		else if(instructionArray[0] == "TRAP")
 			decodeTRAP();
 		else if (instructionArray[0] == "LDR" || instructionArray[0] == "STR" || instructionArray[0] == "LDA" || instructionArray[0] == "JZ" || instructionArray[0] =="JNE" || instructionArray[0] == "SOB" || instructionArray[0] == "JGE" || instructionArray[0] == "AMR" || instructionArray[0] =="SMR")
 			decodeInstruction1();
-		else if(instructionArray[0] == "LDX" || instructionArray[0] =="STX")
+		else if(instructionArray[0] == "LDX" || instructionArray[0] =="STX"|| instructionArray[0] == "JMA" || instructionArray[0]== "JSR")
 			decodeInstruction2();
-		
-		
-		
+		else if(instructionArray[0] == "JCC")
+			decodeInstruction3();
+		else if(instructionArray[0] == "RFS")
+			decodeInstruction4();
+		else if(instructionArray[0] == "AIR" || instructionArray[0] == "SIR")
+			decodeInstruction5();
+		else if(instructionArray[0] == "MLT" || instructionArray[0] == "DVD"||instructionArray[0] == "TRR" || instructionArray[0] == "AND"||instructionArray[0] == "ORR")
+			decodeRtoR1();
+		else if(instructionArray[0] == "NOT")
+			decodeR();
+		else if(instructionArray[0] == "SRC" || instructionArray[0] == "RRC")
+			decodeShiftAndRotate();
+		else if(instructionArray[0] == "IN" || instructionArray[0] == "OUT" || instructionArray[0] == "CHK" )
+			decodeIO();
 	}
 	
+
+	private void decodeIO() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void decodeShiftAndRotate() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void decodeR() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void decodeRtoR1() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void decodeInstruction5() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void decodeInstruction4() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	private void decodeTRAP() {
 	
 		
@@ -64,7 +105,7 @@ public class SimpleMemory {
 	
 	
 	
-	public void decodeInstruction1(){
+	private void decodeInstruction1(){
 		switch (instructionArray[0]) {
         case "LDR":  Opcode[0] = 1;//load register from memory
         System.out.println("LDR");
@@ -153,6 +194,10 @@ public class SimpleMemory {
 		
 	}
 	
+	private void decodeInstruction3() {
+		// TODO Auto-generated method stub
+		
+	}
 
 	public int[] ReadFromMemory(int address) {
 		MAR.data = getBinaryValue(address);
