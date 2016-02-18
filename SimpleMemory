@@ -6,47 +6,39 @@ public class SimpleMemory {
 	//where the 2048 space is allocated for the address, and the 16 bit is allocated for the value. 
 	Register MAR = new Register("MAR",16);//Memory Address Register
 	Register MBR = new Register("MBR",16);//Memory Buffer Register
-	
 	public static int memory[][] = new int[2048][16];	//from address 512 to store instruction
+	protected  String[] instructionArray;
+	protected int addressCount = 512;
 	protected int Opcode[] = new int[6];
 	protected int R[] = new int[2];
 	protected int IX[] = new int[2];
 	protected int I = 0;
 	protected int Instruction[] = new int[16];
 	protected int Address[] = new int[5];
-	protected int effectiveAdd = 0;
-	protected int immediate = 0;
-	protected  String[] instructionArray;
-	protected int addressCount = 512;
-	public int getImmediate() {//Get immediate value to AIR method and SIR method
-		return immediate;
-	}
-
-	public void setImmediate(int immediate) {//set immediate value from interface
-		this.immediate = immediate;
-	}
+	
 	
 	public void spilit(){
-    Scanner inputFile = null;
-    try {
-        inputFile = new Scanner (new File ("input"));
-       while (inputFile.hasNextLine()) {
-           String lineScanner = inputFile.nextLine();
-           instructionArray = lineScanner.split(",|\\ ");
-           /*for (int i=0; i< instructionArray.length;i++){
-               System.out.println(i + " -- " + instructionArray[i]);
-           }*/
-           decode();
-           WriteToMemory(addressCount,Instruction);
-           addressCount++;
-       } 
-    }
-    catch (Exception e) {
-        System.out.println("error reading file");
-    }
-	}
+	    Scanner inputFile = null;
+	    try {
+	        inputFile = new Scanner (new File ("input"));
+	       while (inputFile.hasNextLine()) {
+	           String lineScanner = inputFile.nextLine();
+	           instructionArray = lineScanner.split(",|\\ ");
+	           /*for (int i=0; i< instructionArray.length;i++){
+	               System.out.println(i + " -- " + instructionArray[i]);
+	           }*/
+	           decodeLoadAndStore();
+	           WriteToMemory(addressCount,Instruction);
+	           addressCount++;
+	       } 
+	    }
+	    catch (Exception e) {
+	        System.out.println("error reading file");
+	    }
+		}
 	
-	public void decode(){
+	
+	public void decodeLoadAndStore(){
 		switch (instructionArray[0]) {
         case "LDR":  Opcode[0] = 1;//load register from memory
         System.out.println("LDR");
@@ -129,8 +121,6 @@ public class SimpleMemory {
 		Instruction[14] = Address[1];
 		Instruction[15] = Address[0];
 	}
-	
-	
 
 	public int[] ReadFromMemory(int address) {
 		MAR.data = getBinaryValue(address);
@@ -145,12 +135,12 @@ public class SimpleMemory {
         for(int i=0;i<memory[address].length;i++){
 		if(i<array.length){
 			memory[address][i] = array[i];
-		System.out.print(memory[address][i]);
+		//System.out.print(memory[address][i]);
 		}
 		else
 			memory[address][i] = 0;
 	}
-        System.out.println(address);
+        //System.out.println(address);
         MAR.data = getBinaryValue(address);
 		MBR.data = memory[address];
         
