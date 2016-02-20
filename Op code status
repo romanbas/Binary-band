@@ -1,0 +1,39 @@
+op code status
+000
+036
+01 - done (phase 1)
+02 - done (phase 1)
+03 - done (phase 1)
+04 - done (phase 1)
+05 - done (phase 1)
+06 - done (phase 1)
+07 - done (phase 1)
+10
+11
+12
+13
+14
+15
+16
+17
+18
+20 - done (phase 2)
+21 - done (phase 2)
+22 - done (phase 2)
+23 - done (phase 2)
+24 - done (phase 2)
+25 - done (phase 2)
+31 - in progress (phase 2)
+32
+33
+34
+35
+36
+37
+41 - done (phase 1)
+42 - done (phase 1)
+50
+51
+61
+62
+63
