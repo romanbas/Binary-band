@@ -1,5 +1,6 @@
 public class CacheObject {
 	int valid = 0;
+	int dirtbit = 0;
 	int tag[] = new int[10];
 	int offset[] = new int[2];
 	int Value0[] = new int[16];
