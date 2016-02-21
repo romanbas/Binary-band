@@ -1,22 +1,37 @@
 public class Instructions {
+	CPU cp = new CPU();//object of CPU class
+	Cache cache = new Cache();//object of cache class
+	SimpleMemory SM = new SimpleMemory();
+	protected int effectiveAdd = 0;
 	protected int Opcode[] = new int[6];
 	protected int R[] = new int[2];
 	protected int IX[] = new int[2];
 	protected int I = 0;
+	protected int Rx[] = new int[2];
+	protected int Ry[] = new int[2];
+	protected int LR = 0;
+	protected int AL = 0;
+	protected int Count[] = new int[4];
+	protected int DevID[] = new int[5];
 	protected int Instruction[] = new int[16];
 	protected int Address[] = new int[5];
-	protected int effectiveAdd = 0;
-	protected int immediate = 0;
-	public int getImmediate() {//Get immediate value to AIR method and SIR method
-		return immediate;
-	}
-
+	protected int initialAddress = 512;
+	protected int immediate =0;
+	
 	public void setImmediate(int immediate) {//set immediate value from interface
 		this.immediate = immediate;
 	}
-
-	CPU cp = new CPU();//object of CPU class
-	SimpleMemory SM = new SimpleMemory();//object of simple memory class
+	
+	public void setPC(){
+		cp.setPC(getBinaryValue(initialAddress));
+	}
+	
+	public void decodecacheline(){
+		Instruction = cache.readFromCacheToCPU(cp.PC.data);
+		for(int i =0; i < Opcode.length; i++){//transfer  instruction to opcode
+			Opcode[Opcode.length-1-i] = Instruction[i];
+		}
+	}
 	
 	public int getdecimalvalue(int[] data){//convert binary value to decimal
 		int decimaldata = 0;
@@ -27,7 +42,7 @@ public class Instructions {
 	}
 	
 	public int[] getBinaryValue(int data){//convert decimal value to binary
-			int binary[] = new int[16];
+			int binary[] = new int[12];
 		     int index = 0;
 		     while(data > 0){
 		       binary[index++] = data%2;
@@ -63,40 +78,16 @@ public class Instructions {
 		return binary;
 	}
 	
-	//fetch instruction from the memory[address]
-	public int[] fetchInstruction(){
-		int InsAdd = 0;
-		int valueinside[] = new int[16];//=instruction
-		InsAdd = getInsAdd();
-		valueinside = SM.memory[InsAdd];
-                
-		return valueinside;
-}
-        
-	//get the next instruction address from PC
-        public int getInsAdd(){
-            int InsAdd = 0;
-            InsAdd = getdecimalvalue(cp.PC.data);
-            return InsAdd;
-        }
-      //decode the instruction to get opcode registerR-R3's index, registerX1-X3's index, I for in/direct address and address offset 
-	public void decodeInstruction(){
-		int InstructionContent[] = new int[16];
-		InstructionContent = fetchInstruction(); //fetch instruction from the memory[address]
-		for(int i =0; i < Opcode.length; i++){//transfer  instruction to opcode
-		Opcode[Opcode.length-1-i] = InstructionContent[i];
+	public static int[] getnegativeBinaryValue32(int data){
+		int binary[] = new int[32];
+		String argument_binary = Integer.toBinaryString(data);
+		char []charBinary = argument_binary.toCharArray();
+		for(int i = 0; i < charBinary.length && i<binary.length; i++){
+			binary[i] = charBinary[charBinary.length-1-i] -'0';
 		}
-		R[1] = InstructionContent[6];//index of general purpose register
-		R[0] = InstructionContent[7];
-		IX[1] = InstructionContent[8];//index of index register
-		IX[0] = InstructionContent[9];
-		I = InstructionContent[10];
-		for(int i =0; i < Address.length; i++){
-			Address[Address.length-1-i] = InstructionContent[i+11];
-			}
+		return binary;
 	}
 	
-	//calculate the direct address
 	public int calculateDirect(int Address[],int registerindex[]){
 		int sumAddress = 0;
 		int sumIndex = 0;
@@ -110,11 +101,9 @@ public class Instructions {
 	//calculate the indirect address
 	public int calculateInDirect(int Address[]){
 		int sumAddress = 0;
-		int indirectAddress[] = new int[16];
 		int sum = 0;
 		sumAddress = getdecimalvalue(Address);
-		indirectAddress = SM.memory[sumAddress];
-		sum = getdecimalvalue(indirectAddress);
+		sum = getdecimalvalue(cache.readFromCacheToCPU(getBinaryValue(sumAddress)));
 		return sum;
 	}
 
@@ -124,14 +113,23 @@ public class Instructions {
 		int sumIndex = 0;
 		int sum = 0;
 		sumAddress = getdecimalvalue(Address);
-		indirectAddress = getdecimalvalue(SM.memory[sumAddress]);
+		indirectAddress = getdecimalvalue(cache.readFromCacheToCPU(getBinaryValue(sumAddress)));
 		sumIndex = getdecimalvalue(registerindex);
 		sum = sumIndex + indirectAddress;
 		return sum;
 	}
-
-	//calculate the effective address
+	//calculate the direct address
+	
+	
 	public void EffectiveAddress(){
+		R[1] = Instruction[6];//index of general purpose register
+		R[0] = Instruction[7];
+		IX[1] = Instruction[8];//index of index register
+		IX[0] = Instruction[9];
+		I = Instruction[10];
+		for(int i =0; i < Address.length; i++){
+			Address[Address.length-1-i] = Instruction[i+11];
+			}
 		if(I == 0){//direct addressing
 			if(IX[0]==0 && IX[1]==0){
 					effectiveAdd = getdecimalvalue(Address);
@@ -165,16 +163,17 @@ public class Instructions {
 		}
 	}
 	
+	
 	public void LDR(){//Load register from memory  if opcode==01
+		EffectiveAddress();
 		System.out.println("LDR");
-		
 		int indexofR = R[0]+R[1]*2;
 		int contentofEA[] = new int[16];
 		int ccontentofEA[] = new int[16];
 		int addresscontentofEA = 0;
-		contentofEA = SM.memory[effectiveAdd];
+		contentofEA = cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
 		addresscontentofEA = getdecimalvalue(contentofEA);
-		ccontentofEA = SM.memory[addresscontentofEA];
+		ccontentofEA = cache.readFromCacheToCPU(getBinaryValue(addresscontentofEA));
 		if(I == 0){//I bit not set
 			if(indexofR == 0)     cp.R0.data = contentofEA;
 			else if(indexofR==1)  cp.R1.data = contentofEA;
@@ -190,38 +189,38 @@ public class Instructions {
 	}
 	
 	public void STR(){//store register to memory if opcode == 02
+		EffectiveAddress();
 		System.out.println("STR");
 		int indexofR = R[0]+R[1]*2;
 		int contentofEA[] = new int[16];
 		int concontentofEA[] = new int[16];
-		contentofEA = SM.memory[effectiveAdd];
 		int addresscontentofEA = 0;
+		contentofEA = cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
 		addresscontentofEA = getdecimalvalue(contentofEA);
-		concontentofEA = SM.memory[addresscontentofEA];
 		if(I == 0){//I bit not set
 			if(indexofR == 0)     contentofEA = cp.R0.data;
 			else if(indexofR==1)  contentofEA = cp.R1.data;
 			else if(indexofR==2)  contentofEA = cp.R2.data;
 			else if(indexofR==3)  contentofEA = cp.R3.data;
+			cache.writeToCacheFromCPU(effectiveAdd,contentofEA);
 		}
 		else{//I bit set
 			if(indexofR == 0)    concontentofEA = cp.R0.data;
 			else if(indexofR==1) concontentofEA = cp.R1.data;
 			else if(indexofR==2) concontentofEA = cp.R2.data;
 			else if(indexofR==3) concontentofEA = cp.R3.data;
+			cache.writeToCacheFromCPU(addresscontentofEA,concontentofEA);
 		}
-                System.out.println("Memory"+getdecimalvalue(contentofEA));
 	}
 	
 	public void LDA(){//load register with address opcode == 03
+		EffectiveAddress();
 		System.out.println("LDA");
-		
 		int indexofR = R[0]+R[1]*2;
 		int EA[] = new int[16];
 		EA = getBinaryValue(effectiveAdd);
 		int contentofEA[] = new int[16];
-		contentofEA = SM.memory[effectiveAdd];
-		
+		contentofEA = cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
 		if(I == 0){//I bit not set
 			if(indexofR == 0)     cp.R0.data = EA;
 			else if(indexofR==1)  cp.R1.data = EA;
@@ -237,30 +236,29 @@ public class Instructions {
 	}
 	
 	public void LDX(){//LOAD INDEX REGISTER FROM MEMORY if opcode == 41
+		EffectiveAddress();
 		System.out.println("LDX");
-		
 		int indexofX = IX[0]+IX[1]*2;
 		int contentofEA[] = new int[16];
-		contentofEA = SM.memory[effectiveAdd];
+		contentofEA = cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
 		if(indexofX==1)       cp.X1.data = contentofEA;
 		else if(indexofX==2)  cp.X2.data = contentofEA;
 		else if(indexofX==3)  cp.X3.data = contentofEA;
 	}
 	
 	public void STX(){//STORE INDEX REGISTER TO MEMORY if opcode == 42  
+		EffectiveAddress();
 		System.out.println("STX");
-		
 		int indexofX = IX[0]+IX[1]*2;
 		if(I == 0){
                     //DO NOTHING
 		}
 		else if(I==1){
 		int contentofEA[] = new int[16];
-		contentofEA = SM.memory[effectiveAdd];
 		if(indexofX==1)       contentofEA = cp.X1.data;
 		else if(indexofX==2)  contentofEA = cp.X2.data;
 		else if(indexofX==3)  contentofEA = cp.X3.data;
-                System.out.println("memory"+getdecimalvalue(contentofEA));
+		cache.writeToCacheFromCPU(effectiveAdd, contentofEA);
 		}
                 
 	}
@@ -274,7 +272,7 @@ public class Instructions {
 		int r2 = getdecimalvalue(cp.R2.data);
 		int r3 = getdecimalvalue(cp.R3.data);
 		int contentofEA[] = new int[16];
-		contentofEA = SM.memory[effectiveAdd];
+		contentofEA = cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
 		int decimalcontentofEA = getdecimalvalue(contentofEA);
 		int sum0 = r0 + decimalcontentofEA;
 		int sum1 = r1 + decimalcontentofEA;
@@ -295,7 +293,7 @@ public class Instructions {
 		int r2 = getnegativedecimalvalue(cp.R2.data);
 		int r3 = getnegativedecimalvalue(cp.R3.data);
 		int contentofEA[] = new int[16];
-		contentofEA = SM.memory[effectiveAdd];
+		contentofEA = cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
 		int decimalcontentofEA = getnegativedecimalvalue(contentofEA);
 		int sum0 = r0 - decimalcontentofEA;
 		int sum1 = r1 - decimalcontentofEA;
@@ -308,19 +306,20 @@ public class Instructions {
 	}
 	
 	//add immediate to register
-	public void AIR(int immed){
+	public void AIR(){
+		setImmediate(SM.immediate);
 		System.out.println("AIR");
-		if(immed == 0){}
+		if(immediate == 0){}
 		else{
 		int indexofR = R[0]+R[1]*2;
 		int r0 = getdecimalvalue(cp.R0.data);
 		int r1 = getdecimalvalue(cp.R1.data);
 		int r2 = getdecimalvalue(cp.R2.data);
 		int r3 = getdecimalvalue(cp.R3.data);
-		int sum0 = r0 + immed;
-		int sum1 = r1 + immed;
-		int sum2 = r2 + immed;
-		int sum3 = r3 + immed;
+		int sum0 = r0 + immediate;
+		int sum1 = r1 + immediate;
+		int sum2 = r2 + immediate;
+		int sum3 = r3 + immediate;
 		if(indexofR == 0)    cp.R0.data = getBinaryValue(sum0);
 		else if(indexofR==1) cp.R1.data = getBinaryValue(sum1);
 		else if(indexofR==2) cp.R2.data = getBinaryValue(sum2);
@@ -329,25 +328,281 @@ public class Instructions {
 	}
 	
 	//subtract immediate from register
-	public void SIR(int immed){
+	public void SIR(){
+		setImmediate(SM.immediate);
 		System.out.println("SIR");
-		if(immed == 0){}
+		if(immediate == 0){}
 		else{
 		int indexofR = R[0]+R[1]*2;
 		int r0 = getnegativedecimalvalue(cp.R0.data);
 		int r1 = getnegativedecimalvalue(cp.R1.data);
 		int r2 = getnegativedecimalvalue(cp.R2.data);
 		int r3 = getnegativedecimalvalue(cp.R3.data);
-		int sum0 = r0 - immed;
-		int sum1 = r1 - immed;
-		int sum2 = r2 - immed;
-		int sum3 = r3 - immed;
+		int sum0 = r0 - immediate;
+		int sum1 = r1 - immediate;
+		int sum2 = r2 - immediate;
+		int sum3 = r3 - immediate;
 		if(indexofR == 0)    cp.R0.data = getnegativeBinaryValue(sum0);
 		else if(indexofR==1) cp.R1.data = getnegativeBinaryValue(sum1);
 		else if(indexofR==2) cp.R2.data = getnegativeBinaryValue(sum2);
 		else if(indexofR==3) cp.R3.data = getnegativeBinaryValue(sum3);
 		}
 	}
+	 // op code 20 - multiply values at two registers
+    // set cc code OVERFLOW if there is overflow
+    public void MLT (int[] reg1, int[] reg2) {
+        System.out.println("MLT");  
+        int indexofR1 = reg1[0]+reg1[1]*2;
+        int indexofR2 = reg2[0]+reg2[1]*2;
+        int val1=0; int val2=0;
+        if (indexofR1 == 0){val1 = getnegativedecimalvalue(cp.R0.data);}
+        else if (indexofR1 == 2) {val1 = getnegativedecimalvalue(cp.R2.data);}
+        if (indexofR2 == 0){val2 = getnegativedecimalvalue(cp.R0.data);}
+        else if (indexofR2 == 2) {val2 = getnegativedecimalvalue(cp.R2.data);} 
+        int product = val1 * val2;
+        int resultReg1 [] = new int [16];
+        int resultReg2 [] = new int [16];
+        int[] result = getnegativeBinaryValue32(product);
+        for (int i=0; i<16;i++){ resultReg1[i] = result[i]; }
+        for (int i=16; i<32;i++){ resultReg2[i] = result[i]; }
+        if (indexofR1 == 0){
+                //fill the first register with upper bits and second register with lower 16 bits
+                int res1 = getnegativedecimalvalue(resultReg1);
+                cp.R0.data = getnegativeBinaryValue(res1);
+                int res2 = getnegativedecimalvalue(resultReg2);
+                cp.R1.data = getnegativeBinaryValue(res2);                    
+            }
+        else if (indexofR1 == 2){
+                int res1 = getnegativedecimalvalue(resultReg1);
+                cp.R2.data = getnegativeBinaryValue(res1);
+                int res2 = getnegativedecimalvalue(resultReg2);
+                cp.R3.data = getnegativeBinaryValue(res2);                     
+            } 
+        //in case of overflow
+        if (/*case1*/(val1 < 0 && val2 <0 && product < 0) || 
+                /*case2*/(val1<0 && val2>0 && product>0) || (val2<0 && val1>0 && product>0)
+                /*case3*/ || (val1 > 0 && val2 >0 && product < 0)) {
+            cp.CC.data[0] = 1; // set overflow cc to 1;    
+        }  else {
+            cp.CC.data[0] = 0; // set overflow cc to 0 since no overflow
+        }
+    } //end of MLT method    
+    
+	// op code 21
+    // divide register by register
+    public void DVD (int[] reg1, int[] reg2){
+        System.out.println("DVD");
+        int val1=0; int val2=0;
+        int indexofR1 = reg1[0]+reg1[1]*2;
+        int indexofR2 = reg2[0]+reg2[1]*2;
+        if (indexofR1 == 0){val1 = getnegativedecimalvalue(cp.R0.data);}
+        else if (indexofR1 == 2) {val1 = getnegativedecimalvalue(cp.R2.data);}    
+        if (indexofR2 == 0){val2 = getnegativedecimalvalue(cp.R0.data);}
+        else if (indexofR2 == 2) {val2 = getnegativedecimalvalue(cp.R2.data);}  
+        int quotient = val1 / val2; int remained = val1%val2;
+        if(indexofR1 == 0){ cp.R0.data = getnegativeBinaryValue(quotient);
+                            cp.R1.data = getnegativeBinaryValue(remained);}
+        else if(indexofR1 == 2){ cp.R2.data = getnegativeBinaryValue(quotient);
+                                 cp.R3.data = getnegativeBinaryValue(remained);}   
+        if (val2 ==0){cp.CC.data[2] = 1;} // if dividing by zero set the DIVZERO condition code
+        else {cp.CC.data[2] = 0;}
+    } // end DVD
+    
+    
+    // op code 22 - test equality of two registers
+    // if value are equal, set CC code EQUALORNOT to 1
+    public void TRR (int[] reg1, int[] reg2) {
+        System.out.println("TRR");
+        int val1=0; int val2=0;
+        int indexofR1 = reg1[0]+reg1[1]*2;
+        int indexofR2 = reg2[0]+reg2[1]*2;
+        if (indexofR1 == 0){val1 = getnegativedecimalvalue(cp.R0.data);}
+        else if (indexofR1 == 1) {val1 = getnegativedecimalvalue(cp.R1.data);}
+        else if (indexofR1 == 2) {val1 = getnegativedecimalvalue(cp.R2.data);}
+        else if (indexofR1 == 3) {val1 = getnegativedecimalvalue(cp.R3.data);}
+        if (indexofR2 == 0){val2 = getnegativedecimalvalue(cp.R0.data);}
+        else if (indexofR2 == 1) {val2 = getnegativedecimalvalue(cp.R1.data);}
+        else if (indexofR2 == 2) {val2 = getnegativedecimalvalue(cp.R2.data);}
+        else if (indexofR2 == 3) {val2 = getnegativedecimalvalue(cp.R3.data);}            
+        if (val1 == val2) {cp.CC.data[3] = 1;}
+        else {cp.CC.data[3] = 0;}
+    } // end 
+
+    // op code 23
+    public void AND (int[] reg1, int[] reg2) {
+        System.out.println("AND");
+        int val1=0; int val2=0; int sum0 = 0; int sum1= 1;
+        int indexofR1 = reg1[0]+reg1[1]*2;
+        int indexofR2 = reg2[0]+reg2[1]*2;
+        if (indexofR1 == 0){val1 = getnegativedecimalvalue(cp.R0.data);}
+        else if (indexofR1 == 1) {val1 = getnegativedecimalvalue(cp.R1.data);}
+        else if (indexofR1 == 2) {val1 = getnegativedecimalvalue(cp.R2.data);}
+        else if (indexofR1 == 3) {val1 = getnegativedecimalvalue(cp.R3.data);}
+        if (indexofR2 == 0){val2 = getnegativedecimalvalue(cp.R0.data);}
+        else if (indexofR2 == 1) {val2 = getnegativedecimalvalue(cp.R1.data);}
+        else if (indexofR2 == 2) {val2 = getnegativedecimalvalue(cp.R2.data);}
+        else if (indexofR2 == 3) {val2 = getnegativedecimalvalue(cp.R3.data);}  
+        //check for non zero values at both registers
+        if (val1!=0 && val2!=0) {
+            if(indexofR1 == 0)    cp.R0.data = getnegativeBinaryValue(sum1);
+	else if(indexofR1==1) cp.R1.data = getnegativeBinaryValue(sum1);
+	else if(indexofR1==2) cp.R2.data = getnegativeBinaryValue(sum1);
+	else if(indexofR1==3) cp.R3.data = getnegativeBinaryValue(sum1);
+        } else {
+            if(indexofR1 == 0)    cp.R0.data = getnegativeBinaryValue(sum0);
+	else if(indexofR1==1) cp.R1.data = getnegativeBinaryValue(sum0);
+	else if(indexofR1==2) cp.R2.data = getnegativeBinaryValue(sum0);
+	else if(indexofR1==3) cp.R3.data = getnegativeBinaryValue(sum0);                
+        }
+    } // end AND
+    
+    // op code 24
+    public void ORR (int[] reg1, int[] reg2) {
+        System.out.println("ORR");
+        int val1=0; int val2=0; int sum0 = 0; int sum1= 1;
+        int indexofR1 = reg1[0]+reg1[1]*2;
+        int indexofR2 = reg2[0]+reg2[1]*2;
+        if (indexofR1 == 0){val1 = getnegativedecimalvalue(cp.R0.data);}
+        else if (indexofR1 == 1) {val1 = getnegativedecimalvalue(cp.R1.data);}
+        else if (indexofR1 == 2) {val1 = getnegativedecimalvalue(cp.R2.data);}
+        else if (indexofR1 == 3) {val1 = getnegativedecimalvalue(cp.R3.data);}
+        if (indexofR2 == 0){val2 = getnegativedecimalvalue(cp.R0.data);}
+        else if (indexofR2 == 1) {val2 = getnegativedecimalvalue(cp.R1.data);}
+        else if (indexofR2 == 2) {val2 = getnegativedecimalvalue(cp.R2.data);}
+        else if (indexofR2 == 3) {val2 = getnegativedecimalvalue(cp.R3.data);}  
+        //check if values at both registers are equal to zero
+        if (val1==0 && val2==0) {
+            if(indexofR1 == 0)    cp.R0.data = getnegativeBinaryValue(sum0);
+	else if(indexofR1==1) cp.R1.data = getnegativeBinaryValue(sum0);
+	else if(indexofR1==2) cp.R2.data = getnegativeBinaryValue(sum0);
+	else if(indexofR1==3) cp.R3.data = getnegativeBinaryValue(sum0);
+        } else {
+            if(indexofR1 == 0)    cp.R0.data = getnegativeBinaryValue(sum1);
+	else if(indexofR1==1) cp.R1.data = getnegativeBinaryValue(sum1);
+	else if(indexofR1==2) cp.R2.data = getnegativeBinaryValue(sum1);
+	else if(indexofR1==3) cp.R3.data = getnegativeBinaryValue(sum1);                
+        }
+    } // end ORR
+    
+    //opo code 25, logical not of value at register
+    public void NOT (){
+        System.out.println("NOT");
+        int val1=0; int sum0 = 0; int sum1 = 1;
+        int indexofR = R[0]+R[1]*2;
+        if (indexofR == 0){val1 = getnegativedecimalvalue(cp.R0.data);}
+        else if (indexofR == 1) {val1 = getnegativedecimalvalue(cp.R1.data);}
+        else if (indexofR == 2) {val1 = getnegativedecimalvalue(cp.R2.data);}
+        else if (indexofR == 3) {val1 = getnegativedecimalvalue(cp.R3.data);}
+        // if value at reg is zero, set reg = 1
+        if (val1 == 0){
+            if(indexofR == 0)    cp.R0.data = getnegativeBinaryValue(sum1);
+	else if(indexofR==1) cp.R1.data = getnegativeBinaryValue(sum1);
+	else if(indexofR==2) cp.R2.data = getnegativeBinaryValue(sum1);
+	else if(indexofR==3) cp.R3.data = getnegativeBinaryValue(sum1);
+        } else {
+            // if value at reg is anything BUT zero, set reg = 0
+            if(indexofR == 0)    cp.R0.data = getnegativeBinaryValue(sum0);
+	else if(indexofR==1) cp.R1.data = getnegativeBinaryValue(sum0);
+	else if(indexofR==2) cp.R2.data = getnegativeBinaryValue(sum0);
+	else if(indexofR==3) cp.R3.data = getnegativeBinaryValue(sum0);
+        }
+    } // end NOT
+    
+    //opo code 31, shift register by count
+    public void SRC (int[] reg, int[] count, int LR, int AL){
+        System.out.println("SRC");
+        int indexofR = R[0]+R[1]*2; int val1[]= new int [16]; 
+        int valofCount = getnegativedecimalvalue(count); 
+        if (indexofR == 0){val1 = cp.R0.data;}
+        else if (indexofR == 1) {val1 = cp.R1.data;}
+        else if (indexofR == 2) {val1 = cp.R2.data;}
+        else if (indexofR == 3) {val1 = cp.R3.data;}
+        //LR=0 and AL =0 -> right arithmetic shift
+        if (LR==0 && AL==0){
+            int temp = 0;
+            for (int i=valofCount;i<=val1.length-1;i++){
+                temp = val1[i]; 
+                val1[i-valofCount] = temp;}
+            for (int i=val1.length-valofCount; i<val1.length; i++){
+                if (val1[0]==0){val1[i]=0;}
+                else {val1[i]=1;}
+            }
+            if(indexofR == 0)    cp.R0.data = val1;
+	else if(indexofR==1) cp.R1.data = val1;
+	else if(indexofR==2) cp.R2.data = val1;
+	else if(indexofR==3) cp.R3.data = val1;
+        } // end of right arithmetic
+        //LR=0 and AL =1 -> right logical shift
+        else if (LR==0 && AL==1){
+            int temp = 0;
+            for (int i=valofCount;i<=val1.length-1;i++){
+                temp = val1[i]; 
+                val1[i-valofCount] = temp;}
+            for (int i=val1.length-valofCount; i<val1.length; i++){
+                val1[i]=0;
+            }
+            if(indexofR == 0)    cp.R0.data = val1;
+	else if(indexofR==1) cp.R1.data = val1;
+	else if(indexofR==2) cp.R2.data = val1;
+	else if(indexofR==3) cp.R3.data = val1;
+        } // end of right logical
+        //LR=1 & AL=0 || LR=1 & AL=1 -> left sift
+        else if ((LR==1 && AL==0) || (LR==1 && AL==1)){
+            int temp = 0;
+            for (int i=val1.length-valofCount-1;i>=0;i--){
+                temp = val1[i]; 
+                val1[i+valofCount] = temp;}
+            for (int i=0; i<valofCount; i++){
+                val1[i]=0; }
+            if(indexofR == 0)    cp.R0.data = val1;
+	else if(indexofR==1) cp.R1.data = val1;
+	else if(indexofR==2) cp.R2.data = val1;
+	else if(indexofR==3) cp.R3.data = val1;
+        }
+    } // end SRC
+    
+    //opo code 32, rotate register by count
+    public void RRC (int[] reg, int[] count, int LR, int AL){
+        System.out.println("RRC");
+        int indexofR = R[0]+R[1]*2; int val1[]= new int [16]; 
+        int valofCount = getnegativedecimalvalue(count); 
+        if (indexofR == 0){val1 = cp.R0.data;}
+        else if (indexofR == 1) {val1 = cp.R1.data;}
+        else if (indexofR == 2) {val1 = cp.R2.data;}
+        else if (indexofR == 3) {val1 = cp.R3.data;}
+        // if LR=0, right rotate
+        if (LR==0 && AL==1){
+            int y = 0; int z =0; int temp[] = new int [valofCount]; 
+            //store the values of val1 array that will be overwritten during the shift
+            for (int i=0;i<valofCount;i++){ temp[i] = val1[i]; }
+            //shift the val1 array
+            for (int i=valofCount; i<=val1.length-1;i++){z = val1[i]; val1[i-valofCount] = z;}
+            //add the values to complete the circular roation
+            for (int i= val1.length-valofCount; i<val1.length;i++){val1[i] = temp[y]; y++;}
+            if(indexofR == 0)    cp.R0.data = val1;
+	else if(indexofR==1) cp.R1.data = val1;
+	else if(indexofR==2) cp.R2.data = val1;
+	else if(indexofR==3) cp.R3.data = val1;
+        } // end right rotate
+        // if LR=0, left rotate
+        else if (LR==1 && AL==1){
+            int y = 0; int z =0; int temp[] = new int [valofCount]; 
+            //store the values of val1 array that will be overwritten during the shift
+            for (int i=val1.length-valofCount;i<val1.length;i++){temp[y] = val1[i]; y++;}
+            //shift the val1 array
+            for (int i=val1.length-valofCount-1; i>=0;i--){ z = val1[i]; val1[i+valofCount] = z;}
+            //add the values to complete the circular roation
+            for (int i=0; i<valofCount;i++){val1[i] = temp[i]; } 
+            if(indexofR == 0)    cp.R0.data = val1;
+	else if(indexofR==1) cp.R1.data = val1;
+	else if(indexofR==2) cp.R2.data = val1;
+	else if(indexofR==3) cp.R3.data = val1;
+        } // end of left shift
+    } // end RRC
+	
+	
+	
+	
 	
 	public void excuteInstruction(){ //execute the instruction based on what opcode is 
 		switch (getdecimalvalue(Opcode)) {
@@ -361,9 +616,9 @@ public class Instructions {
                  break;
         case 5:  SMR();//subtract memory from register
                  break;
-        case 6:  AIR(getImmediate());//add immediate to register
+        case 6:  AIR();//add immediate to register
                  break;
-        case 7:  SIR(getImmediate());//subtract immediate from register
+        case 7:  SIR();//subtract immediate from register
                  break;
         case 41: LDX();//load index register to memory
                  break;
@@ -371,7 +626,6 @@ public class Instructions {
                  break;
         default: //fault
                  break;
-    }
-		
+    }	
 	}
 }
