@@ -5,6 +5,7 @@ public class Instructions {
 	protected int effectiveAdd = 0;
 	protected int Opcode[] = new int[6];
 	protected int R[] = new int[2];
+	protected int CC[] = new int[2];
 	protected int IX[] = new int[2];
 	protected int I = 0;
 	protected int Rx[] = new int[2];
@@ -13,7 +14,6 @@ public class Instructions {
 	protected int AL = 0;
 	protected int Count[] = new int[4];
 	protected int DevID[] = new int[5];
-	protected int Instruction[] = new int[16];
 	protected int Address[] = new int[5];
 	protected int initialAddress = 512;
 	protected int immediate =0;
@@ -27,10 +27,17 @@ public class Instructions {
 	}
 	
 	public void decodecacheline(){
-		Instruction = cache.readFromCacheToCPU(cp.PC.data);
+		cp.IR.data = cache.readFromCacheToCPU(cp.PC.data);
 		for(int i =0; i < Opcode.length; i++){//transfer  instruction to opcode
-			Opcode[Opcode.length-1-i] = Instruction[i];
+			Opcode[Opcode.length-1-i] = cp.IR.data[i];
 		}
+	}
+	
+	public void decodeRtoR(){
+		Rx[1] = cp.IR.data[6];
+		Rx[0] = cp.IR.data[7];
+		Ry[1] = cp.IR.data[8];
+		Ry[1] = cp.IR.data[9];
 	}
 	
 	public int getdecimalvalue(int[] data){//convert binary value to decimal
@@ -122,13 +129,13 @@ public class Instructions {
 	
 	
 	public void EffectiveAddress(){
-		R[1] = Instruction[6];//index of general purpose register
-		R[0] = Instruction[7];
-		IX[1] = Instruction[8];//index of index register
-		IX[0] = Instruction[9];
-		I = Instruction[10];
+		R[1] = cp.IR.data[6];//index of general purpose register
+		R[0] = cp.IR.data[7];
+		IX[1] = cp.IR.data[8];//index of index register
+		IX[0] = cp.IR.data[9];
+		I = cp.IR.data[10];
 		for(int i =0; i < Address.length; i++){
-			Address[Address.length-1-i] = Instruction[i+11];
+			Address[Address.length-1-i] = cp.IR.data[i+11];
 			}
 		if(I == 0){//direct addressing
 			if(IX[0]==0 && IX[1]==0){
@@ -186,6 +193,7 @@ public class Instructions {
 			else if(indexofR==2) cp.R2.data = ccontentofEA;
 			else if(indexofR==3) cp.R3.data = ccontentofEA;
 		}
+		cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
 	}
 	
 	public void STR(){//store register to memory if opcode == 02
@@ -211,6 +219,7 @@ public class Instructions {
 			else if(indexofR==3) concontentofEA = cp.R3.data;
 			cache.writeToCacheFromCPU(addresscontentofEA,concontentofEA);
 		}
+		cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
 	}
 	
 	public void LDA(){//load register with address opcode == 03
@@ -233,6 +242,7 @@ public class Instructions {
 			else if(indexofR==2) cp.R2.data = contentofEA;
 			else if(indexofR==3) cp.R3.data = contentofEA;
 		}
+		cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
 	}
 	
 	public void LDX(){//LOAD INDEX REGISTER FROM MEMORY if opcode == 41
@@ -244,6 +254,7 @@ public class Instructions {
 		if(indexofX==1)       cp.X1.data = contentofEA;
 		else if(indexofX==2)  cp.X2.data = contentofEA;
 		else if(indexofX==3)  cp.X3.data = contentofEA;
+		cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
 	}
 	
 	public void STX(){//STORE INDEX REGISTER TO MEMORY if opcode == 42  
@@ -260,7 +271,239 @@ public class Instructions {
 		else if(indexofX==3)  contentofEA = cp.X3.data;
 		cache.writeToCacheFromCPU(effectiveAdd, contentofEA);
 		}
-                
+		cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
+	}
+	
+	public void JZ(){//JUMP IF ZERO
+		EffectiveAddress();
+		int indexofR = R[0]+R[1]*2;
+		int EA[] = new int[16];
+		EA = getBinaryValue(effectiveAdd);
+		int contentofEA[] = new int[16];
+		contentofEA = cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
+		if(I == 0){//I bit not set
+			if(indexofR == 0 && getdecimalvalue(cp.R0.data)==0)     
+				cp.PC.data = EA;
+			else if(indexofR==1 && getdecimalvalue(cp.R1.data)==0)  
+				cp.PC.data = EA;
+			else if(indexofR==2 && getdecimalvalue(cp.R2.data)==0) 
+				cp.PC.data = EA;
+			else if(indexofR==3 && getdecimalvalue(cp.R0.data)==0)  
+				cp.PC.data = EA;
+			else 
+				cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
+		}
+		else if(I ==1){//I bit set
+			if(indexofR == 0 && getdecimalvalue(cp.R0.data)==0)     
+				cp.PC.data = contentofEA;
+			else if(indexofR==1 && getdecimalvalue(cp.R1.data)==0)  
+				cp.PC.data = contentofEA;
+			else if(indexofR==2 && getdecimalvalue(cp.R2.data)==0) 
+				cp.PC.data = contentofEA;
+			else if(indexofR==3 && getdecimalvalue(cp.R0.data)==0)  
+				cp.PC.data = contentofEA;
+			else 
+				cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
+		}
+	}
+	
+	public void JNE(){//JUMP IF NOT EQUAL
+		EffectiveAddress();
+		int indexofR = R[0]+R[1]*2;
+		int EA[] = new int[16];
+		EA = getBinaryValue(effectiveAdd);
+		int contentofEA[] = new int[16];
+		contentofEA = cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
+		if(I == 0){//I bit not set
+			if(indexofR == 0 && getdecimalvalue(cp.R0.data) !=0)     
+				cp.PC.data = EA;
+			else if(indexofR==1 && getdecimalvalue(cp.R1.data) != 0)  
+				cp.PC.data = EA;
+			else if(indexofR==2 && getdecimalvalue(cp.R2.data) !=0) 
+				cp.PC.data = EA;
+			else if(indexofR==3 && getdecimalvalue(cp.R0.data) !=0)  
+				cp.PC.data = EA;
+			else 
+				cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
+		}
+		else if(I ==1){//I bit set
+			if(indexofR == 0 && getdecimalvalue(cp.R0.data) !=0)     
+				cp.PC.data = contentofEA;
+			else if(indexofR==1 && getdecimalvalue(cp.R1.data) !=0)  
+				cp.PC.data = contentofEA;
+			else if(indexofR==2 && getdecimalvalue(cp.R2.data) !=0) 
+				cp.PC.data = contentofEA;
+			else if(indexofR==3 && getdecimalvalue(cp.R0.data) !=0)  
+				cp.PC.data = contentofEA;
+			else 
+				cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
+		}
+	}
+	
+	public void JCC(){//JUMP IF CONFITION CODE
+		EffectiveAddress();
+		 CC[1] = cp.IR.data[6];
+	     CC[0] = cp.IR.data[7];
+		int indexofC = R[0]+R[1]*2;
+		int EA[] = new int[16];
+		EA = getBinaryValue(effectiveAdd);
+		int contentofEA[] = new int[16];
+		contentofEA = cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
+		if(I == 0){//I bit not set
+			if(indexofC==1)  
+				cp.PC.data = EA;
+			else 
+				cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
+		}
+		else if(I ==1){//I bit set
+			if(indexofC==1)  
+				cp.PC.data = contentofEA;
+			else 
+				cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
+		}
+		
+	}
+	
+	public void JMA(){//unconditional jump to address
+		EffectiveAddress();
+		int EA[] = new int[16];
+		EA = getBinaryValue(effectiveAdd);
+		int contentofEA[] = new int[16];
+		contentofEA = cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
+		if(I == 0){//I bit not set
+				cp.PC.data = EA;
+		}
+		else if(I ==1){//I bit set  
+				cp.PC.data = contentofEA;
+		}
+		cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
+	}
+	
+	public void JSR(){//jump and save return address
+		EffectiveAddress();
+		int EA[] = new int[16];
+		EA = getBinaryValue(effectiveAdd);
+		int contentofEA[] = new int[16];
+		contentofEA = cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
+		cp.R3.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
+		if(I == 0)
+		cp.PC.data = EA;
+		else
+			cp.PC.data = contentofEA;
+		//R0 should contain pointer to arguments
+	}
+	
+	public void RFS(){
+		EffectiveAddress();
+		setImmediate(SM.immediate);
+		cp.R0.data = getBinaryValue(immediate);
+		cp.PC.data = cp.R3.data;
+	}
+	
+	public void SOB(){
+		EffectiveAddress();
+		int indexofR = R[0]+R[1]*2;
+		int EA[] = new int[16];
+		EA = getBinaryValue(effectiveAdd);
+		int contentofEA[] = new int[16];
+		contentofEA = cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
+		if(I == 0){//I bit not set
+			if(indexofR == 0){     
+				cp.R0.data = getnegativeBinaryValue(getnegativedecimalvalue(cp.R0.data)-1);
+				if(getnegativedecimalvalue(cp.R0.data)>0)
+			    cp.PC.data = EA;
+			}
+			else if(indexofR==1)  {
+				cp.R1.data = getnegativeBinaryValue(getnegativedecimalvalue(cp.R1.data)-1);
+				if(getnegativedecimalvalue(cp.R1.data)>0)
+				    cp.PC.data = EA;
+			}
+			else if(indexofR==2) {
+				cp.R2.data = getnegativeBinaryValue(getnegativedecimalvalue(cp.R2.data)-1);
+				if(getnegativedecimalvalue(cp.R2.data)>0)
+				    cp.PC.data = EA;
+			}
+			else if(indexofR==3)  {
+				cp.R3.data = getnegativeBinaryValue(getnegativedecimalvalue(cp.R3.data)-1);
+				if(getnegativedecimalvalue(cp.R3.data)>0)
+				    cp.PC.data = EA;
+			}
+			else
+				cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
+		}
+		else{//I bit set
+			if(indexofR == 0){     
+				cp.R0.data = getnegativeBinaryValue(getnegativedecimalvalue(cp.R0.data)-1);
+				if(getnegativedecimalvalue(cp.R0.data)>0)
+			    cp.PC.data = contentofEA;
+			}
+			else if(indexofR==1)  {
+				cp.R1.data = getnegativeBinaryValue(getnegativedecimalvalue(cp.R1.data)-1);
+				if(getnegativedecimalvalue(cp.R1.data)>0)
+				    cp.PC.data = contentofEA;
+			}
+			else if(indexofR==2) {
+				cp.R2.data = getnegativeBinaryValue(getnegativedecimalvalue(cp.R2.data)-1);
+				if(getnegativedecimalvalue(cp.R2.data)>0)
+				    cp.PC.data = contentofEA;
+			}
+			else if(indexofR==3)  {
+				cp.R3.data = getnegativeBinaryValue(getnegativedecimalvalue(cp.R3.data)-1);
+				if(getnegativedecimalvalue(cp.R3.data)>0)
+				    cp.PC.data = contentofEA;
+			}
+			else
+				cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
+		}
+	}
+	
+	public void JGE(){
+		EffectiveAddress();
+		int indexofR = R[0]+R[1]*2;
+		int EA[] = new int[16];
+		EA = getBinaryValue(effectiveAdd);
+		int contentofEA[] = new int[16];
+		contentofEA = cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
+		if(I == 0){//I bit not set
+			if(indexofR == 0){     
+				if(getnegativedecimalvalue(cp.R0.data)>0)
+			    cp.PC.data = EA;
+			}
+			else if(indexofR==1)  {
+				if(getnegativedecimalvalue(cp.R1.data)>0)
+				    cp.PC.data = EA;
+			}
+			else if(indexofR==2) {
+				if(getnegativedecimalvalue(cp.R2.data)>0)
+				    cp.PC.data = EA;
+			}
+			else if(indexofR==3)  {
+				if(getnegativedecimalvalue(cp.R3.data)>0)
+				    cp.PC.data = EA;
+			}
+			else
+				cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
+		}
+		else{//I bit set
+			if(indexofR == 0){     
+				if(getnegativedecimalvalue(cp.R0.data)>0)
+			    cp.PC.data = contentofEA;
+			}
+			else if(indexofR==1)  {
+				if(getnegativedecimalvalue(cp.R1.data)>0)
+				    cp.PC.data = contentofEA;
+			}
+			else if(indexofR==2) {
+				if(getnegativedecimalvalue(cp.R2.data)>0)
+				    cp.PC.data = contentofEA;
+			}
+			else if(indexofR==3)  {
+				if(getnegativedecimalvalue(cp.R3.data)>0)
+				    cp.PC.data = contentofEA;
+			}
+			else
+				cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
+		}
 	}
 	
 	//add memory to register if opcode == 4
@@ -350,10 +593,11 @@ public class Instructions {
 	}
 	 // op code 20 - multiply values at two registers
     // set cc code OVERFLOW if there is overflow
-    public void MLT (int[] reg1, int[] reg2) {
+    public void MLT () {
         System.out.println("MLT");  
-        int indexofR1 = reg1[0]+reg1[1]*2;
-        int indexofR2 = reg2[0]+reg2[1]*2;
+        decodeRtoR();
+        int indexofR1 = Rx[0]+Rx[1]*2;
+        int indexofR2 = Ry[0]+Ry[1]*2;
         int val1=0; int val2=0;
         if (indexofR1 == 0){val1 = getnegativedecimalvalue(cp.R0.data);}
         else if (indexofR1 == 2) {val1 = getnegativedecimalvalue(cp.R2.data);}
@@ -364,19 +608,15 @@ public class Instructions {
         int resultReg2 [] = new int [16];
         int[] result = getnegativeBinaryValue32(product);
         for (int i=0; i<16;i++){ resultReg1[i] = result[i]; }
-        for (int i=16; i<32;i++){ resultReg2[i] = result[i]; }
+        for (int i=16; i<32;i++){ resultReg2[i-16] = result[i]; }
         if (indexofR1 == 0){
                 //fill the first register with upper bits and second register with lower 16 bits
-                int res1 = getnegativedecimalvalue(resultReg1);
-                cp.R0.data = getnegativeBinaryValue(res1);
-                int res2 = getnegativedecimalvalue(resultReg2);
-                cp.R1.data = getnegativeBinaryValue(res2);                    
+                cp.R0.data = resultReg1;
+                cp.R1.data = resultReg2;                    
             }
         else if (indexofR1 == 2){
-                int res1 = getnegativedecimalvalue(resultReg1);
-                cp.R2.data = getnegativeBinaryValue(res1);
-                int res2 = getnegativedecimalvalue(resultReg2);
-                cp.R3.data = getnegativeBinaryValue(res2);                     
+                cp.R2.data = resultReg1;
+                cp.R3.data = resultReg2;                     
             } 
         //in case of overflow
         if (/*case1*/(val1 < 0 && val2 <0 && product < 0) || 
@@ -390,32 +630,44 @@ public class Instructions {
     
 	// op code 21
     // divide register by register
-    public void DVD (int[] reg1, int[] reg2){
+    public void DVD (){
         System.out.println("DVD");
         int val1=0; int val2=0;
-        int indexofR1 = reg1[0]+reg1[1]*2;
-        int indexofR2 = reg2[0]+reg2[1]*2;
+        decodeRtoR();
+        int indexofR1 = Rx[0]+Rx[1]*2;
+        int indexofR2 = Ry[0]+Ry[1]*2;
         if (indexofR1 == 0){val1 = getnegativedecimalvalue(cp.R0.data);}
         else if (indexofR1 == 2) {val1 = getnegativedecimalvalue(cp.R2.data);}    
         if (indexofR2 == 0){val2 = getnegativedecimalvalue(cp.R0.data);}
         else if (indexofR2 == 2) {val2 = getnegativedecimalvalue(cp.R2.data);}  
-        int quotient = val1 / val2; int remained = val1%val2;
-        if(indexofR1 == 0){ cp.R0.data = getnegativeBinaryValue(quotient);
-                            cp.R1.data = getnegativeBinaryValue(remained);}
-        else if(indexofR1 == 2){ cp.R2.data = getnegativeBinaryValue(quotient);
-                                 cp.R3.data = getnegativeBinaryValue(remained);}   
-        if (val2 ==0){cp.CC.data[2] = 1;} // if dividing by zero set the DIVZERO condition code
-        else {cp.CC.data[2] = 0;}
+        if(val2 != 0){
+        int quotient = val1 / val2; 
+        int remained = val1%val2;
+        if(indexofR1 == 0){ 
+        	cp.R0.data = getnegativeBinaryValue(quotient);
+            cp.R1.data = getnegativeBinaryValue(remained);
+            }
+        else if(indexofR1 == 2){ 
+        	cp.R2.data = getnegativeBinaryValue(quotient);
+            cp.R3.data = getnegativeBinaryValue(remained);
+            }
+        cp.CC.data[2] = 0;
+        }
+        else if (val2 ==0){
+        	cp.CC.data[2] = 1;
+        } // if dividing by zero set the DIVZERO condition code
+       
     } // end DVD
     
     
     // op code 22 - test equality of two registers
     // if value are equal, set CC code EQUALORNOT to 1
-    public void TRR (int[] reg1, int[] reg2) {
+    public void TRR () {
         System.out.println("TRR");
         int val1=0; int val2=0;
-        int indexofR1 = reg1[0]+reg1[1]*2;
-        int indexofR2 = reg2[0]+reg2[1]*2;
+        decodeRtoR();
+        int indexofR1 = Rx[0]+Rx[1]*2;
+        int indexofR2 = Ry[0]+Ry[1]*2;
         if (indexofR1 == 0){val1 = getnegativedecimalvalue(cp.R0.data);}
         else if (indexofR1 == 1) {val1 = getnegativedecimalvalue(cp.R1.data);}
         else if (indexofR1 == 2) {val1 = getnegativedecimalvalue(cp.R2.data);}
@@ -429,11 +681,12 @@ public class Instructions {
     } // end 
 
     // op code 23
-    public void AND (int[] reg1, int[] reg2) {
+    public void AND () {//logical and
         System.out.println("AND");
         int val1=0; int val2=0; int sum0 = 0; int sum1= 1;
-        int indexofR1 = reg1[0]+reg1[1]*2;
-        int indexofR2 = reg2[0]+reg2[1]*2;
+        decodeRtoR();
+        int indexofR1 = Rx[0]+Rx[1]*2;
+        int indexofR2 = Ry[0]+Ry[1]*2;
         if (indexofR1 == 0){val1 = getnegativedecimalvalue(cp.R0.data);}
         else if (indexofR1 == 1) {val1 = getnegativedecimalvalue(cp.R1.data);}
         else if (indexofR1 == 2) {val1 = getnegativedecimalvalue(cp.R2.data);}
@@ -619,6 +872,22 @@ public class Instructions {
         case 6:  AIR();//add immediate to register
                  break;
         case 7:  SIR();//subtract immediate from register
+                 break;
+        case 10: JZ();
+                 break;
+        case 11: JNE();
+                 break;
+        case 12: JCC();
+                 break;
+        case 13: JMA();
+                 break;
+        case 14: JSR();
+                 break;
+        case 15: RFS();
+                 break;
+        case 16: SOB();
+                 break;
+        case 17: JGE();
                  break;
         case 41: LDX();//load index register to memory
                  break;
