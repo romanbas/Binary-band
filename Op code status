@@ -25,15 +25,15 @@ op code status
 25 - done (phase 2)
 31 - done (phase 2)
 32
-33
-34
-35
-36
-37
+33 - wait until phase 4
+34 - wait until phase 4
+35 - wait until phase 4
+36 - wait until phase 4
+37 - wait until phase 4
 41 - done (phase 1)
 42 - done (phase 1)
-50
-51
+50 - wait until phase 4
+51 - wait until phase 4
 61
 62
 63
