@@ -1,13 +1,13 @@
 op code status
 000
 036
-01 - done (phase 1)
-02 - done (phase 1)
-03 - done (phase 1)
-04 - done (phase 1)
-05 - done (phase 1)
-06 - done (phase 1)
-07 - done (phase 1)
+01 - done phase 2 update (phase 1)
+02 - done phase 2 update (phase 1)
+03 - done phase 2 update (phase 1)
+04 - done phase 2 update (phase 1)
+05 - done phase 2 update (phase 1)
+06 - done phase 2 update (phase 1)
+07 - done phase 2 update (phase 1)
 10
 11
 12
@@ -30,8 +30,8 @@ op code status
 35 - wait until phase 4
 36 - wait until phase 4
 37 - wait until phase 4
-41 - done (phase 1)
-42 - done (phase 1)
+41 - done phase 2 update (phase 1)
+42 - done phase 2 update (phase 1)
 50 - wait until phase 4
 51 - wait until phase 4
 61
