@@ -9,6 +9,7 @@ public class SimpleMemory {
 	protected int addressCount = 512;
 	protected int Opcode[] = new int[6];
 	protected int R[] = new int[2];
+	protected int CC[] = new int[2];
 	protected int IX[] = new int[2];
 	protected int I = 0;
 	protected int Rx[] = new int[2];
@@ -19,7 +20,7 @@ public class SimpleMemory {
 	protected int DevID[] = new int[5];
 	protected int Instruction[] = new int[16];
 	protected int Address[] = new int[5];
-	protected int immediate = 0;
+	int immediate = 0;
 	
 	public void spilit(){
 	    Scanner inputFile = null;
@@ -603,7 +604,25 @@ public class SimpleMemory {
         Opcode[1] = 0;
         Opcode[2] = 1;
         Opcode[3] = 1;
-
+        
+        switch (instructionArray[1]) {
+        case "1":
+            CC[0] = 1;
+            CC[1] = 0;
+            break;
+        case "2":
+            CC[0] = 0;
+            CC[1] = 1;
+            System.out.println("IX2");
+            break;
+        case "3":
+            CC[0] = 1;
+            CC[1] = 1;
+            break;
+        default:
+            break;
+    }
+        
         switch (instructionArray[2]) {
             case "1":
                 IX[0] = 1;
@@ -627,8 +646,8 @@ public class SimpleMemory {
         Instruction[3] = Opcode[2];
         Instruction[4] = Opcode[1];
         Instruction[5] = Opcode[0];
-        Instruction[6] = 1;
-        Instruction[7] = 0;
+        Instruction[6] = CC[1];
+        Instruction[7] = CC[0];
         Instruction[8] = IX[1];
         Instruction[9] = IX[0];
         Instruction[10] = I;
