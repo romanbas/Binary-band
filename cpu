@@ -7,73 +7,54 @@ public class CPU {
 		Register X2 = new Register("X2",12);
 		Register X3 = new Register("X3",12);
 		Register PC = new Register("PC",12);
-		Register MAR = new Register("MAR",16);
-		Register MBR = new Register("MBR",16);	
-		
-		public void setR0(int[] value){
+		Register CC = new Register("CC",4);
+		Register IR = new Register("IR",16);
+		Register MFR = new Register("MFR",16);
+		Register MAR = new Register("MAR",16);//Memory Address Register
+		Register MBR = new Register("MBR",16);//Memory Buffer Register
+		public void setR0(int[] value){//write data in R0
 			R0.write(value);
-                        for (int i : value) {
-                           System.out.println(i);
-                        }
 		}
 		
-		public void setR1(int[] value){
+		public void setR1(int[] value){//write data in R1
 			R1.write(value);
-                        for (int i : value) {
-                           System.out.println(i);
-                        }
 		}
 		
-		public void setR2(int[] value){
+		public void setR2(int[] value){//write data in R2
 			R2.write(value);
-                        for (int i : value) {
-                           System.out.println(i);
-                        }
 		}
 		
-		public void setR3(int[] value){
+		public void setR3(int[] value){//write data in R3
 			R3.write(value);
-                        for (int i : value) {
-                           System.out.println(i);
-                        }
 		}
 		
-		public void setX1(int[] value){
+		public void setX1(int[] value){//write data in X1
 			X1.write(value);
 		}
 		
-		public void setX2(int[] value){
+		public void setX2(int[] value){//write data in X2
 			X2.write(value);
-                        for (int i : value) {
-                           System.out.println(i);
-                        }
 		}
 		
-		public void setX3(int[] value){
+		public void setX3(int[] value){//write data in X3
 			X3.write(value);
-                        for (int i : value) {
-                           System.out.println(i);
-                        }
 		}
 		
-		public void setPC(int[] value){
+		public void setPC(int[] value){//write data in PC
 			PC.write(value);
-                        for (int i : value) {
-                           System.out.println(i);
-                        }
-		}
+		}  
 		
-		public void setMAR(int[] value){
-			X1.write(value);
-                        for (int i : value) {
-                           System.out.println(i);
-                        }
-		}
+		public void setCC(int[] value){//write data in CC
+			CC.write(value);
+		}  
 		
-		public void setMBR(int[] value){
-			X1.write(value);
-                        for (int i : value) {
-                           System.out.println(i);
-                        }
-		}          	
+		public void setIR(int[] value){//write data in IR
+			IR.write(value);
+		} 
+		
+		public void setMFR(int[] value){//write data in PC
+			MFR.write(value);
+		}  
+		
 }
+
