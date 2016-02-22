@@ -713,11 +713,12 @@ public class Instructions {
     } // end AND
     
     // op code 24
-    public void ORR (int[] reg1, int[] reg2) {
+    public void ORR () {
         System.out.println("ORR");
         int val1=0; int val2=0; int sum0 = 0; int sum1= 1;
-        int indexofR1 = reg1[0]+reg1[1]*2;
-        int indexofR2 = reg2[0]+reg2[1]*2;
+        decodeRtoR();
+        int indexofR1 = Rx[0]+Rx[1]*2;
+        int indexofR2 = Ry[0]+Ry[1]*2;
         if (indexofR1 == 0){val1 = getnegativedecimalvalue(cp.R0.data);}
         else if (indexofR1 == 1) {val1 = getnegativedecimalvalue(cp.R1.data);}
         else if (indexofR1 == 2) {val1 = getnegativedecimalvalue(cp.R2.data);}
@@ -765,10 +766,19 @@ public class Instructions {
     } // end NOT
     
     //opo code 31, shift register by count
-    public void SRC (int[] reg, int[] count, int LR, int AL){
+    public void SRC (){
         System.out.println("SRC");
-        int indexofR = R[0]+R[1]*2; int val1[]= new int [16]; 
-        int valofCount = getnegativedecimalvalue(count); 
+        R[0] = cp.IR.data[7];
+        R[1] = cp.IR.data[6];
+        AL = cp.IR.data[8];
+        LR = cp.IR.data[9];
+        Count[3] = cp.IR.data[12];
+		Count[2] = cp.IR.data[13];
+		Count[1] = cp.IR.data[14];
+		Count[0] = cp.IR.data[15];
+        int indexofR = R[0]+R[1]*2;
+        int val1[]= new int [16]; 
+        int valofCount = getnegativedecimalvalue(Count); 
         if (indexofR == 0){val1 = cp.R0.data;}
         else if (indexofR == 1) {val1 = cp.R1.data;}
         else if (indexofR == 2) {val1 = cp.R2.data;}
@@ -818,10 +828,19 @@ public class Instructions {
     } // end SRC
     
     //opo code 32, rotate register by count
-    public void RRC (int[] reg, int[] count, int LR, int AL){
+    public void RRC (){
         System.out.println("RRC");
-        int indexofR = R[0]+R[1]*2; int val1[]= new int [16]; 
-        int valofCount = getnegativedecimalvalue(count); 
+        R[0] = cp.IR.data[7];
+        R[1] = cp.IR.data[6];
+        AL = cp.IR.data[8];
+        LR = cp.IR.data[9];
+        Count[3] = cp.IR.data[12];
+		Count[2] = cp.IR.data[13];
+		Count[1] = cp.IR.data[14];
+		Count[0] = cp.IR.data[15];
+        int indexofR = R[0]+R[1]*2; 
+        int val1[]= new int [16]; 
+        int valofCount = getnegativedecimalvalue(Count); 
         if (indexofR == 0){val1 = cp.R0.data;}
         else if (indexofR == 1) {val1 = cp.R1.data;}
         else if (indexofR == 2) {val1 = cp.R2.data;}
@@ -855,10 +874,80 @@ public class Instructions {
 	else if(indexofR==3) cp.R3.data = val1;
         } // end of left shift
     } // end RRC
-	
-	
-	
-	
+    
+    public void IN(){
+    	R[0] = cp.IR.data[7];
+        R[1] = cp.IR.data[6];
+        int indexofR = R[0]+R[1]*2; 
+        DevID[4] = cp.MBR.data[11];
+        DevID[3] = cp.MBR.data[12];
+		DevID[2] = cp.MBR.data[13];
+		DevID[1] = cp.MBR.data[14];
+		DevID[0] = cp.MBR.data[15];
+    	if(indexofR == 0){     
+    		for(int i = 0; i< DevID.length; i++){
+    			cp.R0.data[i] = DevID[i];
+    		}
+    		for(int i = DevID.length-1; i<cp.R0.data.length;i++){
+    			cp.R0.data[i] = 0;
+    		}
+    	}
+		else if(indexofR==1)  {     
+    		for(int i = 0; i< DevID.length; i++){
+    			cp.R1.data[i] = DevID[i];
+    		}
+    		for(int i = DevID.length-1; i<cp.R1.data.length;i++){
+    			cp.R1.data[i] = 0;
+    		}
+    	}
+		else if(indexofR==2) {     
+    		for(int i = 0; i< DevID.length; i++){
+    			cp.R2.data[i] = DevID[i];
+    		}
+    		for(int i = DevID.length-1; i<cp.R2.data.length;i++){
+    			cp.R2.data[i] = 0;
+    		}
+    	}
+		else if(indexofR==3)  {     
+    		for(int i = 0; i< DevID.length; i++){
+    			cp.R3.data[i] = DevID[i];
+    		}
+    		for(int i = DevID.length-1; i<cp.R3.data.length;i++){
+    			cp.R3.data[i] = 0;
+    		}
+    	}
+    }
+    
+    public void OUT(){
+    	R[0] = cp.IR.data[7];
+        R[1] = cp.IR.data[6];
+        int indexofR = R[0]+R[1]*2; 
+        DevID[4] = cp.MBR.data[11];
+        DevID[3] = cp.MBR.data[12];
+		DevID[2] = cp.MBR.data[13];
+		DevID[1] = cp.MBR.data[14];
+		DevID[0] = cp.MBR.data[15];
+    	if(indexofR == 0){     
+    		for(int i = 0; i< DevID.length; i++){
+    			 DevID[i] = cp.R0.data[i];
+    		}
+    	}
+		else if(indexofR==1)  {     
+    		for(int i = 0; i< DevID.length; i++){
+    			DevID[i] = cp.R1.data[i];
+    		}
+    	}
+		else if(indexofR==2) {     
+    		for(int i = 0; i< DevID.length; i++){
+    			DevID[i] = cp.R2.data[i];
+    		}
+    	}
+		else if(indexofR==3)  {     
+    		for(int i = 0; i< DevID.length; i++){
+    			DevID[i] =cp.R3.data[i];
+    		}
+    	}
+    }
 	
 	public void excuteInstruction(){ //execute the instruction based on what opcode is 
 		switch (getdecimalvalue(Opcode)) {
@@ -891,6 +980,26 @@ public class Instructions {
         case 16: SOB();
                  break;
         case 17: JGE();
+                 break;
+        case 20: MLT();
+                 break;
+        case 21: DVD();
+                 break;
+        case 22: TRR();
+                 break;
+        case 23: AND();
+                 break;
+        case 24: ORR();
+                 break;
+        case 25: NOT();
+                 break;
+        case 31: SRC();
+                 break;
+        case 32: RRC();
+                 break;
+        case 61: IN();
+                 break;
+        case 62: OUT();
                  break;
         case 41: LDX();//load index register to memory
                  break;
