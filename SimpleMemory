@@ -21,7 +21,7 @@ public class SimpleMemory {
 	protected int Instruction[] = new int[16];
 	protected int Address[] = new int[5];
 	int immediate = 0;
-	
+	int j = 1;
 	public void spilit(){
 	    Scanner inputFile = null;
 	    try {
@@ -29,12 +29,15 @@ public class SimpleMemory {
 	       while (inputFile.hasNextLine()) {
 	           String lineScanner = inputFile.nextLine();
 	           instructionArray = lineScanner.split(",|\\ ");
-	           /*for (int i=0; i< instructionArray.length;i++){
-	               System.out.println(i + " -- " + instructionArray[i]);
-	           }*/
+	           for (int i=0; i< instructionArray.length;i++){
+	               System.out.print(" -- " + instructionArray[i]);
+	           }
+	           System.out.println();
 	           decode();
 	           for(int i = 0; i < Instruction.length ; i++){
-	           System.out.println(Instruction[i]);}
+	           System.out.print(Instruction[i]);
+	           }
+	           System.out.println();
 	           WriteToMemory(addressCount,Instruction);
 	           addressCount++;
 	       } 
@@ -45,27 +48,27 @@ public class SimpleMemory {
 		}
 	
 	public void decode(){
-		if (instructionArray[0] == "HLT")
+		if (instructionArray[0].equals("HLT"))
 			decodeHalt();
-		else if(instructionArray[0] == "TRAP")
+		else if(instructionArray[0].equals("TRAP"))
 			decodeTRAP();
-		else if (instructionArray[0] == "LDR" || instructionArray[0] == "STR" || instructionArray[0] == "LDA" || instructionArray[0] == "JZ" || instructionArray[0] =="JNE" || instructionArray[0] == "SOB" || instructionArray[0] == "JGE" || instructionArray[0] == "AMR" || instructionArray[0] =="SMR")
+		else if (instructionArray[0].equals("LDR") || instructionArray[0].equals("STR") || instructionArray[0].equals("LDA") || instructionArray[0].equals("JZ") || instructionArray[0].equals("JNE") || instructionArray[0].equals("SOB") || instructionArray[0].equals("JGE") || instructionArray[0].equals("AMR") || instructionArray[0].equals("SMR"))
 			decodeInstruction1();
-		else if(instructionArray[0] == "LDX" || instructionArray[0] =="STX"|| instructionArray[0] == "JMA" || instructionArray[0]== "JSR")
+		else if(instructionArray[0].equals("LDX") || instructionArray[0].equals("STX")|| instructionArray[0].equals("JMA") || instructionArray[0].equals("JSR"))
 			decodeInstruction2();
-		else if(instructionArray[0] == "JCC")
+		else if(instructionArray[0].equals("JCC"))
 			decodeInstruction3();
-		else if(instructionArray[0] == "RFS")
+		else if(instructionArray[0].equals("RFS"))
 			decodeInstruction4();
-		else if(instructionArray[0] == "AIR" || instructionArray[0] == "SIR")
+		else if(instructionArray[0].equals("AIR") || instructionArray[0].equals("SIR"))
 			decodeInstruction5();
-		else if(instructionArray[0] == "MLT" || instructionArray[0] == "DVD"||instructionArray[0] == "TRR" || instructionArray[0] == "AND"||instructionArray[0] == "ORR")
+		else if(instructionArray[0].equals("MLT") || instructionArray[0].equals("DVD")||instructionArray[0].equals("TRR") || instructionArray[0].equals("AND")||instructionArray[0].equals("ORR"))
 			decodeRtoR1();
-		else if(instructionArray[0] == "NOT")
+		else if(instructionArray[0].equals("NOT"))
 			decodeR();
-		else if(instructionArray[0] == "SRC" || instructionArray[0] == "RRC")
+		else if(instructionArray[0].equals("SRC") || instructionArray[0].equals("RRC"))
 			decodeShiftAndRotate();
-		else if(instructionArray[0] == "IN" || instructionArray[0] == "OUT" || instructionArray[0] == "CHK" )
+		else if(instructionArray[0].equals("IN") || instructionArray[0].equals("OUT") || instructionArray[0].equals("CHK"))
 			decodeIO();
 	}
 	
@@ -100,7 +103,7 @@ public class SimpleMemory {
                   break;
 		case "3": R[0] = 1;
                   R[1] = 1;
-                  System.out.println("R3");
+                  //System.out.println("R3");
                   break;
                   
         default:
@@ -154,7 +157,7 @@ public class SimpleMemory {
                   break;
 		case "3": R[0] = 1;
                   R[1] = 1;
-                  System.out.println("R3");
+                 // System.out.println("R3");
                   break;
                   
         default:
@@ -340,7 +343,7 @@ public class SimpleMemory {
             case "3":
                 R[0] = 1;
                 R[1] = 1;
-                System.out.println("R3");
+                //System.out.println("R3");
                 break;
 
             default:
@@ -405,7 +408,6 @@ public class SimpleMemory {
         switch (instructionArray[0]) {
             case "LDR":
                 Opcode[0] = 1;//load register from memory
-                System.out.println("LDR");
                 break;
             case "STR":
                 Opcode[0] = 0;//store register to memory
@@ -471,7 +473,6 @@ public class SimpleMemory {
             case "3":
                 R[0] = 1;
                 R[1] = 1;
-                System.out.println("R3");
                 break;
 
             default:
@@ -486,7 +487,7 @@ public class SimpleMemory {
             case "2":
                 IX[0] = 0;
                 IX[1] = 1;
-                System.out.println("IX2");
+                //System.out.println("IX2");
                 break;
             case "3":
                 IX[0] = 1;
@@ -498,10 +499,10 @@ public class SimpleMemory {
 
         for (int j = 0, i = instructionArray[3].length() - 1; i >= 0; i--, j++) {
             Address[j] = instructionArray[3].charAt(i) - '0';
-            System.out.println(Address[j]);
+            //System.out.println(Address[j]);
         }
         I = instructionArray[4].charAt(0) - '0';
-        System.out.println(I);
+        //System.out.println(I);
 
         Instruction[0] = Opcode[5];
         Instruction[1] = Opcode[4];
@@ -562,7 +563,7 @@ public class SimpleMemory {
             case "2":
                 IX[0] = 0;
                 IX[1] = 1;
-                System.out.println("IX2");
+                //System.out.println("IX2");
                 break;
             case "3":
                 IX[0] = 1;
@@ -574,10 +575,10 @@ public class SimpleMemory {
 
         for (int j = 0, i = instructionArray[2].length() - 1; i >= 0; i--, j++) {
             Address[j] = instructionArray[2].charAt(i) - '0';
-            System.out.println(Address[j]);
+            //System.out.println(Address[j]);
         }
         I = instructionArray[3].charAt(0) - '0';
-        System.out.println(I);
+        //System.out.println(I);
 
         Instruction[0] = Opcode[5];
         Instruction[1] = Opcode[4];
@@ -613,7 +614,7 @@ public class SimpleMemory {
         case "2":
             CC[0] = 0;
             CC[1] = 1;
-            System.out.println("IX2");
+            //System.out.println("IX2");
             break;
         case "3":
             CC[0] = 1;
@@ -631,7 +632,7 @@ public class SimpleMemory {
             case "2":
                 IX[0] = 0;
                 IX[1] = 1;
-                System.out.println("IX2");
+                //System.out.println("IX2");
                 break;
             case "3":
                 IX[0] = 1;
@@ -656,7 +657,6 @@ public class SimpleMemory {
         Instruction[13] = Address[2];
         Instruction[14] = Address[1];
         Instruction[15] = Address[0];
-
     }
 
 	public int[] ReadFromMemory(int address) {
