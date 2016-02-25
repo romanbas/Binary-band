@@ -1,3 +1,7 @@
+/*
+ * First SM.spilit();//convert to machine code
+ * decodecacheline;
+*/
 public class Instructions {
 	CPU cp = new CPU();//object of CPU class
 	Cache cache = new Cache();//object of cache class
@@ -17,7 +21,7 @@ public class Instructions {
 	protected int Address[] = new int[5];
 	protected int initialAddress = 512;
 	protected int immediate =0;
-	
+	public int EnterNumber = 0;
 	public void setImmediate(int immediate) {//set immediate value from interface
 		this.immediate = immediate;
 	}
@@ -27,13 +31,22 @@ public class Instructions {
 	}
 	
 	public void decodecacheline(){
-		cp.MAR.data = cp.PC.data;
+		//SM.spilit();
+		for(int i = 0; i < cp.PC.data.length;i++){
+		cp.MAR.data[i] = cp.PC.data[i];
+		}
 		cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
-		cp.MBR.data = cache.readFromCacheToCPU(cp.PC.data);
-		cp.MBR.data = cp.IR.data;
+		cp.MBR.data = cache.readFromCacheToCPU(cp.MAR.data);
+		for(int i = 0; i < cp.MBR.data.length;i++){
+			cp.IR.data[i] = cp.MBR.data[i];
+			}
+		
+		System.out.println();
 		for(int i =0; i < Opcode.length; i++){//transfer  instruction to opcode
 			Opcode[Opcode.length-1-i] = cp.IR.data[i];
+			//System.out.print(Opcode[i]);
 		}
+		
 		excuteInstruction();
 	}
 	
@@ -140,9 +153,12 @@ public class Instructions {
 		IX[1] = cp.IR.data[8];//index of index register
 		IX[0] = cp.IR.data[9];
 		I = cp.IR.data[10];
+		System.out.print("Address");
 		for(int i =0; i < Address.length; i++){
 			Address[Address.length-1-i] = cp.IR.data[i+11];
+			System.out.print(Address[Address.length-1-i]);
 			}
+		System.out.println();
 		if(I == 0){//direct addressing
 			if(IX[0]==0 && IX[1]==0){
 					effectiveAdd = getdecimalvalue(Address);
@@ -174,20 +190,19 @@ public class Instructions {
 				effectiveAdd = calculateInDirect(Address,cp.X3.data);
 			}
 		}
+		System.out.println("effectiveAddress"+effectiveAdd);
 	}
 	
 	
 	public void LDR(){//Load register from memory  if opcode==01
-		EffectiveAddress();
 		System.out.println("LDR");
+		EffectiveAddress();
 		int indexofR = R[0]+R[1]*2;
 		int contentofEA[] = new int[16];
 		int ccontentofEA[] = new int[16];
 		int addresscontentofEA = 0;
 		cp.MBR.data = cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
 		contentofEA = cp.MBR.data;
-		addresscontentofEA = getdecimalvalue(contentofEA);
-		cp.MBR.data = cache.readFromCacheToCPU(getBinaryValue(addresscontentofEA));
 		ccontentofEA = cp.MBR.data;
 		if(I == 0){//I bit not set
 			if(indexofR == 0)     cp.R0.data = contentofEA;
@@ -196,6 +211,8 @@ public class Instructions {
 			else if(indexofR==3)  cp.R3.data = contentofEA;
 		}
 		else{//I bit set
+			addresscontentofEA = getdecimalvalue(contentofEA);
+			cp.MBR.data = cache.readFromCacheToCPU(getBinaryValue(addresscontentofEA));
 			if(indexofR == 0)    cp.R0.data = ccontentofEA;
 			else if(indexofR==1) cp.R1.data = ccontentofEA;
 			else if(indexofR==2) cp.R2.data = ccontentofEA;
@@ -205,8 +222,8 @@ public class Instructions {
 	}
 	
 	public void STR(){//store register to memory if opcode == 02
-		EffectiveAddress();
 		System.out.println("STR");
+		EffectiveAddress();
 		int indexofR = R[0]+R[1]*2;
 		int contentofEA[] = new int[16];
 		int concontentofEA[] = new int[16];
@@ -232,14 +249,12 @@ public class Instructions {
 	}
 	
 	public void LDA(){//load register with address opcode == 03
-		EffectiveAddress();
 		System.out.println("LDA");
+		EffectiveAddress();
 		int indexofR = R[0]+R[1]*2;
 		int EA[] = new int[16];
 		EA = getBinaryValue(effectiveAdd);
 		int contentofEA[] = new int[16];
-		cp.MBR.data = cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
-		contentofEA = cp.MBR.data;
 		if(I == 0){//I bit not set
 			if(indexofR == 0)     cp.R0.data = EA;
 			else if(indexofR==1)  cp.R1.data = EA;
@@ -247,6 +262,8 @@ public class Instructions {
 			else if(indexofR==3)  cp.R3.data = EA;
 		}
 		else{//I bit set
+			cp.MBR.data = cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
+			contentofEA = cp.MBR.data;
 			if(indexofR == 0)    cp.R0.data = contentofEA;
 			else if(indexofR==1) cp.R1.data = contentofEA;
 			else if(indexofR==2) cp.R2.data = contentofEA;
@@ -875,7 +892,7 @@ public class Instructions {
         } // end of left shift
     } // end RRC
     
-    public void IN(){
+    public void IN(int EnterNumber){
     	R[0] = cp.IR.data[7];
         R[1] = cp.IR.data[6];
         int indexofR = R[0]+R[1]*2; 
@@ -884,41 +901,18 @@ public class Instructions {
 		DevID[2] = cp.MBR.data[13];
 		DevID[1] = cp.MBR.data[14];
 		DevID[0] = cp.MBR.data[15];
-    	if(indexofR == 0){     
-    		for(int i = 0; i< DevID.length; i++){
-    			cp.R0.data[i] = DevID[i];
-    		}
-    		for(int i = DevID.length-1; i<cp.R0.data.length;i++){
-    			cp.R0.data[i] = 0;
-    		}
-    	}
-		else if(indexofR==1)  {     
-    		for(int i = 0; i< DevID.length; i++){
-    			cp.R1.data[i] = DevID[i];
-    		}
-    		for(int i = DevID.length-1; i<cp.R1.data.length;i++){
-    			cp.R1.data[i] = 0;
-    		}
-    	}
-		else if(indexofR==2) {     
-    		for(int i = 0; i< DevID.length; i++){
-    			cp.R2.data[i] = DevID[i];
-    		}
-    		for(int i = DevID.length-1; i<cp.R2.data.length;i++){
-    			cp.R2.data[i] = 0;
-    		}
-    	}
-		else if(indexofR==3)  {     
-    		for(int i = 0; i< DevID.length; i++){
-    			cp.R3.data[i] = DevID[i];
-    		}
-    		for(int i = DevID.length-1; i<cp.R3.data.length;i++){
-    			cp.R3.data[i] = 0;
-    		}
-    	}
+    	if(indexofR == 0)   
+    		cp.R0.data = getBinaryValue(EnterNumber);
+		else if(indexofR==1)     
+			cp.R1.data = getBinaryValue(EnterNumber);
+		else if(indexofR==2)   
+			cp.R2.data = getBinaryValue(EnterNumber);
+		else if(indexofR==3) 
+			cp.R3.data = getBinaryValue(EnterNumber);
     }
     
-    public void OUT(){
+    public int OUT(){
+    	int Output = 0;
     	R[0] = cp.IR.data[7];
         R[1] = cp.IR.data[6];
         int indexofR = R[0]+R[1]*2; 
@@ -927,30 +921,22 @@ public class Instructions {
 		DevID[2] = cp.MBR.data[13];
 		DevID[1] = cp.MBR.data[14];
 		DevID[0] = cp.MBR.data[15];
-    	if(indexofR == 0){     
-    		for(int i = 0; i< DevID.length; i++){
-    			 DevID[i] = cp.R0.data[i];
-    		}
-    	}
-		else if(indexofR==1)  {     
-    		for(int i = 0; i< DevID.length; i++){
-    			DevID[i] = cp.R1.data[i];
-    		}
-    	}
-		else if(indexofR==2) {     
-    		for(int i = 0; i< DevID.length; i++){
-    			DevID[i] = cp.R2.data[i];
-    		}
-    	}
-		else if(indexofR==3)  {     
-    		for(int i = 0; i< DevID.length; i++){
-    			DevID[i] =cp.R3.data[i];
-    		}
-    	}
+    	if(indexofR == 0)   
+    		Output = getnegativedecimalvalue(cp.R0.data);
+		else if(indexofR==1)  
+			Output = getnegativedecimalvalue(cp.R1.data);
+		else if(indexofR==2) 
+			Output = getnegativedecimalvalue(cp.R2.data);
+		else if(indexofR==3) 
+			Output = getnegativedecimalvalue(cp.R3.data);
+    	
+    	return Output;
     }
 	
 	public void excuteInstruction(){ //execute the instruction based on what opcode is 
+		System.out.println("opcode   "+getdecimalvalue(Opcode));
 		switch (getdecimalvalue(Opcode)) {
+		
         case 1:  LDR();//load register from memory
                  break;
         case 2:  STR();//store register to memory
@@ -997,7 +983,7 @@ public class Instructions {
                  break;
         case 32: RRC();
                  break;
-        case 61: IN();
+        case 61: IN(EnterNumber);
                  break;
         case 62: OUT();
                  break;
