@@ -5,21 +5,21 @@ public class SimpleMemory {
 	//The simple memory is structured with one 2-D array,  with a size of 2048 by 16 bit; 
 	//where the 2048 space is allocated for the address, and the 16 bit is allocated for the value. 
 	public static int memory[][] = new int[2048][16];	//from address 512 to store instruction
-	protected  String[] instructionArray;
-	protected int addressCount = 512;
-	protected int Opcode[] = new int[6];
-	protected int R[] = new int[2];
-	protected int CC[] = new int[2];
-	protected int IX[] = new int[2];
-	protected int I = 0;
-	protected int Rx[] = new int[2];
-	protected int Ry[] = new int[2];
-	protected int LR = 0;
-	protected int AL = 0;
-	protected int Count[] = new int[4];
-	protected int DevID[] = new int[5];
-	protected int Instruction[] = new int[16];
-	protected int Address[] = new int[5];
+	public  String[] instructionArray;
+	public int addressCount = 512;
+	public int Opcode[] = new int[6];
+	public int R[] = new int[2];
+	public int CC[] = new int[2];
+	public int IX[] = new int[2];
+	public int I = 0;
+	public int Rx[] = new int[2];
+	public int Ry[] = new int[2];
+	public int LR = 0;
+	public int AL = 0;
+	public int Count[] = new int[4];
+	public int DevID[] = new int[5];
+	public int Instruction[] = new int[16];
+	public int Address[] = new int[5];
 	int immediate = 0;
 	int j = 1;
 	public void spilit(){
@@ -29,11 +29,13 @@ public class SimpleMemory {
 	       while (inputFile.hasNextLine()) {
 	           String lineScanner = inputFile.nextLine();
 	           instructionArray = lineScanner.split(",|\\ ");
+	           System.out.println("InstructionArray String");
 	           for (int i=0; i< instructionArray.length;i++){
-	               System.out.print(" -- " + instructionArray[i]);
+	               System.out.print("  " + instructionArray[i]);
 	           }
 	           System.out.println();
 	           decode();
+	           System.out.println("machine code");
 	           for(int i = 0; i < Instruction.length ; i++){
 	           System.out.print(Instruction[i]);
 	           }
