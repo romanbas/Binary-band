@@ -1,0 +1,9 @@
+public class client {
+	public static void main(String[] args){
+		SimpleMemory SM = new SimpleMemory();
+		SM.spilit();
+		Instructions instructor = new Instructions();
+		instructor.setPC();
+		instructor.decodecacheline();
+	}
+}
