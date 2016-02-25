@@ -24,7 +24,7 @@ public class Cache {
 		}
 		cacheobject.offset[0] = Address[0];
 		cacheobject.offset[1] = Address[1];
-		System.out.println("offset1"+cacheobject.offset[1]+Address[1]+" "+"offset0"+cacheobject.offset[0]+Address[0]);
+		//System.out.println("offset1"+cacheobject.offset[1]+Address[1]+" "+"offset0"+cacheobject.offset[0]+Address[0]);
 		cacheobject.valid = 1;
 		cacheobject.Value0 = SimpleMemory.memory[getdecimalvalue(tempAddress)];
 		cacheobject.Value1 = SimpleMemory.memory[getdecimalvalue(tempAddress)+1];
@@ -32,7 +32,7 @@ public class Cache {
 		cacheobject.Value3 = SimpleMemory.memory[getdecimalvalue(tempAddress)+3];
 		cache.add(cacheobject);
 		int offset = cacheobject.offset[0]+cacheobject.offset[1]*2;
-		System.out.println(offset);
+		//System.out.println(offset);
 		int[] newValue = new int[16];
 		if(offset == 0){
 			newValue = cacheobject.Value0;
@@ -46,6 +46,11 @@ public class Cache {
 		else if(offset == 3){
 			newValue = cacheobject.Value3;
 		}
+		
+		System.out.println("writeToCacheFromMemory value");
+		for(int i = 0; i<newValue.length;i++)
+		System.out.print(newValue[i]);
+		System.out.println();
 		return newValue;
 	}
 	
@@ -118,6 +123,7 @@ public class Cache {
 		for(int i=0; i < cache.size(); i++){//hit
 			cacheobject = cache.get(i);
 			if(getdecimalvalue(cacheobject.tag) == getdecimalvalue(tempTag)){//hit
+				System.out.println("Hit");
 				if(offset == 0){
 					return cacheobject.Value0;
 				}
@@ -133,7 +139,7 @@ public class Cache {
 			}
 		}
 		//miss
-		
+		System.out.println("Miss");
 		return writeToCacheFromMemory(Address);
 	}
 	
