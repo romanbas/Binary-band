@@ -6,22 +6,23 @@ public class Instructions {
 	CPU cp = new CPU();//object of CPU class
 	Cache cache = new Cache();//object of cache class
 	SimpleMemory SM = new SimpleMemory();
-	protected int effectiveAdd = 0;
-	protected int Opcode[] = new int[6];
-	protected int R[] = new int[2];
-	protected int CC[] = new int[2];
-	protected int IX[] = new int[2];
-	protected int I = 0;
-	protected int Rx[] = new int[2];
-	protected int Ry[] = new int[2];
-	protected int LR = 0;
-	protected int AL = 0;
-	protected int Count[] = new int[4];
-	protected int DevID[] = new int[5];
-	protected int Address[] = new int[5];
-	protected int initialAddress = 512;
-	protected int immediate =0;
+	public int effectiveAdd = 0;
+	public int Opcode[] = new int[6];
+	public int R[] = new int[2];
+	public int CC[] = new int[2];
+	public int IX[] = new int[2];
+	public int I = 0;
+	public int Rx[] = new int[2];
+	public int Ry[] = new int[2];
+	public int LR = 0;
+	public int AL = 0;
+	public int Count[] = new int[4];
+	public int DevID[] = new int[5];
+	public int Address[] = new int[5];
+	public int initialAddress = 512;
+	public int immediate =0;
 	public int EnterNumber = 0;
+	static int Output = 0;
 	public void setImmediate(int immediate) {//set immediate value from interface
 		this.immediate = immediate;
 	}
@@ -330,6 +331,10 @@ public class Instructions {
 			else if(indexofR==3 && getdecimalvalue(cp.R0.data)==0)  
 				cp.PC.data = contentofEA;
 		}
+		System.out.print("JZ is ");
+	    System.out.println(getdecimalvalue(cp.PC.data));
+	
+		
 	}
 	
 	public void JNE(){//JUMP IF NOT EQUAL
@@ -360,9 +365,13 @@ public class Instructions {
 			else if(indexofR==3 && getdecimalvalue(cp.R0.data) !=0)  
 				cp.PC.data = contentofEA;
 		}
+		System.out.print("JNE is ");
+	    System.out.println(getdecimalvalue(cp.PC.data));
 	}
 	
 	public void JCC(){//JUMP IF CONFITION CODE
+		System.out.println("JCC");
+		//have some problem
 		EffectiveAddress();
 		 CC[1] = cp.IR.data[6];
 	     CC[0] = cp.IR.data[7];
@@ -396,6 +405,8 @@ public class Instructions {
 		else if(I ==1){//I bit set  
 				cp.PC.data = contentofEA;
 		}
+		System.out.print("JMA is ");
+	    System.out.println(getdecimalvalue(cp.PC.data));
 	}
 	
 	public void JSR(){//jump and save return address
@@ -411,6 +422,9 @@ public class Instructions {
 		else
 		cp.PC.data = contentofEA;
 		//R0 should contain pointer to arguments
+		System.out.print("JSR is ");
+	    System.out.println(getdecimalvalue(cp.PC.data));
+	    System.out.println("R3: "+getdecimalvalue(cp.R3.data));
 	}
 	
 	public void RFS(){
@@ -484,37 +498,37 @@ public class Instructions {
 		contentofEA = cp.MBR.data;
 		if(I == 0){//I bit not set
 			if(indexofR == 0){     
-				if(getnegativedecimalvalue(cp.R0.data)>0)
+				if(getnegativedecimalvalue(cp.R0.data)>=0)
 			    cp.PC.data = EA;
 			}
 			else if(indexofR==1)  {
-				if(getnegativedecimalvalue(cp.R1.data)>0)
+				if(getnegativedecimalvalue(cp.R1.data)>=0)
 				    cp.PC.data = EA;
 			}
 			else if(indexofR==2) {
-				if(getnegativedecimalvalue(cp.R2.data)>0)
+				if(getnegativedecimalvalue(cp.R2.data)>=0)
 				    cp.PC.data = EA;
 			}
 			else if(indexofR==3)  {
-				if(getnegativedecimalvalue(cp.R3.data)>0)
+				if(getnegativedecimalvalue(cp.R3.data)>=0)
 				    cp.PC.data = EA;
 			}
 		}
 		else{//I bit set
 			if(indexofR == 0){     
-				if(getnegativedecimalvalue(cp.R0.data)>0)
+				if(getnegativedecimalvalue(cp.R0.data)>=0)
 			    cp.PC.data = contentofEA;
 			}
 			else if(indexofR==1)  {
-				if(getnegativedecimalvalue(cp.R1.data)>0)
+				if(getnegativedecimalvalue(cp.R1.data)>=0)
 				    cp.PC.data = contentofEA;
 			}
 			else if(indexofR==2) {
-				if(getnegativedecimalvalue(cp.R2.data)>0)
+				if(getnegativedecimalvalue(cp.R2.data)>=0)
 				    cp.PC.data = contentofEA;
 			}
 			else if(indexofR==3)  {
-				if(getnegativedecimalvalue(cp.R3.data)>0)
+				if(getnegativedecimalvalue(cp.R3.data)>=0)
 				    cp.PC.data = contentofEA;
 			}
 		}
@@ -523,6 +537,7 @@ public class Instructions {
 	//add memory to register if opcode == 4
 	public void AMR(){ 
 		System.out.println("AMR");
+		EffectiveAddress();
 		int indexofR = R[0]+R[1]*2;
 		int r0 = getdecimalvalue(cp.R0.data);
 		int r1 = getdecimalvalue(cp.R1.data);
@@ -540,11 +555,13 @@ public class Instructions {
 		else if(indexofR==1) cp.R1.data = getBinaryValue(sum1);
 		else if(indexofR==2) cp.R2.data = getBinaryValue(sum2);
 		else if(indexofR==3) cp.R3.data = getBinaryValue(sum3);
+		//System.out.println(getdecimalvalue(cp.R1.data));
 	}
 	
 	//subtract memory from register
 	public void SMR(){
 		System.out.println("SMR");
+		EffectiveAddress();
 		int indexofR = R[0]+R[1]*2;
 		int r0 = getnegativedecimalvalue(cp.R0.data);
 		int r1 = getnegativedecimalvalue(cp.R1.data);
@@ -568,6 +585,7 @@ public class Instructions {
 	public void AIR(){
 		setImmediate(SM.immediate);
 		System.out.println("AIR");
+		EffectiveAddress();
 		if(immediate == 0){}
 		else{
 		int indexofR = R[0]+R[1]*2;
@@ -590,6 +608,7 @@ public class Instructions {
 	public void SIR(){
 		setImmediate(SM.immediate);
 		System.out.println("SIR");
+		EffectiveAddress();
 		if(immediate == 0){}
 		else{
 		int indexofR = R[0]+R[1]*2;
@@ -783,7 +802,7 @@ public class Instructions {
     } // end NOT
     
     //opo code 31, shift register by count
-    public void SRC (){
+    public void SRC (){//problem
         System.out.println("SRC");
         R[0] = cp.IR.data[7];
         R[1] = cp.IR.data[6];
@@ -805,7 +824,8 @@ public class Instructions {
             int temp = 0;
             for (int i=valofCount;i<=val1.length-1;i++){
                 temp = val1[i]; 
-                val1[i-valofCount] = temp;}
+                val1[i-valofCount] = temp;
+                }
             for (int i=val1.length-valofCount; i<val1.length; i++){
                 if (val1[0]==0){val1[i]=0;}
                 else {val1[i]=1;}
@@ -912,7 +932,6 @@ public class Instructions {
     }
     
     public int OUT(){
-    	int Output = 0;
     	R[0] = cp.IR.data[7];
         R[1] = cp.IR.data[6];
         int indexofR = R[0]+R[1]*2; 
