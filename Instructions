@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 /*
  * First SM.spilit();//convert to machine code
  * decodecacheline;
@@ -19,7 +21,7 @@ public class Instructions {
 	public int Count[] = new int[4];
 	public int DevID[] = new int[5];
 	public int Address[] = new int[5];
-	public int initialAddress = 512;
+	public int initialAddress = 504;
 	public int immediate =0;
 	public int EnterNumber = 0;
 	static int Output = 0;
@@ -49,6 +51,12 @@ public class Instructions {
 		}
 		
 		excuteInstruction();
+	}
+	
+	public void decodewhole(){
+		while(getdecimalvalue(cp.PC.data) < 541){
+			decodecacheline();
+		}
 	}
 	
 	public void decodeRtoR(){
@@ -149,6 +157,7 @@ public class Instructions {
 	
 	
 	public void EffectiveAddress(){
+		effectiveAdd = 0;
 		R[1] = cp.IR.data[6];//index of general purpose register
 		R[0] = cp.IR.data[7];
 		IX[1] = cp.IR.data[8];//index of index register
@@ -246,7 +255,8 @@ public class Instructions {
 			else if(indexofR==3) concontentofEA = cp.R3.data;
 			cache.writeToCacheFromCPU(addresscontentofEA,concontentofEA);
 		}
-		//cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
+		System.out.println("contentofEA "+ getdecimalvalue(contentofEA));
+		
 	}
 	
 	public void LDA(){//load register with address opcode == 03
@@ -283,6 +293,8 @@ public class Instructions {
 		if(indexofX==1)       cp.X1.data = contentofEA;
 		else if(indexofX==2)  cp.X2.data = contentofEA;
 		else if(indexofX==3)  cp.X3.data = contentofEA;
+		//System.out.println( "contentofEA" + contentofEA);
+		System.out.println( "cp.X1.data " + getdecimalvalue(cp.X1.data));
 		//cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
 	}
 	
@@ -429,7 +441,7 @@ public class Instructions {
 	
 	public void RFS(){
 		EffectiveAddress();
-		setImmediate(SM.immediate);
+		setImmediate(DECODE.immediate);
 		cp.R0.data = getBinaryValue(immediate);
 		cp.PC.data = cp.R3.data;
 	}
@@ -583,7 +595,7 @@ public class Instructions {
 	
 	//add immediate to register
 	public void AIR(){
-		setImmediate(SM.immediate);
+		setImmediate(DECODE.immediate);
 		System.out.println("AIR");
 		EffectiveAddress();
 		if(immediate == 0){}
@@ -593,20 +605,33 @@ public class Instructions {
 		int r1 = getdecimalvalue(cp.R1.data);
 		int r2 = getdecimalvalue(cp.R2.data);
 		int r3 = getdecimalvalue(cp.R3.data);
-		int sum0 = r0 + immediate;
-		int sum1 = r1 + immediate;
-		int sum2 = r2 + immediate;
-		int sum3 = r3 + immediate;
-		if(indexofR == 0)    cp.R0.data = getBinaryValue(sum0);
-		else if(indexofR==1) cp.R1.data = getBinaryValue(sum1);
-		else if(indexofR==2) cp.R2.data = getBinaryValue(sum2);
-		else if(indexofR==3) cp.R3.data = getBinaryValue(sum3);
+		//System.out.println("r1 "+r1);
+		if(indexofR == 0)   
+			{
+			cp.R0.data = getBinaryValue(r0 + immediate);
+			System.out.println("R0 "+getdecimalvalue(cp.R0.data));
+			}
+		else if(indexofR==1) 
+			{
+			cp.R1.data = getBinaryValue(r1 + immediate);
+			System.out.println("R1 "+getdecimalvalue(cp.R1.data));
+			}
+		else if(indexofR==2) {
+			cp.R2.data = getBinaryValue(r2 + immediate);
+			System.out.println("R2 "+getdecimalvalue(cp.R2.data));
+		}
+		
+		else if(indexofR==3) {
+			cp.R3.data = getBinaryValue(r3 + immediate);
+			System.out.println("R3 "+getdecimalvalue(cp.R3.data));
+		}
+		//System.out.println("R0 "+getdecimalvalue(cp.R0.data));
 		}
 	}
 	
 	//subtract immediate from register
 	public void SIR(){
-		setImmediate(SM.immediate);
+		setImmediate(DECODE.immediate);
 		System.out.println("SIR");
 		EffectiveAddress();
 		if(immediate == 0){}
@@ -804,6 +829,7 @@ public class Instructions {
     //opo code 31, shift register by count
     public void SRC (){//problem
         System.out.println("SRC");
+        System.out.println("cp.R2.data "+getdecimalvalue(cp.R2.data));
         R[0] = cp.IR.data[7];
         R[1] = cp.IR.data[6];
         AL = cp.IR.data[8];
@@ -815,10 +841,12 @@ public class Instructions {
         int indexofR = R[0]+R[1]*2;
         int val1[]= new int [16]; 
         int valofCount = getnegativedecimalvalue(Count); 
+        System.out.println("count "+getdecimalvalue(Count));
         if (indexofR == 0){val1 = cp.R0.data;}
         else if (indexofR == 1) {val1 = cp.R1.data;}
         else if (indexofR == 2) {val1 = cp.R2.data;}
         else if (indexofR == 3) {val1 = cp.R3.data;}
+        System.out.println("val1 "+getdecimalvalue(val1));
         //LR=0 and AL =0 -> right arithmetic shift
         if (LR==0 && AL==0){
             int temp = 0;
@@ -831,10 +859,10 @@ public class Instructions {
                 else {val1[i]=1;}
             }
             if(indexofR == 0)    cp.R0.data = val1;
-	else if(indexofR==1) cp.R1.data = val1;
-	else if(indexofR==2) cp.R2.data = val1;
-	else if(indexofR==3) cp.R3.data = val1;
-        } // end of right arithmetic
+	        else if(indexofR==1) cp.R1.data = val1;
+	        else if(indexofR==2) cp.R2.data = val1;
+	        else if(indexofR==3) cp.R3.data = val1;
+            } // end of right arithmetic
         //LR=0 and AL =1 -> right logical shift
         else if (LR==0 && AL==1){
             int temp = 0;
@@ -851,17 +879,22 @@ public class Instructions {
         } // end of right logical
         //LR=1 & AL=0 || LR=1 & AL=1 -> left sift
         else if ((LR==1 && AL==0) || (LR==1 && AL==1)){
+        	System.out.println("leftshift");
             int temp = 0;
             for (int i=val1.length-valofCount-1;i>=0;i--){
                 temp = val1[i]; 
-                val1[i+valofCount] = temp;}
+                val1[i+valofCount] = temp;
+                }
             for (int i=0; i<valofCount; i++){
-                val1[i]=0; }
+                val1[i]=0;
+                }
             if(indexofR == 0)    cp.R0.data = val1;
-	else if(indexofR==1) cp.R1.data = val1;
-	else if(indexofR==2) cp.R2.data = val1;
-	else if(indexofR==3) cp.R3.data = val1;
+	        else if(indexofR==1) cp.R1.data = val1;
+	        else if(indexofR==2) cp.R2.data = val1;
+	        else if(indexofR==3) cp.R3.data = val1;
         }
+        System.out.println("cp.R2.data "+getdecimalvalue(cp.R2.data));
+        
     } // end SRC
     
     //opo code 32, rotate register by count
@@ -913,6 +946,8 @@ public class Instructions {
     } // end RRC
     
     public void IN(int EnterNumber){
+    	Scanner sc = new Scanner(System.in);
+    	EnterNumber = sc.nextInt();
     	R[0] = cp.IR.data[7];
         R[1] = cp.IR.data[6];
         int indexofR = R[0]+R[1]*2; 
@@ -929,6 +964,8 @@ public class Instructions {
 			cp.R2.data = getBinaryValue(EnterNumber);
 		else if(indexofR==3) 
 			cp.R3.data = getBinaryValue(EnterNumber);
+    	
+    	System.out.println(getdecimalvalue(cp.R1.data));
     }
     
     public int OUT(){
@@ -948,7 +985,7 @@ public class Instructions {
 			Output = getnegativedecimalvalue(cp.R2.data);
 		else if(indexofR==3) 
 			Output = getnegativedecimalvalue(cp.R3.data);
-    	
+    	System.out.println("final result  " + Output);
     	return Output;
     }
 	
