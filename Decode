@@ -490,6 +490,11 @@ public class DECODE {
         }
 
         switch (instructionArray[2]) {
+            case "0":
+            	System.out.println(" case 0");
+            	IX[0] = 0;
+                IX[1] = 0;
+                break;
             case "1":
                 IX[0] = 1;
                 IX[1] = 0;
@@ -497,7 +502,6 @@ public class DECODE {
             case "2":
                 IX[0] = 0;
                 IX[1] = 1;
-                //System.out.println("IX2");
                 break;
             case "3":
                 IX[0] = 1;
@@ -530,7 +534,7 @@ public class DECODE {
         Instruction[13] = Address[2];
         Instruction[14] = Address[1];
         Instruction[15] = Address[0];
-        System.out.println(Opcode[2]);
+        System.out.println(IX[1]+"  "+IX[0]);
     }
 
     private void decodeInstruction2() {
@@ -567,6 +571,10 @@ public class DECODE {
                 break;
         }
         switch (instructionArray[1]) {
+            case "0":
+            	IX[0] = 0;
+                IX[1] = 0;
+                break;
             case "1":
                 IX[0] = 1;
                 IX[1] = 0;
@@ -618,6 +626,10 @@ public class DECODE {
         Opcode[3] = 1;
         
         switch (instructionArray[1]) {
+        case "0":
+        	CC[0] = 0;
+            CC[1] = 0;
+            break;
         case "1":
             CC[0] = 1;
             CC[1] = 0;
@@ -636,6 +648,10 @@ public class DECODE {
     }
         
         switch (instructionArray[2]) {
+           case "0":
+        	   IX[0] = 0;
+        	   IX[1] = 0;
+        	   break;
             case "1":
                 IX[0] = 1;
                 IX[1] = 0;
