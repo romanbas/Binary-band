@@ -22,13 +22,9 @@ public class Instructions {
 	public int DevID[] = new int[5];
 	public int Address[] = new int[5];
 	public int initialAddress = 504;
-	public int immediate =0;
+	public int immediate[] = new int[5];
 	public int EnterNumber = 0;
 	static int Output = 0;
-	public void setImmediate(int immediate) {//set immediate value from interface
-		this.immediate = immediate;
-	}
-	
 	public void setPC(){
 		cp.setPC(getBinaryValue(initialAddress));
 	}
@@ -54,7 +50,8 @@ public class Instructions {
 	}
 	
 	public void decodewhole(){
-		while(getdecimalvalue(cp.PC.data) < 541){
+		while(getdecimalvalue(cp.PC.data) < 519){
+			System.out.println("cp.PC.data"+getdecimalvalue(cp.PC.data));
 			decodecacheline();
 		}
 	}
@@ -163,7 +160,7 @@ public class Instructions {
 		IX[1] = cp.IR.data[8];//index of index register
 		IX[0] = cp.IR.data[9];
 		I = cp.IR.data[10];
-		System.out.print("Address");
+		System.out.print("Address  ");
 		for(int i =0; i < Address.length; i++){
 			Address[Address.length-1-i] = cp.IR.data[i+11];
 			System.out.print(Address[Address.length-1-i]);
@@ -171,16 +168,20 @@ public class Instructions {
 		System.out.println();
 		if(I == 0){//direct addressing
 			if(IX[0]==0 && IX[1]==0){
+				System.out.println("DIRECT addressing0");
 					effectiveAdd = getdecimalvalue(Address);
 			}
 			
 			else if (IX[0]==1 && IX[1] == 0){//x1
+				System.out.println("DIRECT addressing1");
 				effectiveAdd = calculateDirect(Address,cp.X1.data);
 			}
 			else if(IX[0]==0 && IX[1] == 1){//x2
+				System.out.println("DIRECT addressing2");
 				effectiveAdd = calculateDirect(Address,cp.X2.data);
 			}
 			else if(IX[0]==1 && IX[1] == 1){//x3
+				System.out.println("DIRECT addressing3");
 				effectiveAdd = calculateDirect(Address,cp.X3.data);
 			}
 		}
@@ -200,7 +201,7 @@ public class Instructions {
 				effectiveAdd = calculateInDirect(Address,cp.X3.data);
 			}
 		}
-		System.out.println("effectiveAddress"+effectiveAdd);
+		System.out.println("effectiveAddress   "+effectiveAdd);
 	}
 	
 	
@@ -284,7 +285,20 @@ public class Instructions {
 	}
 	
 	public void LDX(){//LOAD INDEX REGISTER FROM MEMORY if opcode == 41
-		EffectiveAddress();
+		//EffectiveAddress();
+		effectiveAdd = 0;
+		R[1] = cp.IR.data[6];//index of general purpose register
+		R[0] = cp.IR.data[7];
+		IX[1] = cp.IR.data[8];//index of index register
+		IX[0] = cp.IR.data[9];
+		I = cp.IR.data[10];
+		System.out.print("Address  ");
+		for(int i =0; i < Address.length; i++){
+			Address[Address.length-1-i] = cp.IR.data[i+11];
+			System.out.print(Address[Address.length-1-i]);
+			}
+		effectiveAdd = getdecimalvalue(Address);
+		System.out.println();
 		System.out.println("LDX");
 		int indexofX = IX[0]+IX[1]*2;
 		int contentofEA[] = new int[16];
@@ -295,6 +309,7 @@ public class Instructions {
 		else if(indexofX==3)  cp.X3.data = contentofEA;
 		//System.out.println( "contentofEA" + contentofEA);
 		System.out.println( "cp.X1.data " + getdecimalvalue(cp.X1.data));
+		System.out.println( "cp.X2.data " + getdecimalvalue(cp.X2.data));
 		//cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
 	}
 	
@@ -441,8 +456,8 @@ public class Instructions {
 	
 	public void RFS(){
 		EffectiveAddress();
-		setImmediate(DECODE.immediate);
-		cp.R0.data = getBinaryValue(immediate);
+		//setImmediate(DECODE.immediate);
+		//cp.R0.data = getBinaryValue(immediate);
 		cp.PC.data = cp.R3.data;
 	}
 	
@@ -463,7 +478,7 @@ public class Instructions {
 			else if(indexofR==1)  {
 				cp.R1.data = getnegativeBinaryValue(getnegativedecimalvalue(cp.R1.data)-1);
 				if(getnegativedecimalvalue(cp.R1.data)>0)
-				    cp.PC.data = EA;
+				cp.PC.data = EA;
 			}
 			else if(indexofR==2) {
 				cp.R2.data = getnegativeBinaryValue(getnegativedecimalvalue(cp.R2.data)-1);
@@ -595,10 +610,16 @@ public class Instructions {
 	
 	//add immediate to register
 	public void AIR(){
-		setImmediate(DECODE.immediate);
+		//setImmediate(DECODE.immediate);
 		System.out.println("AIR");
-		EffectiveAddress();
-		if(immediate == 0){}
+		//EffectiveAddress();
+		R[1] = cp.IR.data[6];//index of general purpose register
+		R[0] = cp.IR.data[7];
+		for(int i =0; i < immediate.length; i++){
+			immediate[immediate.length-1-i] = cp.IR.data[i+11];
+			//System.out.print(immediate[immediate.length-1-i]);
+			}
+		if(getdecimalvalue(immediate) == 0){}
 		else{
 		int indexofR = R[0]+R[1]*2;
 		int r0 = getdecimalvalue(cp.R0.data);
@@ -608,21 +629,21 @@ public class Instructions {
 		//System.out.println("r1 "+r1);
 		if(indexofR == 0)   
 			{
-			cp.R0.data = getBinaryValue(r0 + immediate);
+			cp.R0.data = getBinaryValue(r0 + getdecimalvalue(immediate));
 			System.out.println("R0 "+getdecimalvalue(cp.R0.data));
 			}
 		else if(indexofR==1) 
 			{
-			cp.R1.data = getBinaryValue(r1 + immediate);
+			cp.R1.data = getBinaryValue(r1 + getdecimalvalue(immediate));
 			System.out.println("R1 "+getdecimalvalue(cp.R1.data));
 			}
 		else if(indexofR==2) {
-			cp.R2.data = getBinaryValue(r2 + immediate);
+			cp.R2.data = getBinaryValue(r2 + getdecimalvalue(immediate));
 			System.out.println("R2 "+getdecimalvalue(cp.R2.data));
 		}
 		
 		else if(indexofR==3) {
-			cp.R3.data = getBinaryValue(r3 + immediate);
+			cp.R3.data = getBinaryValue(r3 + getdecimalvalue(immediate));
 			System.out.println("R3 "+getdecimalvalue(cp.R3.data));
 		}
 		//System.out.println("R0 "+getdecimalvalue(cp.R0.data));
@@ -631,20 +652,25 @@ public class Instructions {
 	
 	//subtract immediate from register
 	public void SIR(){
-		setImmediate(DECODE.immediate);
+		//setImmediate(DECODE.immediate);
 		System.out.println("SIR");
-		EffectiveAddress();
-		if(immediate == 0){}
+		R[1] = cp.IR.data[6];//index of general purpose register
+		R[0] = cp.IR.data[7];
+		for(int i =0; i < immediate.length; i++){
+			immediate[immediate.length-1-i] = cp.IR.data[i+11];
+			//System.out.print(immediate[immediate.length-1-i]);
+			}
+		if(getdecimalvalue(immediate) == 0){}
 		else{
 		int indexofR = R[0]+R[1]*2;
 		int r0 = getnegativedecimalvalue(cp.R0.data);
 		int r1 = getnegativedecimalvalue(cp.R1.data);
 		int r2 = getnegativedecimalvalue(cp.R2.data);
 		int r3 = getnegativedecimalvalue(cp.R3.data);
-		int sum0 = r0 - immediate;
-		int sum1 = r1 - immediate;
-		int sum2 = r2 - immediate;
-		int sum3 = r3 - immediate;
+		int sum0 = r0 - getdecimalvalue(immediate);
+		int sum1 = r1 - getdecimalvalue(immediate);
+		int sum2 = r2 - getdecimalvalue(immediate);
+		int sum3 = r3 - getdecimalvalue(immediate);
 		if(indexofR == 0)    cp.R0.data = getnegativeBinaryValue(sum0);
 		else if(indexofR==1) cp.R1.data = getnegativeBinaryValue(sum1);
 		else if(indexofR==2) cp.R2.data = getnegativeBinaryValue(sum2);
@@ -965,7 +991,7 @@ public class Instructions {
 		else if(indexofR==3) 
 			cp.R3.data = getBinaryValue(EnterNumber);
     	
-    	System.out.println(getdecimalvalue(cp.R1.data));
+    	System.out.println(getdecimalvalue(cp.R3.data));
     }
     
     public int OUT(){
