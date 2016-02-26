@@ -19,8 +19,7 @@ public class DECODE {
 	public int DevID[] = new int[5];
 	public int Instruction[] = new int[16];
 	public int Address[] = new int[5];
-	static int immediate = 0;
-	//static int datapoint = 20;
+	public int immediate[] = new int[5];
 	int j = 1;
 	public void spilit(){//from file
 	    Scanner inputFile = null;
@@ -35,19 +34,25 @@ public class DECODE {
 	               System.out.print("  " + instructionArray[i]);
 	           }
 	           System.out.println();
-	           for(int i=0; i<Opcode.length;i++){
-	        	   Opcode[i] = 0;
-	           }
-	           decode();
-	           System.out.println("machine code");
-	           for(int i = 0; i < Instruction.length ; i++){
-	           System.out.print(Instruction[i]);
-	           }
-	           System.out.println();
-	           SM.WriteToMemory(addressCount,Instruction);
-	           addressCount++;
-	           instructor.decodecacheline();
-	           System.out.println();
+	           for(int i = 0; i < Address.length;i++){
+	         	   Address[i] = 0;
+	            }
+	            for(int i=0; i<Opcode.length;i++){
+	         	   Opcode[i] = 0;
+	            }
+	            IX[0] = 0;
+	            IX[1] = 0;
+	            R[0] = 0;
+	            R[1] = 0;
+	            I = 0;
+	            decode();
+	            System.out.println("machine code");
+	            for(int i = 0; i < Instruction.length ; i++){
+	            System.out.print(Instruction[i]);
+	            }
+	            System.out.println();
+	            SM.WriteToMemory(addressCount,Instruction);
+	            addressCount++;
 	       } 
 	    }
 	    catch (Exception e) {
@@ -358,8 +363,16 @@ public class DECODE {
                 break;
         }
         
-        immediate = Integer.parseInt(instructionArray[2]);
-        //System.out.println(instructionArray[2]);
+        int Immediate = Integer.parseInt(instructionArray[2]);
+        String str = Integer.toBinaryString(Immediate);
+        for(int i = str.length() - 1,j = 0; i >= 0; i--,j++){
+            immediate[j] = Integer.parseInt(String.valueOf(str.charAt(i)));
+            //System.out.println(immediate[j]);
+        }
+        for(;j<immediate.length;j++){
+        	immediate[j] = 0;
+        }
+        System.out.println(str);
         //System.out.println(immediate);
         Instruction[0] = Opcode[5];
         Instruction[1] = Opcode[4];
@@ -372,15 +385,17 @@ public class DECODE {
         Instruction[8] = 0;
         Instruction[9] = 0;
         Instruction[10] = 0;
-        Instruction[11] = Address[4];
-        Instruction[12] = Address[3];
-        Instruction[13] = Address[2];
-        Instruction[14] = Address[1];
-        Instruction[15] = Address[0];
+        Instruction[11] = immediate[4];
+        Instruction[12] = immediate[3];
+        Instruction[13] = immediate[2];
+        Instruction[14] = immediate[1];
+        Instruction[15] = immediate[0];
 
     }
 
-    private void decodeInstruction4() {//Return from subroutine w/ return code as immed
+    private void decodeInstruction4() {
+    	
+    	//Return from subroutine w/ return code as immed
         Opcode[0] = 1;
         Opcode[1] = 1;
         Opcode[2] = 1;
@@ -401,7 +416,6 @@ public class DECODE {
         Instruction[13] = Address[2];
         Instruction[14] = Address[1];
         Instruction[15] = Address[0];
-        immediate = Integer.parseInt(instructionArray[1]);
     }
 
     private void decodeTRAP() {
