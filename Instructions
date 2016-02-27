@@ -21,7 +21,7 @@ public class Instructions {
 	public int Count[] = new int[4];
 	public int DevID[] = new int[5];
 	public int Address[] = new int[5];
-	public int initialAddress = 504;
+	public int initialAddress = 503;
 	public int immediate[] = new int[5];
 	public int EnterNumber = 0;
 	static int Output = 0;
@@ -50,7 +50,8 @@ public class Instructions {
 	}
 	
 	public void decodewhole(){
-		while(getdecimalvalue(cp.PC.data) < 519){
+		while(getdecimalvalue(cp.PC.data) < 546){
+			System.out.println();
 			System.out.println("cp.PC.data"+getdecimalvalue(cp.PC.data));
 			decodecacheline();
 		}
@@ -229,10 +230,12 @@ public class Instructions {
 			else if(indexofR==2) cp.R2.data = ccontentofEA;
 			else if(indexofR==3) cp.R3.data = ccontentofEA;
 		}
-		//cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
+		System.out.println("cp.R1.data"+getdecimalvalue(cp.R1.data));
+		System.out.println("cp.R3.data"+getdecimalvalue(cp.R3.data));
 	}
 	
 	public void STR(){//store register to memory if opcode == 02
+		//HAVE SOMETHING WRONG
 		System.out.println("STR");
 		EffectiveAddress();
 		int indexofR = R[0]+R[1]*2;
@@ -310,24 +313,35 @@ public class Instructions {
 		//System.out.println( "contentofEA" + contentofEA);
 		System.out.println( "cp.X1.data " + getdecimalvalue(cp.X1.data));
 		System.out.println( "cp.X2.data " + getdecimalvalue(cp.X2.data));
+		System.out.println( "cp.MBR.data " + getdecimalvalue(cp.MBR.data));
 		//cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
 	}
 	
 	public void STX(){//STORE INDEX REGISTER TO MEMORY if opcode == 42  
-		EffectiveAddress();
+		effectiveAdd = 0;
+		R[1] = cp.IR.data[6];//index of general purpose register
+		R[0] = cp.IR.data[7];
+		IX[1] = cp.IR.data[8];//index of index register
+		IX[0] = cp.IR.data[9];
+		I = cp.IR.data[10];
+		System.out.print("Address  ");
+		for(int i =0; i < Address.length; i++){
+			Address[Address.length-1-i] = cp.IR.data[i+11];
+			System.out.print(Address[Address.length-1-i]);
+			}
+		effectiveAdd = getdecimalvalue(Address);
 		System.out.println("STX");
 		int indexofX = IX[0]+IX[1]*2;
-		if(I == 0){
-                    //DO NOTHING
-		}
-		else if(I==1){
 		int contentofEA[] = new int[16];
 		if(indexofX==1)       contentofEA = cp.X1.data;
 		else if(indexofX==2)  contentofEA = cp.X2.data;
 		else if(indexofX==3)  contentofEA = cp.X3.data;
 		cache.writeToCacheFromCPU(effectiveAdd, contentofEA);
-		}
-		//cp.PC.data = getBinaryValue(getdecimalvalue(cp.PC.data)+1);
+		
+		
+		System.out.println("cp.X1.data="+getdecimalvalue(cp.X1.data));
+		System.out.println(getdecimalvalue(contentofEA));
+		
 	}
 	
 	public void JZ(){//JUMP IF ZERO
@@ -594,6 +608,7 @@ public class Instructions {
 		int r1 = getnegativedecimalvalue(cp.R1.data);
 		int r2 = getnegativedecimalvalue(cp.R2.data);
 		int r3 = getnegativedecimalvalue(cp.R3.data);
+		System.out.println("cp.R3.data   "+getdecimalvalue(cp.R3.data));
 		int contentofEA[] = new int[16];
 		cp.MBR.data =  cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
 		contentofEA = cp.MBR.data;
@@ -606,6 +621,8 @@ public class Instructions {
 		else if(indexofR==1) cp.R1.data = getnegativeBinaryValue(sum1);
 		else if(indexofR==2) cp.R2.data = getnegativeBinaryValue(sum2);
 		else if(indexofR==3) cp.R3.data = getnegativeBinaryValue(sum3);
+		System.out.println("decimalcontentofEA   "+decimalcontentofEA);
+		System.out.println("cp.R3.data   "+getnegativedecimalvalue(cp.R3.data));
 	}
 	
 	//add immediate to register
@@ -646,7 +663,6 @@ public class Instructions {
 			cp.R3.data = getBinaryValue(r3 + getdecimalvalue(immediate));
 			System.out.println("R3 "+getdecimalvalue(cp.R3.data));
 		}
-		//System.out.println("R0 "+getdecimalvalue(cp.R0.data));
 		}
 	}
 	
@@ -676,6 +692,7 @@ public class Instructions {
 		else if(indexofR==2) cp.R2.data = getnegativeBinaryValue(sum2);
 		else if(indexofR==3) cp.R3.data = getnegativeBinaryValue(sum3);
 		}
+		System.out.println("R0 "+getdecimalvalue(cp.R0.data));
 	}
 	 // op code 20 - multiply values at two registers
     // set cc code OVERFLOW if there is overflow
