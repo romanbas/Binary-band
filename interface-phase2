@@ -37,10 +37,11 @@ public class GUI_Arch extends javax.swing.JFrame {
     boolean[] I1_Valu_set = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
     boolean[] I2_Valu_set = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
     boolean[] I3_Valu_set = {false, false, false, false, false, false, false, false, false, false, false, false, false, false, false, false};
-
+    public int UserNumbersArray[]= new int[20];
+    public int  userInputValu;
     // CREATE SimpleMemory Object 
-    SimpleMemory SM = new SimpleMemory();
-
+   // SimpleMemory SM = new SimpleMemory();
+    DECODE de= new DECODE();
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
@@ -273,7 +274,7 @@ public class GUI_Arch extends javax.swing.JFrame {
         jButton10 = new javax.swing.JButton();
         jButton11 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        insertToMemoryText = new javax.swing.JTextArea();
+        userNumberValues = new javax.swing.JTextArea();
 
         javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
         panel1.setLayout(panel1Layout);
@@ -1289,6 +1290,11 @@ public class GUI_Arch extends javax.swing.JFrame {
         });
 
         jButton13.setText("continue running in micro step");
+        jButton13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton13ActionPerformed(evt);
+            }
+        });
 
         jPanel8.setLayout(new java.awt.GridBagLayout());
 
@@ -1315,11 +1321,9 @@ public class GUI_Arch extends javax.swing.JFrame {
             }
         });
 
-        insertToMemoryText.setColumns(20);
-        insertToMemoryText.setRows(5);
-        insertToMemoryText.setBorder(null);
-        jScrollPane2.setViewportView(insertToMemoryText);
-        insertToMemoryText.setVisible(false);
+        userNumberValues.setColumns(20);
+        userNumberValues.setRows(5);
+        jScrollPane2.setViewportView(userNumberValues);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1336,7 +1340,7 @@ public class GUI_Arch extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(155, 155, 155)
                                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 606, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 576, Short.MAX_VALUE)
                                 .addComponent(jLabel1)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1368,9 +1372,10 @@ public class GUI_Arch extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jButton11)
+                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(jButton11))))
+                        .addGap(6, 6, 6)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -1398,7 +1403,7 @@ public class GUI_Arch extends javax.swing.JFrame {
                             .addComponent(jButton13)
                             .addComponent(jButton10))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -1410,16 +1415,16 @@ public class GUI_Arch extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton11)
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane2)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(10, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -4257,10 +4262,10 @@ public class GUI_Arch extends javax.swing.JFrame {
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {                                          
         String newline = "\n";
         String userInput = engineers_console.getText();
-        SM.instructionArray = userInput.split(",|\\ ");
-        SM.decode();
-        SM.WriteToMemory(SM.addressCount, SM.Instruction);
-        SM.addressCount++;
+        de.instructionArray = userInput.split(",|\\ ");
+        de.decode();
+        de.SM.WriteToMemory(de.addressCount, de.Instruction);
+        de.addressCount++;
 
       // Enter was pressed. Your code goes here.
         /* for (int i=0; i< SM.Instruction.length;i++){
@@ -4275,23 +4280,49 @@ public class GUI_Arch extends javax.swing.JFrame {
     }                                            
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {                                          
-        String userInput = engineers_console.getText();
-        SM.instructionArray = userInput.split(",|\\ ");
-        SM.decode();
-        SM.WriteToMemory(SM.addressCount, SM.Instruction);
-        SM.addressCount++;
+        String userInput = userNumberValues.getText();
+         userInputValu= Integer.parseInt(userInput);
+        Instructions inst= new Instructions();
+       String StNumberArray[]= userInput.split("\\n");
+      // String 
+       
+        
+       // String newline = "\n";
+        //inst.Output = Integer.parseInt(userInput);
+       // de.instructionArray = userInput.split(",|\\ ");
+       // de.decode();
+       // de.SM.WriteToMemory(de.addressCount, de.Instruction);
+       // de.addressCount++ 
             
-            if (SM.getdecimalvalue(SM.Opcode) == 61) {
+            if (de.SM.getdecimalvalue(de.Opcode) == 61) {
+              
                 
-                insertToMemoryText.setVisible(true);
-                  insertToMemoryText.append(" ENTER 20 NUMBER TO SAVE IT IN THE MEMORY ");
-            //array int[16] is the value which user enter
-                  String newNumbers=insertToMemoryText.getText();
-                 int numbersArray[]=new int[20];
+                
+                 
             }
         
         
 
+    }                                         
+
+    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {                                          
+               de.spilit();//convert to machine code
+               //int i = 0;
+               while(de.instructor.getdecimalvalue(de.instructor.cp.PC.data) < 541){
+			de.instructor.decodecacheline();
+                        
+                        if(de.instructor.getdecimalvalue(de.instructor.Opcode)==61){
+                            
+                            de.instructor.EnterNumber = userInputValu;
+                    
+                                
+                        }
+                       de.instructor.excuteInstruction();
+                       
+		}
+               
+             //  engineers_console.append("  " + de.instructor.Output);
+               //decode.instructor.Output//integer
     }                                         
 
     /**
@@ -4499,7 +4530,6 @@ public class GUI_Arch extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.JTextArea engineers_console;
-    private javax.swing.JTextArea insertToMemoryText;
     private javax.swing.JRadioButton inst_1;
     private javax.swing.JRadioButton inst_10;
     private javax.swing.JRadioButton inst_11;
@@ -4557,6 +4587,7 @@ public class GUI_Arch extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField10;
     private javax.swing.JTextField jTextField9;
     private java.awt.Panel panel1;
+    private javax.swing.JTextArea userNumberValues;
     private javax.swing.JLabel value_lable;
     private javax.swing.JTextField value_txtbox;
     // End of variables declaration                   
