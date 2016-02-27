@@ -5,7 +5,7 @@ public class DECODE {
 	SimpleMemory SM = new SimpleMemory();
 	Instructions instructor = new Instructions();
 	public  String[] instructionArray;
-	public int addressCount = 504;
+	public int addressCount = 503;
 	public int Opcode[] = new int[6];
 	public int R[] = new int[2];
 	public int CC[] = new int[2];
@@ -29,11 +29,6 @@ public class DECODE {
 	       while (inputFile.hasNextLine()) {
 	           String lineScanner = inputFile.nextLine();
 	           instructionArray = lineScanner.split(",|\\ ");
-	           System.out.println("InstructionArray String");
-	           for (int i=0; i< instructionArray.length;i++){
-	               System.out.print("  " + instructionArray[i]);
-	           }
-	           System.out.println();
 	           for(int i = 0; i < Address.length;i++){
 	         	   Address[i] = 0;
 	            }
@@ -365,7 +360,8 @@ public class DECODE {
         
         int Immediate = Integer.parseInt(instructionArray[2]);
         String str = Integer.toBinaryString(Immediate);
-        for(int i = str.length() - 1,j = 0; i >= 0; i--,j++){
+        int j = 0;
+        for(int i = str.length() - 1; i >= 0; i--,j++){
             immediate[j] = Integer.parseInt(String.valueOf(str.charAt(i)));
             //System.out.println(immediate[j]);
         }
