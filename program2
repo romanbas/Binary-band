@@ -1,0 +1,80 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+//package prog2;
+
+import java.io.File;
+import java.util.Scanner;
+
+public class Program2 {
+    public String individualWord;
+    public static int counter_word = 0;
+    public static int counter_sentence = 0;
+    public String lineScanner;
+    public void program2 () {
+        
+        
+        String ourFile = "/Users/Roman/NetBeansProjects/Arctuctureproject/input.txt";
+        Scanner inputFile = null;
+        Scanner input = new Scanner(System.in);
+        try {
+            inputFile = new Scanner (new File (ourFile));
+            
+           while (inputFile.hasNextLine()) {
+               lineScanner = inputFile.nextLine();
+               String[] linesRead = lineScanner.split(" ");
+               String wordsStored="";
+               String str[][] = new String[6][20];
+               int j = 0;
+               int k =0 ;
+               for (int i=0; i<linesRead.length; i++){
+                   wordsStored=linesRead[i];
+                   if(wordsStored.charAt(wordsStored.length()-1) != '.'){
+                          str[j][k] = linesRead[i];
+                          if(str[j][k].equalsIgnoreCase(individualWord)){
+                            System.out.println("sentence "+(j+1));
+                            System.out.println("word "+(k+1));
+                            counter_word = k+1;
+                            counter_sentence = j+1;
+                            
+                            break;
+                          }
+                          System.out.println(str[j][k] /* + " the length is: "+ wordsStored.length()*/); 
+                          k++;
+                   }
+                   else 
+                   {
+                       str[j][k] = linesRead[i].substring(0, linesRead[i].length()-1);
+                       if(str[j][k].equalsIgnoreCase(individualWord)){
+                            System.out.println("sentence "+(j+1));
+                            System.out.println("word "+(k+1));
+                            counter_word = k+1;
+                            counter_sentence = j+1;
+                            break;
+                          }
+                       
+                       System.out.println(str[j][k] /* + " the length is: "+ wordsStored.length()*/); 
+                       
+                       if(j  < 5){
+                       j++;
+                       k = 0;
+                   }
+                  }
+              }
+            }
+
+           }
+        
+            catch (Exception e) {
+            //System.out.println("error reading file");
+        } 
+        
+        System.out.println(counter_word);
+        System.out.println(counter_sentence);
+        
+    }
+    
+}
+
