@@ -46,7 +46,7 @@ public class Instructions {
 			//System.out.print(Opcode[i]);
 		}
 		
-		excuteInstruction();
+		//excuteInstruction();
 	}
 	
 	public void decodewhole(){
@@ -469,12 +469,9 @@ public class Instructions {
 	}
 	
 	public void RFS(){
-		//EffectiveAddress();
-		for(int i =0; i < immediate.length; i++){
-			immediate[immediate.length-1-i] = cp.IR.data[i+11];
-			//System.out.print(immediate[immediate.length-1-i]);
-			}
-		cp.R0.data = getBinaryValue(getdecimalvalue(immediate));
+		EffectiveAddress();
+		//setImmediate(DECODE.immediate);
+		//cp.R0.data = getBinaryValue(immediate);
 		cp.PC.data = cp.R3.data;
 	}
 	
@@ -992,8 +989,8 @@ public class Instructions {
     } // end RRC
     
     public void IN(int EnterNumber){
-    	Scanner sc = new Scanner(System.in);
-    	EnterNumber = sc.nextInt();
+    	//Scanner sc = new Scanner(System.in);
+    	//EnterNumber = sc.nextInt();
     	R[0] = cp.IR.data[7];
         R[1] = cp.IR.data[6];
         int indexofR = R[0]+R[1]*2; 
