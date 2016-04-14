@@ -1,9 +1,5 @@
 import java.util.Scanner;
 
-/*
- * First SM.spilit();//convert to machine code
- * decodecacheline;
-*/
 public class Instructions {
 	CPU cp = new CPU();//object of CPU class
 	Cache cache = new Cache();//object of cache class
@@ -21,11 +17,11 @@ public class Instructions {
 	public int Count[] = new int[4];
 	public int DevID[] = new int[5];
 	public int Address[] = new int[5];
-	public int initialAddress = 503;
+	//public int initialAddress = 503;
 	public int immediate[] = new int[5];
 	public int EnterNumber = 0;
 	static int Output = 0;
-	public void setPC(){
+	public void setPC(int initialAddress){
 		cp.setPC(getBinaryValue(initialAddress));
 	}
 	
@@ -105,11 +101,18 @@ public class Instructions {
 		}
 		
 		excuteInstruction();
-		
 	}
 	
-	public void decodewhole(){
+	public void decodewholeprogram1(){
 		while(getdecimalvalue(cp.PC.data) < 546){
+			System.out.println();
+			System.out.println("cp.PC.data"+getdecimalvalue(cp.PC.data));
+			decodecacheline();
+		}
+	}
+	
+	public void decodewholeprogram2(){
+		while(getdecimalvalue(cp.PC.data) < 609){
 			System.out.println();
 			System.out.println("cp.PC.data"+getdecimalvalue(cp.PC.data));
 			decodecacheline();
@@ -442,9 +445,11 @@ public class Instructions {
 		int indexofR = R[0]+R[1]*2;
 		int EA[] = new int[16];
 		EA = getBinaryValue(effectiveAdd);
+		System.out.println("EA : "+getdecimalvalue(EA));
 		int contentofEA[] = new int[16];
 		cp.MBR.data = cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
 		contentofEA = cp.MBR.data;
+		System.out.println("contentofEA : "+ getdecimalvalue(contentofEA));
 		if(I == 0){//I bit not set
 			if(indexofR == 0 && getdecimalvalue(cp.R0.data) !=0)     
 				cp.PC.data = EA;
@@ -1051,8 +1056,8 @@ public class Instructions {
     } // end RRC
     
     public void IN(int EnterNumber){
-    	Scanner sc = new Scanner(System.in);
-    	EnterNumber = sc.nextInt();
+    	//Scanner sc = new Scanner(System.in);
+    	//EnterNumber = sc.nextInt();
     	R[0] = cp.IR.data[7];
         R[1] = cp.IR.data[6];
         int indexofR = R[0]+R[1]*2; 
