@@ -1,0 +1,753 @@
+import java.io.File;
+import java.util.Scanner;
+
+public class DECODE {
+	SimpleMemory SM = new SimpleMemory();
+	Instructions instructor = new Instructions();
+	public  String[] instructionArray;
+	public int addressCountProgram1 = 503;
+	public int addressCountProgram2 = 492;
+	public int Opcode[] = new int[6];
+	public int R[] = new int[2];
+	public int CC[] = new int[2];
+	public int IX[] = new int[2];
+	public int I = 0;
+	public int Rx[] = new int[2];
+	public int Ry[] = new int[2];
+	public int LR = 0;
+	public int AL = 0;
+	public int Count[] = new int[4];
+	public int DevID[] = new int[5];
+	public int Instruction[] = new int[16];
+	public int Address[] = new int[5];
+	public int immediate[] = new int[5];
+
+	public void spilitProgram1(){//from file
+		SimpleMemory.memory[0][1] = 1;
+		SimpleMemory.memory[1][2] = 1;
+	    Scanner inputFile = null;
+	    instructor.setPC(addressCountProgram1);
+	    try {
+	        inputFile = new Scanner (new File ("input"));
+	       while (inputFile.hasNextLine()) {
+	           String lineScanner = inputFile.nextLine();
+	           instructionArray = lineScanner.split(",|\\ ");
+	           for(int i = 0; i < Address.length;i++){
+	         	   Address[i] = 0;
+	            }
+	            for(int i=0; i<Opcode.length;i++){
+	         	   Opcode[i] = 0;
+	            }
+	            IX[0] = 0;
+	            IX[1] = 0;
+	            R[0] = 0;
+	            R[1] = 0;
+	            I = 0;
+	            decode();
+	            System.out.println("machine code");
+	            for(int i = 0; i < Instruction.length ; i++){
+	            System.out.print(Instruction[i]);
+	            }
+	            System.out.println();
+	            SM.WriteToMemory(addressCountProgram1,Instruction);
+	            addressCountProgram1++;
+	       } 
+	    }
+	    catch (Exception e) {
+	        System.out.println("error reading file");
+	    }
+		}
+	
+	public void spilitProgram2(){//from file
+		SimpleMemory.memory[0][1] = 1;
+		SimpleMemory.memory[1][2] = 1;
+	    Scanner inputFile = null;
+	    instructor.setPC(addressCountProgram2);
+	    try {
+	        inputFile = new Scanner (new File ("program2"));
+	       while (inputFile.hasNextLine()) {
+	           String lineScanner = inputFile.nextLine();
+	           instructionArray = lineScanner.split(",|\\ ");
+	           for(int i = 0; i < Address.length;i++){
+	         	   Address[i] = 0;
+	            }
+	            for(int i=0; i<Opcode.length;i++){
+	         	   Opcode[i] = 0;
+	            }
+	            IX[0] = 0;
+	            IX[1] = 0;
+	            R[0] = 0;
+	            R[1] = 0;
+	            I = 0;
+	            decode();
+	            System.out.println("machine code");
+	            for(int i = 0; i < Instruction.length ; i++){
+	            System.out.print(Instruction[i]);
+	            }
+	            System.out.println();
+	            SM.WriteToMemory(addressCountProgram2,Instruction);
+	            addressCountProgram2++;
+	       } 
+	    }
+	    catch (Exception e) {
+	        System.out.println("error reading file");
+	    }
+		}
+	
+	
+	public void decode(){
+		if (instructionArray[0].equals("HLT"))
+			decodeHalt();
+		else if(instructionArray[0].equals("TRAP"))
+			decodeTRAP();
+		else if (instructionArray[0].equals("LDR") || instructionArray[0].equals("STR") || instructionArray[0].equals("LDA") || instructionArray[0].equals("JZ") || instructionArray[0].equals("JNE") || instructionArray[0].equals("SOB") || instructionArray[0].equals("JGE") || instructionArray[0].equals("AMR") || instructionArray[0].equals("SMR"))
+			decodeInstruction1();
+		else if(instructionArray[0].equals("LDX") || instructionArray[0].equals("STX")|| instructionArray[0].equals("JMA") || instructionArray[0].equals("JSR"))
+			decodeInstruction2();
+		else if(instructionArray[0].equals("JCC"))
+			decodeInstruction3();
+		else if(instructionArray[0].equals("RFS"))
+			decodeInstruction4();
+		else if(instructionArray[0].equals("AIR") || instructionArray[0].equals("SIR"))
+			decodeInstruction5();
+		else if(instructionArray[0].equals("MLT") || instructionArray[0].equals("DVD")||instructionArray[0].equals("TRR") || instructionArray[0].equals("AND")||instructionArray[0].equals("ORR"))
+			decodeRtoR1();
+		else if(instructionArray[0].equals("NOT"))
+			decodeR();
+		else if(instructionArray[0].equals("SRC") || instructionArray[0].equals("RRC"))
+			decodeShiftAndRotate();
+		else if(instructionArray[0].equals("IN") || instructionArray[0].equals("OUT") || instructionArray[0].equals("CHK"))
+			decodeIO();
+	}
+	
+
+	private void decodeIO() {
+		// TODO Auto-generated method stub
+		switch (instructionArray[0]) {
+        case "IN":   Opcode[0] = 1;//input character to register from device 111101
+                     Opcode[2] = 1;
+                     Opcode[3] = 1;
+                     Opcode[4] = 1;
+                     Opcode[5] = 1;
+                 break;
+        case "OUT":  Opcode[1] = 1;//output character to device from register 111110
+                     Opcode[2] = 1;
+                     Opcode[3] = 1;
+                     Opcode[4] = 1;
+                     Opcode[5] = 1;
+                 break;
+        default: //fault
+                 break;
+    }	
+		switch(instructionArray[1]){
+		case "0": R[0] = 0;
+		          R[1] = 0;
+		          break;
+		case "1": R[0] = 1;
+		          R[1] = 0;
+                  break;   
+		case "2": R[0] = 0;
+                  R[1] = 1;
+                  break;
+		case "3": R[0] = 1;
+                  R[1] = 1;
+                  //System.out.println("R3");
+                  break;
+                  
+        default:
+        	break;
+		}
+		
+		for (int j =0,i = instructionArray[2].length()-1; i >= 0; i--,j++) {
+			DevID[j] = instructionArray[2].charAt(i)-'0';
+		}	
+		Instruction[0] = Opcode[5]; 
+		Instruction[1] = Opcode[4]; 
+		Instruction[2] = Opcode[3]; 
+		Instruction[3] = Opcode[2]; 
+		Instruction[4] = Opcode[1]; 
+		Instruction[5] = Opcode[0]; 
+		Instruction[6] = R[1]; 
+		Instruction[7] = R[0]; 
+		Instruction[8] = 0;
+		Instruction[9] = 0;
+		Instruction[10] = 0;
+		Instruction[11] = DevID[4];
+		Instruction[12] = DevID[3];
+		Instruction[13] = DevID[2];
+		Instruction[14] = DevID[1];
+		Instruction[15] = DevID[0];
+	}
+
+	private void decodeShiftAndRotate() {
+		// TODO Auto-generated method stub
+		switch (instructionArray[0]) {
+        case "SRC":  Opcode[0] = 1;//shift register by count 31
+                     Opcode[1] = 1;
+                     Opcode[2] = 1;
+                     Opcode[3] = 1;
+                     Opcode[4] = 1;
+                 break;
+        case "RRC":  Opcode[5] = 1;//rotate register by count 32
+                 break;
+        default: //fault
+                 break;
+    }	
+		switch(instructionArray[1]){
+		case "0": R[0] = 0;
+		          R[1] = 0;
+		          break;
+		case "1": R[0] = 1;
+		          R[1] = 0;
+                  break;   
+		case "2": R[0] = 0;
+                  R[1] = 1;
+                  break;
+		case "3": R[0] = 1;
+                  R[1] = 1;
+                 // System.out.println("R3");
+                  break;
+                  
+        default:
+        	break;
+		}
+		
+		for (int j =0,i = instructionArray[2].length()-1; i >= 0; i--,j++) {
+			Count[j] = instructionArray[2].charAt(i)-'0';
+		}
+		AL = instructionArray[4].charAt(0)-'0';
+		LR = instructionArray[3].charAt(0)-'0';		
+		Instruction[0] = Opcode[5]; 
+		Instruction[1] = Opcode[4]; 
+		Instruction[2] = Opcode[3]; 
+		Instruction[3] = Opcode[2]; 
+		Instruction[4] = Opcode[1]; 
+		Instruction[5] = Opcode[0]; 
+		Instruction[6] = R[1]; 
+		Instruction[7] = R[0]; 
+		Instruction[8] = AL;
+		Instruction[9] = LR;
+		Instruction[10] = 0;
+		Instruction[11] = 0;
+		Instruction[12] = Count[3];
+		Instruction[13] = Count[2];
+		Instruction[14] = Count[1];
+		Instruction[15] = Count[0];
+	}
+
+	private void decodeR() {
+		// TODO Auto-generated method stub
+		switch (instructionArray[0]) {
+	    case "NOT":  Opcode[0] = 1;//Logic NOT of register To register 11001
+	    	         Opcode[3] = 1;
+	    		     Opcode[4] = 1;
+	             break;
+	    default: //fault
+	             break;
+	}	
+		switch(instructionArray[1]){
+		case "0": Rx[0] = 0;
+		          Rx[1] = 0;
+		          break;
+		case "1": Rx[0] = 1;
+		          Rx[1] = 0;
+	              break;   
+		case "2": Rx[0] = 0;
+	              Rx[1] = 1;
+	              break;
+		case "3": Rx[0] = 1;
+	              Rx[1] = 1;
+	              break;  
+	    default:
+	    	break;
+		}
+		
+		Instruction[0] = Opcode[5]; 
+		Instruction[1] = Opcode[4]; 
+		Instruction[2] = Opcode[3]; 
+		Instruction[3] = Opcode[2]; 
+		Instruction[4] = Opcode[1]; 
+		Instruction[5] = Opcode[0]; 
+		Instruction[6] = Rx[1]; 
+		Instruction[7] = Rx[0]; 
+		Instruction[8] = 0;
+		Instruction[9] = 0;
+		Instruction[10] = 0;
+		Instruction[11] = 0;
+		Instruction[12] = 0;
+		Instruction[13] = 0;
+		Instruction[14] = 0;
+		Instruction[15] = 0;
+		
+	}
+
+	private void decodeRtoR1() {
+		// TODO Auto-generated method stub
+		switch (instructionArray[0]) {
+	    case "MLT":  Opcode[2]= 1;//multiply register by register 10100
+	                 Opcode[4]= 1;
+	             break;
+	    case "DVD":  Opcode[0] = 1;//divide register by register 10101
+	                 Opcode[2]= 1;
+	                 Opcode[4]= 1;
+	             break;
+	    case "TRR": Opcode[1] = 1;//Test the equality of register and register 10110
+	                Opcode[2] = 1;
+	                Opcode[4] = 1;
+	             break;
+	    case "AND": Opcode[0] = 1;//Logic And of register and register 10111
+	    	        Opcode[1] = 1;
+	                Opcode[2] = 1;
+	                Opcode[4] = 1;
+	             break;
+	    case "ORR":  Opcode[3] = 1;//Logic OR of register and register 11000
+	    		     Opcode[4] = 1;
+	             break;
+	    default: //fault
+	             break;
+	}	
+		switch(instructionArray[1]){
+		case "0": Rx[0] = 0;
+		          Rx[1] = 0;
+		          break;
+		case "1": Rx[0] = 1;
+		          Rx[1] = 0;
+	              break;   
+		case "2": Rx[0] = 0;
+	              Rx[1] = 1;
+	              break;
+		case "3": Rx[0] = 1;
+	              Rx[1] = 1;
+	              break;  
+	    default:
+	    	break;
+		}
+		
+		switch(instructionArray[2]){
+		case "0": Ry[0] = 0;
+		          Ry[0] = 0;
+		case "1": Ry[0] = 1;
+		          Ry[1] = 0;
+	              break;   
+		case "2": Ry[0] = 0;
+	              Ry[1] = 1;
+	              break;
+		case "3": Ry[0] = 1;
+	              Ry[1] = 1;
+	              break;
+	    default:
+	    	break;
+		}
+		
+		Instruction[0] = Opcode[5]; 
+		Instruction[1] = Opcode[4]; 
+		Instruction[2] = Opcode[3]; 
+		Instruction[3] = Opcode[2]; 
+		Instruction[4] = Opcode[1]; 
+		Instruction[5] = Opcode[0]; 
+		Instruction[6] = Rx[1]; 
+		Instruction[7] = Rx[0]; 
+		Instruction[8] = Ry[1];
+		Instruction[9] = Ry[0];
+		Instruction[10] = 0;
+		Instruction[11] = 0;
+		Instruction[12] = 0;
+		Instruction[13] = 0;
+		Instruction[14] = 0;
+		Instruction[15] = 0;
+		
+	}
+	
+	private void decodeInstruction5() {//add or subtract immediate from register
+        switch (instructionArray[0]) {
+            case "AIR"://add immediat to the register 
+                Opcode[0] = 0;
+                Opcode[1] = 1;
+                Opcode[2] = 1;
+
+                break;
+            case "SIR"://subtract immediate from register
+                Opcode[0] = 1;
+                Opcode[1] = 1;
+                Opcode[2] = 1;
+                break;
+
+            default: //fault
+                break;
+        }
+        switch (instructionArray[1]) {
+            case "0":
+                R[0] = 0;
+                R[1] = 0;
+                break;
+            case "1":
+                R[0] = 1;
+                R[1] = 0;
+                break;
+            case "2":
+                R[0] = 0;
+                R[1] = 1;
+                break;
+            case "3":
+                R[0] = 1;
+                R[1] = 1;
+                //System.out.println("R3");
+                break;
+
+            default:
+                break;
+        }
+        
+        int Immediate = Integer.parseInt(instructionArray[2]);
+        String str = Integer.toBinaryString(Immediate);
+        int j = 0;
+        for(int i = str.length() - 1; i >= 0; i--,j++){
+            immediate[j] = Integer.parseInt(String.valueOf(str.charAt(i)));
+            //System.out.println(immediate[j]);
+        }
+        for(;j<immediate.length;j++){
+        	immediate[j] = 0;
+        }
+        System.out.println(str);
+        //System.out.println(immediate);
+        Instruction[0] = Opcode[5];
+        Instruction[1] = Opcode[4];
+        Instruction[2] = Opcode[3];
+        Instruction[3] = Opcode[2];
+        Instruction[4] = Opcode[1];
+        Instruction[5] = Opcode[0];
+        Instruction[6] = R[1];
+        Instruction[7] = R[0];
+        Instruction[8] = 0;
+        Instruction[9] = 0;
+        Instruction[10] = 0;
+        Instruction[11] = immediate[4];
+        Instruction[12] = immediate[3];
+        Instruction[13] = immediate[2];
+        Instruction[14] = immediate[1];
+        Instruction[15] = immediate[0];
+
+    }
+
+    private void decodeInstruction4() {
+    	
+    	//Return from subroutine w/ return code as immed
+        Opcode[0] = 1;
+        Opcode[1] = 1;
+        Opcode[2] = 1;
+        Opcode[3] = 1;
+        int Immediate = Integer.parseInt(instructionArray[1]);
+        String str = Integer.toBinaryString(Immediate);
+        int j = 0;
+        for(int i = str.length() - 1; i >= 0; i--,j++){
+            immediate[j] = Integer.parseInt(String.valueOf(str.charAt(i)));
+        }
+        for(;j<immediate.length;j++){
+        	immediate[j] = 0;
+        }
+        Instruction[0] = Opcode[5];
+        Instruction[1] = Opcode[4];
+        Instruction[2] = Opcode[3];
+        Instruction[3] = Opcode[2];
+        Instruction[4] = Opcode[1];
+        Instruction[5] = Opcode[0];
+        Instruction[6] = R[1];
+        Instruction[7] = R[0];
+        Instruction[8] = 0;
+        Instruction[9] = 0;
+        Instruction[10] =0;
+        Instruction[11] = immediate[4];
+        Instruction[12] = immediate[3];
+        Instruction[13] = immediate[2];
+        Instruction[14] = immediate[1];
+        Instruction[15] = immediate[0];
+    }
+
+    private void decodeTRAP() {
+    	Opcode[0] = 0;
+        Opcode[1] = 1;
+        Opcode[2] = 1;
+        Opcode[3] = 1;
+        Opcode[4] = 1;
+        Opcode[5] = 0;
+    }
+
+    public void decodeHalt() {
+        for (int i = 0; i < 16; i++) {
+            Instruction[i] = 0;
+        }
+    }
+
+    private void decodeInstruction1() {
+        switch (instructionArray[0]) {
+            case "LDR":
+                Opcode[0] = 1;//load register from memory
+                break;
+            case "STR":
+                //Opcode[0] = 0;//store register to memory
+                Opcode[1] = 1;
+                break;
+            case "LDA":
+                Opcode[0] = 1;//load register with address
+                Opcode[1] = 1;
+                break;
+            case "AMR":
+                Opcode[0] = 0;//add memory to register 
+                Opcode[1] = 0;
+                Opcode[2] = 1;
+                break;
+            case "SMR":
+                Opcode[0] = 1;//subtract memory from register
+                Opcode[1] = 0;
+                Opcode[2] = 1;
+                break;
+            case "JZ": //JUMP TO ZERO 
+                Opcode[0] = 0;
+                Opcode[1] = 1;
+                Opcode[2] = 0;
+                Opcode[3] = 1;
+                break;
+            case "JNE": // Jump if not equal
+                Opcode[0] = 1;
+                Opcode[1] = 1;
+                //Opcode[2] = 0;
+                Opcode[3] = 1;
+                break;
+            case "SOB": // Subtract one and branch 
+                //Opcode[0] = 0;
+                //Opcode[1] = 0;
+                //Opcode[2] = 0;
+                //Opcode[3] = 0;
+                Opcode[4] = 1;
+                break;
+            case "JGE": // Jump greater than or equal to  
+                Opcode[0] = 1;
+                //Opcode[1] = 0;
+                //Opcode[2] = 0;
+                //Opcode[3] = 0;
+                Opcode[4] = 1;
+                break;
+
+            default: //fault
+                break;
+        }
+        switch (instructionArray[1]) {
+            case "0":
+                R[0] = 0;
+                R[1] = 0;
+                break;
+            case "1":
+                R[0] = 1;
+                R[1] = 0;
+                break;
+            case "2":
+                R[0] = 0;
+                R[1] = 1;
+                break;
+            case "3":
+                R[0] = 1;
+                R[1] = 1;
+                break;
+
+            default:
+                break;
+        }
+
+        switch (instructionArray[2]) {
+            case "0":
+            	System.out.println(" case 0");
+            	IX[0] = 0;
+                IX[1] = 0;
+                break;
+            case "1":
+                IX[0] = 1;
+                IX[1] = 0;
+                break;
+            case "2":
+                IX[0] = 0;
+                IX[1] = 1;
+                break;
+            case "3":
+                IX[0] = 1;
+                IX[1] = 1;
+                break;
+            default:
+                break;
+        }
+
+        for (int j = 0, i = instructionArray[3].length() - 1; i >= 0; i--, j++) {
+            Address[j] = instructionArray[3].charAt(i) - '0';
+            //System.out.println(Address[j]);
+        }
+        I = instructionArray[4].charAt(0) - '0';
+        //System.out.println(I);
+
+        Instruction[0] = Opcode[5];
+        Instruction[1] = Opcode[4];
+        Instruction[2] = Opcode[3];
+        Instruction[3] = Opcode[2];
+        Instruction[4] = Opcode[1];
+        Instruction[5] = Opcode[0];
+        Instruction[6] = R[1];
+        Instruction[7] = R[0];
+        Instruction[8] = IX[1];
+        Instruction[9] = IX[0];
+        Instruction[10] = I;
+        Instruction[11] = Address[4];
+        Instruction[12] = Address[3];
+        Instruction[13] = Address[2];
+        Instruction[14] = Address[1];
+        Instruction[15] = Address[0];
+        System.out.println(IX[1]+"  "+IX[0]);
+    }
+
+    private void decodeInstruction2() {
+        switch (instructionArray[0]) {
+            case "LDX":
+                Opcode[0] = 1;//load index from memory 
+                Opcode[1] = 0;
+                Opcode[2] = 0;
+                Opcode[3] = 1;
+                Opcode[4] = 0;
+                Opcode[5] = 1;
+                break;
+            case "STX":
+                Opcode[1] = 0;//store index register to memory 
+                Opcode[1] = 1;
+                Opcode[2] = 0;
+                Opcode[3] = 1;
+                Opcode[4] = 0;
+                Opcode[5] = 1;
+                break;
+            case "JMA":
+                Opcode[0] = 1;//unconditional Jump 
+                Opcode[1] = 0;
+                Opcode[2] = 1;
+                Opcode[3] = 1;
+                break;
+            case "JSR":
+                Opcode[0] = 0;//jump and save the return address 
+                Opcode[1] = 1;
+                Opcode[2] = 1;
+                Opcode[3] = 1;
+                break;
+            default: //fault
+                break;
+        }
+        switch (instructionArray[1]) {
+            case "0":
+            	IX[0] = 0;
+                IX[1] = 0;
+                break;
+            case "1":
+                IX[0] = 1;
+                IX[1] = 0;
+                break;
+            case "2":
+                IX[0] = 0;
+                IX[1] = 1;
+                //System.out.println("IX2");
+                break;
+            case "3":
+                IX[0] = 1;
+                IX[1] = 1;
+                break;
+            default:
+                break;
+        }
+
+        for (int j = 0, i = instructionArray[2].length() - 1; i >= 0; i--, j++) {
+            Address[j] = instructionArray[2].charAt(i) - '0';
+            //System.out.println(Address[j]);
+        }
+        I = instructionArray[3].charAt(0) - '0';
+        //System.out.println(I);
+
+        Instruction[0] = Opcode[5];
+        Instruction[1] = Opcode[4];
+        Instruction[2] = Opcode[3];
+        Instruction[3] = Opcode[2];
+        Instruction[4] = Opcode[1];
+        Instruction[5] = Opcode[0];
+        Instruction[6] = 0;
+        Instruction[7] = 0;
+        Instruction[8] = IX[1];
+        Instruction[9] = IX[0];
+        Instruction[10] = I;
+        Instruction[11] = Address[4];
+        Instruction[12] = Address[3];
+        Instruction[13] = Address[2];
+        Instruction[14] = Address[1];
+        Instruction[15] = Address[0];
+
+    }
+
+    private void decodeInstruction3() {
+        // jump if condition code 00001100
+        Opcode[0] = 0;
+        Opcode[1] = 0;
+        Opcode[2] = 1;
+        Opcode[3] = 1;
+        
+        switch (instructionArray[1]) {
+        case "0":
+        	CC[0] = 0;
+            CC[1] = 0;
+            break;
+        case "1":
+            CC[0] = 1;
+            CC[1] = 0;
+            break;
+        case "2":
+            CC[0] = 0;
+            CC[1] = 1;
+            //System.out.println("IX2");
+            break;
+        case "3":
+            CC[0] = 1;
+            CC[1] = 1;
+            break;
+        default:
+            break;
+    }
+        
+        switch (instructionArray[2]) {
+           case "0":
+        	   IX[0] = 0;
+        	   IX[1] = 0;
+        	   break;
+            case "1":
+                IX[0] = 1;
+                IX[1] = 0;
+                break;
+            case "2":
+                IX[0] = 0;
+                IX[1] = 1;
+                //System.out.println("IX2");
+                break;
+            case "3":
+                IX[0] = 1;
+                IX[1] = 1;
+                break;
+            default:
+                break;
+        }
+        Instruction[0] = Opcode[5];
+        Instruction[1] = Opcode[4];
+        Instruction[2] = Opcode[3];
+        Instruction[3] = Opcode[2];
+        Instruction[4] = Opcode[1];
+        Instruction[5] = Opcode[0];
+        Instruction[6] = CC[1];
+        Instruction[7] = CC[0];
+        Instruction[8] = IX[1];
+        Instruction[9] = IX[0];
+        Instruction[10] = I;
+        Instruction[11] = Address[4];
+        Instruction[12] = Address[3];
+        Instruction[13] = Address[2];
+        Instruction[14] = Address[1];
+        Instruction[15] = Address[0];
+    }
+
+}
