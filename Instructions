@@ -1,3 +1,6 @@
+import static java.lang.Math.pow;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Scanner;
 
 public class Instructions {
@@ -7,6 +10,7 @@ public class Instructions {
 	public int effectiveAdd = 0;
 	public int Opcode[] = new int[6];
 	public int R[] = new int[2];
+        public int FR[] = new int [2];
 	public int CC[] = new int[2];
 	public int IX[] = new int[2];
 	public int I = 0;
@@ -21,6 +25,67 @@ public class Instructions {
 	public int immediate[] = new int[5];
 	public int EnterNumber = 0;
 	static int Output = 0;
+        public static int intergerBinary[] = new int[7];
+    public static int fractBinary[] = new int[8];
+    public static double number = 0;
+    public static int doubleNumber[] = new int[16];
+    public static int Buffer1[] = new int[16];
+    public static int Buffer2[] = new int[16];
+    public static int BufferOpcode[] = new int[6];
+    public static int[] convertToBinary(double number) {
+    int sign = 0;
+    int n = 8;  // constant?
+    BigDecimal bd = new BigDecimal(number);
+    BigDecimal mult = new BigDecimal(2).pow(n);
+    bd = bd.multiply(mult);
+    BigInteger bi = bd.toBigInteger();
+    StringBuilder str = new StringBuilder(bi.toString(2));
+    while (str.length() < n+1) {  // +1 for leading zero
+        str.insert(0, "0");
+    }
+    String strInteger;
+    String strMantissa;
+    strInteger = str.substring(0,str.length()-n);
+    System.out.println(strInteger);
+    strMantissa = str.substring(str.length()-n);
+    System.out.println(strMantissa);
+     char interger[] = strInteger.toCharArray();
+      char fractional[] = strMantissa.toCharArray();
+      for(int i = 0, j= 7; i < interger.length; i++){
+       intergerBinary[i] = interger[i] - '0';
+       doubleNumber[i+1] = intergerBinary[i];
+      }
+      for(int i = 0; i < fractional.length; i++){
+       fractBinary[i] = fractional[i] - '0';
+       doubleNumber[i+8] = fractBinary[i];
+      }
+      if(number > 0){
+          sign = 1;
+      }
+      else sign = 0;
+      doubleNumber[0] = sign;  
+      return doubleNumber;
+}
+    public static double convertToDouble(int doubleNumber[]){
+        double interger = 0;
+        double fraction = 0;
+        for(int i = 0; i < 7; i++){
+            interger = doubleNumber[i+1]*(Math.pow(2, i)) + interger;
+            System.out.print(i+" ");
+            System.out.println(interger);
+        }
+        for(int i = 0; i < 8; i++){
+            fraction += doubleNumber[i+8]*pow(2,(-(i+1)));
+        }
+        number = interger + fraction;
+        if(doubleNumber[0] == 0){
+            number = -number;
+        }
+        System.out.println(interger);
+        System.out.println(number);
+        return number;
+    }
+       
 	public void setPC(int initialAddress){
 		cp.setPC(getBinaryValue(initialAddress));
 	}
@@ -99,25 +164,8 @@ public class Instructions {
 			Opcode[Opcode.length-1-i] = cp.IR.data[i];
 			//System.out.print(Opcode[i]);
 		}
-		
-		excuteInstruction();
 	}
-	
-	public void decodewholeprogram1(){
-		while(getdecimalvalue(cp.PC.data) < 546){
-			System.out.println();
-			System.out.println("cp.PC.data"+getdecimalvalue(cp.PC.data));
-			decodecacheline();
-		}
-	}
-	
-	public void decodewholeprogram2(){
-		while(getdecimalvalue(cp.PC.data) < 609){
-			System.out.println();
-			System.out.println("cp.PC.data"+getdecimalvalue(cp.PC.data));
-			decodecacheline();
-		}
-	}
+
 	
 	public void decodeRtoR(){
 		Rx[1] = cp.IR.data[6];
@@ -1107,6 +1155,146 @@ public class Instructions {
     	//illegal trap code
     	
     }
+    
+    public void FADD () {
+        //setImmediate(DECODE.immediate);
+		System.out.println("FADD");
+		EffectiveAddress();
+		FR[0] = cp.IR.data[6];//index of general purpose register
+      		int indexofFR = FR[0];
+		double fr0 = convertToDouble(cp.FR0.data);
+		double fr1 = convertToDouble(cp.FR1.data);
+		int contentofEA[] = new int[16];
+		cp.MBR.data =  cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
+		contentofEA = cp.MBR.data;
+                double DoublecontentofEA = convertToDouble(contentofEA);
+		double sum0 = fr0 + DoublecontentofEA;
+		double sum1 = fr1 + DoublecontentofEA;
+		
+		if(indexofFR == 0)    cp.FR0.data = convertToBinary(sum0);
+		else if(indexofFR==1) cp.FR1.data = convertToBinary(sum1);
+		}
+    public void VADD(){
+        System.out.println("VADD");
+		EffectiveAddress();
+		FR[0] = cp.IR.data[6];//index of general purpose register
+      		int indexofFR = FR[0];
+		int counter0 = (int)convertToDouble(cp.FR0.data);
+		int counter1 = (int)convertToDouble(cp.FR1.data);
+		int contentofEA1[] = new int[16];
+                int contentofEA2[] = new int[16];
+		cp.MBR.data =  cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
+		contentofEA1 = cp.MBR.data;
+                cp.MBR.data =  cache.readFromCacheToCPU(getBinaryValue(effectiveAdd+1));
+		contentofEA2 = cp.MBR.data;	
+                int k;
+            
+		if(indexofFR == 0){
+                    for(int i = 0; i < counter0; i++ ){
+                        contentofEA1[i] = contentofEA1[i] + contentofEA2[i];
+                    }
+                }
+		else if(indexofFR==1){
+                     for(int i = 0; i < counter0; i++ ){
+                        contentofEA1[i] = contentofEA1[i] + contentofEA2[i];
+                }
+                }
+    }
+    
+    public void VSUB(){
+         System.out.println("VSUB");
+		EffectiveAddress();
+		FR[0] = cp.IR.data[6];//index of general purpose register
+      		int indexofFR = FR[0];
+		int counter0 = (int)convertToDouble(cp.FR0.data);
+		int counter1 = (int)convertToDouble(cp.FR1.data);
+		int contentofEA1[] = new int[16];
+                int contentofEA2[] = new int[16];
+		cp.MBR.data =  cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
+		contentofEA1 = cp.MBR.data;
+                cp.MBR.data =  cache.readFromCacheToCPU(getBinaryValue(effectiveAdd+1));
+		contentofEA2 = cp.MBR.data;
+                if(indexofFR == 0){
+                    for(int i = 0; i < counter0; i++ ){
+                        contentofEA1[i] = contentofEA1[i] - contentofEA2[i];
+                    }
+                }
+		else if(indexofFR==1){
+                     for(int i = 0; i < counter0; i++ ){
+                        contentofEA1[i] = contentofEA1[i] - contentofEA2[i];
+                }
+                }
+    }
+        public void FSUB () {
+        //setImmediate(DECODE.immediate);
+		System.out.println("FSUB");
+		EffectiveAddress();
+		FR[0] = cp.IR.data[6];//index of general purpose register
+      		int indexofFR = FR[0];
+		double fr0 = convertToDouble(cp.FR0.data);
+		double fr1 = convertToDouble(cp.FR1.data);
+		int contentofEA[] = new int[16];
+		cp.MBR.data =  cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
+		contentofEA = cp.MBR.data;
+                double DoublecontentofEA = convertToDouble(contentofEA);
+		double sum0 = fr0 - DoublecontentofEA;
+		double sum1 = fr1 - DoublecontentofEA;
+		
+		if(indexofFR == 0)    cp.FR0.data = convertToBinary(sum0);
+		else if(indexofFR==1) cp.FR1.data = convertToBinary(sum1);
+		}
+    
+        public void LDFR () {
+        //setImmediate(DECODE.immediate);
+		System.out.println("LDFR");
+		EffectiveAddress();
+		FR[0] = cp.IR.data[6];//index of general purpose register
+      		int indexofFR = FR[0];
+
+		int contentofEA[] = new int[16];
+		cp.MBR.data =  cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
+		contentofEA = cp.MBR.data;
+		int ccontentofEA[] = new int[16];
+		int addresscontentofEA = 0;
+		ccontentofEA = cp.MBR.data;
+                
+		if(I == 0){//I bit not set
+			if(indexofFR == 0)     cp.FR0.data = contentofEA;
+			else if(indexofFR==1)  cp.FR1.data = contentofEA;
+		}
+		else{//I bit set
+			addresscontentofEA = getdecimalvalue(contentofEA);
+			cp.MBR.data = cache.readFromCacheToCPU(getBinaryValue(addresscontentofEA));
+			if(indexofFR == 0)    cp.R0.data = ccontentofEA;
+			else if(indexofFR==1) cp.R1.data = ccontentofEA;
+		}
+		}
+        
+     public void STFR () {
+
+         System.out.println("STFR");
+		EffectiveAddress();
+		int indexofFR = FR[0];
+		int contentofEA[] = new int[16];
+		int concontentofEA[] = new int[16];
+		int addresscontentofEA = 0;
+		cp.MBR.data = cache.readFromCacheToCPU(getBinaryValue(effectiveAdd));
+		contentofEA = cp.MBR.data;
+		addresscontentofEA = getdecimalvalue(contentofEA);
+		if(I == 0){//I bit not set
+			if(indexofFR == 0)     contentofEA = cp.FR0.data;
+			else if(indexofFR==1)  contentofEA = cp.FR1.data;
+
+			cache.writeToCacheFromCPU(effectiveAdd,contentofEA);
+		}
+		else{//I bit set
+			if(indexofFR == 0)    concontentofEA = cp.FR0.data;
+			else if(indexofFR==1) concontentofEA = cp.FR1.data;
+
+			cache.writeToCacheFromCPU(addresscontentofEA,concontentofEA);
+		}
+		//System.out.println("contentofEA "+ getdecimalvalue(contentofEA));
+     }   
 	
 	public void excuteInstruction(){ //execute the instruction based on what opcode is 
 		System.out.println("opcode   "+getdecimalvalue(Opcode));
@@ -1158,6 +1346,10 @@ public class Instructions {
                  break;
         case 32: RRC();
                  break;
+        case 33: FADD();
+                 break;
+        case 34: FSUB();
+                 break;
         case 36: TRAP();
                  break;
         case 61: IN(EnterNumber);
@@ -1168,6 +1360,7 @@ public class Instructions {
                  break;
         case 42: STX();//store index register to memory
                  break;
+        
         default: //illegal operation code
         	cp.MFR.data[0] = 0;
 			cp.MFR.data[1] = 1;
